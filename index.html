@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iBuy — Private Vehicle Acquisition</title>
+  <meta name="description" content="iBuy is a private acquisition service for luxury, exotic, and collector vehicles. Transparent offers, nationwide pickup, settled in 24 hours.">
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=stack@300,400,500,700&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============== TOP NAV ============== -->
+  <header class="top-nav" id="topNav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="iBuy — Luxury &amp; Exotic Vehicle Acquisition home">
+        <img src="assets/img/logo.png" alt="iBuy — Luxury &amp; Exotic Vehicle Acquisition" class="brand-logo">
+      </a>
+
+      <nav class="nav-menu" aria-label="Primary">
+        <a href="#how">How It Works</a>
+        <a href="#why">Why iBuy</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#recent">Recently Purchased</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <a href="#offer" class="btn btn-primary nav-cta">Get Offer</a>
+
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+      <a href="#how">How It Works</a>
+      <a href="#why">Why iBuy</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#recent">Recently Purchased</a>
+      <a href="#faq">FAQ</a>
+      <a href="#offer" class="btn btn-primary btn-full">Get Offer</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ============== HERO BAND DARK ============== -->
+    <section class="hero-band-dark hero-fullscreen" id="offer">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-band-inner">
+
+        <div class="hero-text">
+          <p class="label-uppercase">Private Vehicle Acquisition</p>
+          <h1 class="display-xl">Sell your Luxury or Exotic Vehicle. On your terms.</h1>
+          <p class="body-md hero-lead">
+            A discreet, dealer-free way to part with your luxury, exotic, or collector vehicle.
+            Transparent offers, nationwide pickup, settled in twenty-four hours.
+          </p>
+
+          <ul class="hero-stats" aria-label="Trust indicators">
+            <li>
+              <span class="stat-value">1978</span>
+              <span class="stat-label">Founded</span>
+            </li>
+            <li>
+              <span class="stat-value">43+</span>
+              <span class="stat-label">Years Serving Enthusiasts</span>
+            </li>
+            <li>
+              <span class="stat-value">2019</span>
+              <span class="stat-label">Joined Marshall Goldman</span>
+            </li>
+          </ul>
+        </div>
+
+        <aside class="offer-card" aria-labelledby="offerTitle">
+          <p class="label-uppercase">Instant offer</p>
+          <h2 id="offerTitle" class="title-lg">Request your offer in ninety seconds.</h2>
+          <p class="body-sm offer-card-sub">No obligation. Written reply within sixty minutes.</p>
+
+          <form class="offer-form" novalidate>
+            <div class="offer-form-field">
+              <label for="f-year">Year</label>
+              <input id="f-year" type="text" inputmode="numeric" placeholder="2023" autocomplete="off">
+            </div>
+            <div class="offer-form-field">
+              <label for="f-make">Make</label>
+              <input id="f-make" type="text" placeholder="Porsche" autocomplete="off">
+            </div>
+            <div class="offer-form-field">
+              <label for="f-model">Model</label>
+              <input id="f-model" type="text" placeholder="911 Turbo S" autocomplete="off">
+            </div>
+            <div class="offer-form-field">
+              <label for="f-miles">Mileage</label>
+              <input id="f-miles" type="text" inputmode="numeric" placeholder="12,400" autocomplete="off">
+            </div>
+            <div class="offer-form-field offer-form-field-full">
+              <label for="f-vin">VIN <span class="label-optional">(Optional)</span></label>
+              <input id="f-vin" type="text" placeholder="17-character VIN" autocomplete="off" maxlength="17">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              Request instant offer ›
+            </button>
+          </form>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ============== HOW IT WORKS (canvas) ============== -->
+    <section class="section section-canvas" id="how">
+      <div class="container">
+        <header class="section-head">
+          <p class="label-uppercase">How it works</p>
+          <h2 class="display-lg">Three steps. Settled in a day.</h2>
+          <p class="section-sub">No back-and-forth, no inspections at the dealership, no trade-in pressure. An acquisition built around the seller.</p>
+        </header>
+
+        <div class="step-grid">
+          <article class="step-card">
+            <span class="step-num">01</span>
+            <h3 class="title-md">Submit your vehicle</h3>
+            <p class="body-md">Share year, make, model, mileage and a few photos. Two minutes from your phone.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-num">02</span>
+            <h3 class="title-md">Receive a firm offer</h3>
+            <p class="body-md">Our acquisitions desk reviews live market comps and returns a written, no-haggle figure within the hour.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-num">03</span>
+            <h3 class="title-md">We collect — you're paid</h3>
+            <p class="body-md">Enclosed transport, nationwide. Funds wire the same day the vehicle is inspected on arrival.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== WHY iBUY (soft) — editorial magazine layout ============== -->
+    <section class="section section-soft" id="why">
+      <div class="container">
+        <header class="section-head why-head">
+          <p class="label-uppercase">Why iBuy</p>
+          <h2 class="display-lg">A More Refined Way to Sell a Premium Vehicle.</h2>
+          <p class="section-sub">
+            Selling a luxury, exotic, or enthusiast vehicle should feel more personalized than a traditional dealership transaction. A premium acquisition experience focused on professionalism, discretion, transparent communication, and market expertise.
+          </p>
+        </header>
+
+        <div class="why-grid">
+
+          <div class="why-cards">
+
+            <article class="why-card">
+              <svg class="why-icon" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 3 L26 7 V17 C26 22 21 27 16 29 C11 27 6 22 6 17 V7 Z"/>
+                <path d="M11 16 L15 20 L21 13"/>
+              </svg>
+              <h3 class="why-card-title">Luxury &amp; Exotic Market Experience</h3>
+              <p class="why-card-body">We operate within the premium automotive space and understand the expectations that come with enthusiast and collector vehicles.</p>
+            </article>
+
+            <article class="why-card">
+              <svg class="why-icon" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 22 V11 a3 3 0 0 1 3 -3 H21 a3 3 0 0 1 3 3 V18 a3 3 0 0 1 -3 3 H11 L5 26 Z"/>
+                <circle cx="11" cy="15" r="0.7" fill="currentColor" stroke="none"/>
+                <circle cx="14.5" cy="15" r="0.7" fill="currentColor" stroke="none"/>
+                <circle cx="18" cy="15" r="0.7" fill="currentColor" stroke="none"/>
+              </svg>
+              <h3 class="why-card-title">Discreet<br>Communication</h3>
+              <p class="why-card-body">Owners value privacy, transparency, and a refined experience from the initial conversation to final delivery.</p>
+            </article>
+
+            <article class="why-card">
+              <svg class="why-icon" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 4 H20 L26 10 V28 H8 Z"/>
+                <path d="M20 4 V10 H26"/>
+                <path d="M12 17 L15 20 L21 13"/>
+              </svg>
+              <h3 class="why-card-title">Straightforward Offer Process</h3>
+              <p class="why-card-body">Designed to minimize delays, reduce unnecessary back-and-forth, and provide informed market guidance.</p>
+            </article>
+
+            <article class="why-card">
+              <svg class="why-icon" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="16" cy="6" r="1.8"/>
+                <circle cx="7" cy="26" r="1.8"/>
+                <circle cx="16" cy="26" r="1.8"/>
+                <circle cx="25" cy="26" r="1.8"/>
+                <path d="M16 8 V13 M16 13 L8.5 24 M16 13 V24 M16 13 L23.5 24"/>
+              </svg>
+              <h3 class="why-card-title">Flexible<br>Selling Paths</h3>
+              <p class="why-card-body">Direct purchase, consignment, or brokerage services tailored to the vehicle, market conditions, and timing.</p>
+            </article>
+
+          </div>
+
+          <div class="why-image" aria-hidden="true"></div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== IMAGE BREAK — dark band quote ============== -->
+    <section class="hero-band-dark hero-band-quote" aria-label="Brand statement">
+      <div class="container hero-band-quote-inner">
+        <p class="label-uppercase">A private market for serious cars</p>
+        <p class="display-md hero-quote">
+          &ldquo;The most painless six-figure transaction I&rsquo;ve ever made.&rdquo;
+        </p>
+        <p class="hero-quote-cite">Daniel R. — Ferrari 812 Superfast</p>
+      </div>
+    </section>
+
+    <!-- ============== REVIEWS (canvas) ============== -->
+    <section class="section section-canvas" id="reviews">
+      <div class="container">
+        <header class="section-head section-head-centered">
+          <p class="label-uppercase">Owner stories</p>
+          <h2 class="display-lg">Quiet transactions. Loud results.</h2>
+        </header>
+
+        <div class="review-grid">
+
+          <article class="review-card">
+            <header class="review-head">
+              <span class="review-avatar review-avatar-1" aria-hidden="true">M</span>
+              <span class="review-meta">
+                <span class="review-name">Marcus W.</span>
+              </span>
+            </header>
+            <div class="review-rating">
+              <span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+              <span class="review-time">2 weeks ago</span>
+            </div>
+            <blockquote class="review-body">
+              The offer came in within forty minutes and matched exactly what I expected to net from a private sale — without the parade of strangers in my garage.
+            </blockquote>
+          </article>
+
+          <article class="review-card">
+            <header class="review-head">
+              <span class="review-avatar review-avatar-2" aria-hidden="true">P</span>
+              <span class="review-meta">
+                <span class="review-name">Priya S.</span>
+              </span>
+            </header>
+            <div class="review-rating">
+              <span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+              <span class="review-time">1 month ago</span>
+            </div>
+            <blockquote class="review-body">
+              I&rsquo;d been quoted twenty thousand under by two local dealers. iBuy paid market and had the car on a truck the next morning. Effortless.
+            </blockquote>
+          </article>
+
+          <article class="review-card">
+            <header class="review-head">
+              <span class="review-avatar review-avatar-3" aria-hidden="true">D</span>
+              <span class="review-meta">
+                <span class="review-name">Daniel R.</span>
+              </span>
+            </header>
+            <div class="review-rating">
+              <span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+              <span class="review-time">3 weeks ago</span>
+            </div>
+            <blockquote class="review-body">
+              The acquisitions specialist actually knew the car — spec, options, the recall I&rsquo;d completed. It felt like selling to an enthusiast, not a clerk.
+            </blockquote>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== RECENTLY PURCHASED (soft) ============== -->
+    <section class="section section-soft" id="recent">
+      <div class="container">
+        <header class="section-head section-head-row">
+          <div>
+            <img src="assets/img/logosmall.png" alt="iBuy" class="eyebrow-logo">
+            <h2 class="display-lg">Recently acquired.</h2>
+          </div>
+        </header>
+
+        <div class="model-gallery" data-gallery>
+          <button type="button" class="model-nav model-nav-prev" aria-label="Previous vehicles">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 6 L9 12 L15 18"/>
+            </svg>
+          </button>
+
+          <div class="model-grid" data-gallery-track>
+            <article class="model-card"><div class="model-card-photo model-card-photo-1" aria-hidden="true"></div></article>
+            <article class="model-card"><div class="model-card-photo model-card-photo-2" aria-hidden="true"></div></article>
+            <article class="model-card"><div class="model-card-photo model-card-photo-3" aria-hidden="true"></div></article>
+            <article class="model-card"><div class="model-card-photo model-card-photo-4" aria-hidden="true"></div></article>
+            <article class="model-card"><div class="model-card-photo model-card-photo-5" aria-hidden="true"></div></article>
+            <article class="model-card"><div class="model-card-photo model-card-photo-6" aria-hidden="true"></div></article>
+          </div>
+
+          <button type="button" class="model-nav model-nav-next" aria-label="Next vehicles">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 6 L15 12 L9 18"/>
+            </svg>
+          </button>
+
+          <div class="model-dots" data-gallery-dots role="tablist" aria-label="Gallery navigation"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== THE iBUY DIFFERENCE (canvas) ============== -->
+    <section class="section section-canvas" id="difference">
+      <div class="container">
+        <div class="difference-grid">
+          <div class="difference-photo" aria-hidden="true"></div>
+          <div class="difference-body">
+            <p class="label-uppercase">The iBuy Difference</p>
+            <h2 class="display-lg">Luxury &amp; Exotic Vehicle Acquisition Should Feel Like a Premium Service.</h2>
+            <p class="body-md">
+              Owners of luxury, exotic, and enthusiast vehicles expect a higher standard of communication, presentation, and follow-through. iBuy approaches vehicle acquisition with that expectation in mind.
+            </p>
+            <p class="body-md">
+              Rather than creating a rushed or transactional experience, our process is designed to feel more informed, respectful, and tailored to the type of vehicles we acquire and the clients we work with.
+            </p>
+            <p class="body-md">
+              That means clearer communication, stronger market awareness, fair positioning, and a process built around quality instead of volume.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== FAQ (soft) ============== -->
+    <section class="section section-soft" id="faq">
+      <div class="container container-narrow">
+        <header class="section-head section-head-centered">
+          <p class="label-uppercase">Frequently asked</p>
+          <h2 class="display-lg">The honest answers.</h2>
+        </header>
+
+        <div class="accordion faq-accordion" id="faqAccordion">
+
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="q1h">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q1" aria-expanded="false" aria-controls="q1">
+                What vehicles does iBuy acquire?
+              </button>
+            </h3>
+            <div id="q1" class="accordion-collapse collapse" aria-labelledby="q1h" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Luxury, exotic, and collector vehicles — typically 2010 and newer, with priority given to low-mileage examples in original specification. Modern classics and one-off builds are welcome; submit and our desk will respond directly.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="q2h">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2" aria-expanded="false" aria-controls="q2">
+                How is the offer calculated?
+              </button>
+            </h3>
+            <div id="q2" class="accordion-collapse collapse" aria-labelledby="q2h" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Our acquisitions desk reviews live auction results, recent retail listings, and specification-adjusted comparables. Every offer is delivered in writing with the comp set attached — no black boxes, no &ldquo;come in and we&rsquo;ll appraise it&rdquo; theatre.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="q3h">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3" aria-expanded="false" aria-controls="q3">
+                Will the offer change after pickup?
+              </button>
+            </h3>
+            <div id="q3" class="accordion-collapse collapse" aria-labelledby="q3h" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                No. The written offer is the price paid, provided the vehicle matches what was represented in your submission. We do not deduct for reconditioning, market shifts, or any other invented variable.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="q4h">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4" aria-expanded="false" aria-controls="q4">
+                How long does the whole process take?
+              </button>
+            </h3>
+            <div id="q4" class="accordion-collapse collapse" aria-labelledby="q4h" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Most sellers receive a firm offer within an hour of submission and have funds in their account inside twenty-four hours of accepting. Pickup is typically scheduled inside three business days, sooner when needed.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="q5h">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q5" aria-expanded="false" aria-controls="q5">
+                What if there&rsquo;s an outstanding loan?
+              </button>
+            </h3>
+            <div id="q5" class="accordion-collapse collapse" aria-labelledby="q5h" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Routine. We handle the payoff directly with your lender and wire any equity to you the same day. You do not need to clear the loan before submitting.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="q6h">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q6" aria-expanded="false" aria-controls="q6">
+                Do you accept vehicles with modifications?
+              </button>
+            </h3>
+            <div id="q6" class="accordion-collapse collapse" aria-labelledby="q6h" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Yes, and we know which modifications add value and which subtract from it. Disclose them up front and our desk will price them honestly.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== FINAL CTA — dark band ============== -->
+    <section class="cta-band-photo">
+      <div class="container cta-band-inner">
+        <p class="label-uppercase">Ready when you are</p>
+        <h2 class="display-md">Ready to part with it?</h2>
+        <p class="body-md">
+          An offer takes ninety seconds to request and an hour to receive.
+          The decision is yours from there.
+        </p>
+        <a href="#offer" class="btn btn-secondary-on-dark">Request your offer ›</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="iBuy" class="footer-logo">
+        <p>Private acquisition for luxury, exotic, and collector vehicles. Headquartered in Miami, operating nationwide.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#why">Why iBuy</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#recent">Recently purchased</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:acquisitions@ibuy.com">acquisitions@ibuy.com</a></li>
+          <li><a href="tel:+18880000000">+1 (888) 000-0000</a></li>
+          <li>Mon–Sat · 8am–9pm ET</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <small class="caption">© 2026 iBuy Acquisitions, LLC. All rights reserved.</small>
+      <small class="caption">Powered by All Auto Network</small>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
