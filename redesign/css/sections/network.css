@@ -1,0 +1,362 @@
+/* ==========================================================================
+   SECTION 02 — NETWORK
+   Точечная карта США, локации Marshall Goldman, дуги перегона между ними.
+   Язык тот же, что в герое: волосяные линейки, моно-подписи, красный только
+   на активном состоянии. Никаких скруглений и блюра.
+   ========================================================================== */
+
+.network {
+  position: relative;
+  padding-block: var(--s-24);
+  background: var(--c-bg);
+  border-top: 1px solid var(--c-line);
+  overflow: hidden;
+}
+
+/* Мягкое свечение из центра карты — чтобы секция не читалась плоской плитой.
+   Цвет из токена: на светлой теме белое свечение было бы невидимым. */
+.network::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 55% at 50% 45%, var(--section-glow), transparent 70%);
+}
+
+
+/* --- Шапка секции ---------------------------------------------------------- */
+
+.network__head {
+  position: relative;
+  max-width: 62ch;
+  margin-bottom: var(--s-16);
+}
+
+.network__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: var(--s-6);
+}
+
+/* Тот же приём, что в герое: смысловая часть — контуром, не цветом.
+   currentColor, а не белый: на светлой теме белый контур исчезает. */
+.network__title em {
+  display: block;
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--c-line-strong);
+}
+
+.network__lead {
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+
+.network__lead strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+
+/* --- Раскладка ------------------------------------------------------------- */
+
+.network__body {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+  gap: var(--s-16);
+  align-items: start;
+}
+
+
+/* --- Карта ----------------------------------------------------------------- */
+
+.map {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1000 / 528;
+}
+
+/* Точки страны. Canvas, а не SVG: точек 3094, и в DOM они убивают анимацию. */
+.map__dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Маркеры, дуги, подписи — SVG поверх: их мало, зато они интерактивны. */
+.map__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+
+/* Дуга перегона между локациями (требование клиента №3). */
+.arc {
+  fill: none;
+  stroke: var(--c-brand);
+  stroke-width: 1.2;
+  opacity: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+
+
+/* --- Маркеры --------------------------------------------------------------- */
+
+.marker__dot {
+  fill: var(--c-text);
+  transition: fill var(--t-base) var(--e-out),
+              r var(--t-mid) var(--e-expo);
+}
+
+.marker__halo {
+  fill: var(--map-halo);
+  opacity: 0;
+  transition: opacity var(--t-base) var(--e-out);
+}
+
+
+/* --- Пинг источника --------------------------------------------------------
+   Точка, из которой расходятся дуги, бьёт кольцами — как радар.
+   Живёт ТОЛЬКО на активном маркере: если пульсируют все пять, источник
+   ничем не выделен, и приём не работает.
+
+   transform-box: fill-box обязателен. Без него transform-origin у SVG-круга
+   считается от вьюпорта, а не от самого круга, и кольца разлетаются в угол. */
+
+.marker__ping {
+  fill: none;
+  stroke: var(--c-brand);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Время ЛИНЕЙНОЕ, и это принципиально. С expo-кривой (--e-out) почти весь
+   прогресс съедается в первые кадры: на 10% цикла кольцо уже прозрачное на 60%.
+   Волна не расходится, а вспыхивает и гаснет. Форму задаём кейфреймами. */
+.marker.is-active .marker__ping {
+  animation: ping 2.8s linear infinite;
+}
+
+/* Сдвиг по фазе — кольца идут волнами, а не одним толчком. */
+.marker.is-active .marker__ping:nth-of-type(2) { animation-delay: 0.93s; }
+.marker.is-active .marker__ping:nth-of-type(3) { animation-delay: 1.86s; }
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+    stroke-width: 2;
+  }
+  /* Волна рождается почти мгновенно... */
+  8% { opacity: 0.9; }
+
+  /* ...потом расходится с замедлением: половина пути за 40% времени. */
+  40% {
+    transform: scale(5.5);
+    opacity: 0.42;
+    stroke-width: 1.1;
+  }
+
+  100% {
+    transform: scale(9);   /* r=4 → радиус 36px: на карте это уже читается */
+    opacity: 0;
+    stroke-width: 0.4;     /* кольцо истончается, уходя — как настоящая волна */
+  }
+}
+
+.marker__label {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  fill: var(--c-text-muted);
+  text-anchor: middle;
+  transition: fill var(--t-base) var(--e-out);
+}
+
+/* Подписи по краям карты не должны улетать за кадр. */
+.marker[data-city='baltimore'] .marker__label,
+.marker[data-city='newportBeach'] .marker__label { text-anchor: start; }
+
+/* Источник светится — точка, из которой бьют волны и расходятся дуги,
+   должна быть самым горячим местом на карте. */
+.marker.is-active .marker__dot {
+  fill: var(--c-brand);
+  r: 5.5;
+  filter: drop-shadow(0 0 7px var(--c-brand));
+}
+
+.marker.is-active .marker__halo { opacity: 1; }
+.marker.is-active .marker__label { fill: var(--c-text); }
+
+/* Локация, которая ещё не открылась: контур вместо заливки. Честнее, чем
+   рисовать её наравне с работающими. */
+.marker--soon .marker__dot {
+  fill: transparent;
+  stroke: var(--c-text-muted);
+  stroke-width: 1.5;
+}
+.marker--soon.is-active .marker__dot {
+  fill: transparent;
+  stroke: var(--c-brand);
+}
+
+/* Спящие локации — просто точки. Пульсировать должен ОДИН источник,
+   а не все пятеро: иначе глазу не за что зацепиться. */
+
+@media (prefers-reduced-motion: reduce) {
+  .marker__ping { animation: none !important; opacity: 0; }
+}
+
+
+.map__note {
+  position: absolute;
+  left: 0;
+  bottom: -1.5rem;
+}
+
+
+/* --- Список локаций -------------------------------------------------------- */
+
+.locs {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--s-8);
+  border-top: 1px solid var(--c-line);
+}
+
+.loc {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--s-4) 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--c-line);
+  text-align: left;
+  transition: padding-left var(--t-mid) var(--e-expo);
+}
+
+/* Строка выезжает вправо под курсором — движение вместо подсветки фоном. */
+.loc:hover,
+.loc:focus-visible,
+.loc.is-active { padding-left: var(--s-3); }
+
+.loc__city {
+  font-family: var(--f-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  transition: color var(--t-base) var(--e-out);
+}
+
+.loc:hover .loc__city,
+.loc:focus-visible .loc__city,
+.loc.is-active .loc__city { color: var(--c-text); }
+
+.loc__state {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  white-space: nowrap;
+}
+
+.loc__state b {
+  color: var(--c-brand);
+  font-weight: 500;
+}
+
+
+/* --- Панель локации -------------------------------------------------------- */
+
+.locpanel {
+  min-height: 108px;
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--c-line-strong);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--t-base) var(--e-out),
+              transform var(--t-mid) var(--e-expo);
+}
+
+.locpanel.is-open {
+  opacity: 1;
+  transform: none;
+}
+
+.locpanel__name {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text);
+  margin-bottom: var(--s-2);
+}
+
+.locpanel__address {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-soft);
+  margin-bottom: var(--s-3);
+}
+
+.locpanel__phone {
+  display: inline-block;
+  min-height: 44px;
+  padding-top: var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  color: var(--c-brand);
+  transition: color var(--t-fast) var(--e-out);
+}
+.locpanel__phone:hover { color: var(--c-brand-hover); }
+.locpanel__phone[hidden] { display: none; }
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .network { padding-block: var(--s-16); }
+
+  .network__body {
+    grid-template-columns: 1fr;
+    gap: var(--s-12);
+  }
+
+  .network__head { margin-bottom: var(--s-12); }
+
+  /* Подпись остаётся абсолютной. Если сделать её static, она всплывает НАВЕРХ
+     карты: canvas и svg позиционированы абсолютно, и она — единственный
+     элемент в потоке. Просто освобождаем ей место под фигурой. */
+  .map { margin-bottom: var(--s-8); }
+}
+
+@media (max-width: 560px) {
+  /* Подписи городов на узком экране налезают друг на друга и на дуги.
+     Карта остаётся как схема охвата, а названия читаются в списке ниже. */
+  .marker__label { display: none; }
+
+  .loc__city { font-size: 1.125rem; }
+}

@@ -1,0 +1,1073 @@
+/* ==========================================================================
+   SECTION 01 — HERO  (v2)
+
+   Язык взят из референсов Alex, а не из дефолта:
+   · данные вписаны в перспективу кадра, с выносными линиями (elemets, MAP)
+   · нумерация глав + гигантская призрачная цифра (1home / Range Rover Velar)
+   · волосяная колоночная сетка и засечки по углам (RENON)
+   · конденсированные капсы (ELECTRA)
+   · моно-телеметрия
+
+   Чего здесь принципиально НЕТ: скруглений, backdrop-blur, карточек,
+   свечения под кнопкой, полосы «As seen in».
+   ========================================================================== */
+
+/* --- Шапка ---------------------------------------------------------------- */
+
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-header);
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  transition: background var(--t-base) var(--e-out),
+              border-color var(--t-base) var(--e-out);
+}
+
+.header.is-stuck {
+  background: var(--c-void);
+  border-bottom-color: var(--c-line);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.header__logo img { height: 42px; width: auto; }
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+  margin-left: auto;
+}
+
+/* Пункты меню — моно-капсы с разрядкой. Не «ссылки на сайте», а подписи на приборе. */
+.header__link {
+  position: relative;
+  padding: var(--s-2) 0;
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  transition: color var(--t-fast) var(--e-out);
+}
+.header__link:hover { color: var(--c-text); }
+
+.header__link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-base) var(--e-out);
+}
+.header__link:hover::after { transform: scaleX(1); }
+
+.header__phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--s-2) var(--s-4);
+  border: 1px solid var(--c-line-strong);
+  border-radius: 0;
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  transition: background var(--t-fast) var(--e-out),
+              border-color var(--t-fast) var(--e-out);
+}
+.header__phone:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--c-text);
+}
+.header__phone svg { width: 14px; height: 14px; flex: none; }
+
+.header__burger {
+  display: none;
+  width: 44px; height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--c-line-strong);
+  border-radius: 0;
+}
+
+
+/* --- Каркас --------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  min-height: 92svh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--header-h);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Медиа. Сразу <video> — клиент просил кинематографичный видео-герой, съёмка
+   будет через несколько недель. Пока источника нет, браузер показывает poster,
+   и это ровно тот же кадр. Менять разметку потом не придётся. */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+}
+
+.hero__media video,
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 68%;
+}
+
+/* Скрим — только под текстом слева. Кадр справа должен дышать. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(100deg,
+      rgba(8, 9, 11, 0.93) 0%,
+      rgba(8, 9, 11, 0.76) 24%,
+      rgba(8, 9, 11, 0.34) 46%,
+      rgba(8, 9, 11, 0.04) 66%,
+      rgba(8, 9, 11, 0.00) 100%),
+    linear-gradient(to top,
+      var(--c-bg) 0%,
+      rgba(11, 13, 16, 0.55) 9%,
+      transparent 32%),
+    linear-gradient(to bottom,
+      rgba(8, 9, 11, 0.62) 0%,
+      transparent 18%);
+}
+
+/* Колоночная сетка поверх кадра — конструкция, а не декор.
+   Вертикали идут во всю высоту, как разметка чертежа. */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.hero__grid span {
+  border-left: 1px solid rgba(255, 255, 255, 0.055);
+}
+.hero__grid span:last-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+/* --- Земля -----------------------------------------------------------------
+   Типографика лежит на бетоне в перспективе. Ключ — rotateX: буквы не «поверх
+   фото», а на его плоскости. Ровно приём elemets.jpg и MAP.jpg.
+
+   Вырез машин для этого не нужен: земля и так перед ними.
+
+   Координаты подобраны под кадр hero-lineup.jpg — площадка перед линейкой.
+   Сменится кадр или придёт видео — правится здесь, больше нигде. */
+
+/* Плоскость садится на открытый бетон перед машинами: левее — колонка
+   заголовка, правее — панель формы, ниже — прибор и лента. */
+.hero__ground {
+  position: absolute;
+  left: 31%;   /* правее абзаца в левой колонке */
+  right: 31%;  /* левее панели формы */
+  bottom: 20%; /* выше прибора и ленты */
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;   /* длинная строка не должна выехать под форму */
+  perspective: 520px;
+  perspective-origin: 50% 0%;
+
+  /* Молчит, пока нечего показать. Проступает на бетоне только под цифру. */
+  opacity: 0;
+  transition: opacity var(--t-base) var(--e-out);
+}
+
+.hero__ground.is-live { opacity: 1; }
+
+.ground__plane {
+  transform: rotateX(64deg);
+  transform-origin: 50% 0%;
+  text-align: center;
+  /* Дальний край растворяется — плоскость уходит вдаль, а не обрывается. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 76%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 76%, transparent 100%);
+}
+
+/* Смена надписи на земле — не подмена текста, а перезапись: старое уплывает
+   вглубь площадки, новое выступает из неё. JS вешает .is-swapping на время
+   подмены (см. main.js → writeGround). */
+.ground__line,
+.ground__figure,
+.ground__line--sub {
+  transition: opacity var(--t-base) var(--e-out),
+              transform var(--t-mid) var(--e-expo);
+}
+
+.hero__ground.is-swapping .ground__line,
+.hero__ground.is-swapping .ground__figure,
+.hero__ground.is-swapping .ground__line--sub {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.ground__line {
+  font-family: var(--f-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.60);
+  margin-bottom: var(--s-3);
+  white-space: nowrap;
+}
+
+.ground__line--sub {
+  margin: var(--s-3) 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.40);
+}
+
+/* Главная цифра. Она и лежит на бетоне перед машинами. */
+.ground__figure {
+  font-family: var(--f-display);
+  font-size: clamp(1.75rem, 2.7vw, 3.25rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  /* Не белый: буквы нанесены НА бетон, а не светятся над ним. */
+  color: rgba(255, 255, 255, 0.82);
+  white-space: nowrap;
+  transition: opacity var(--t-fast) var(--e-out);
+}
+
+/* Пока прибор считает — цифра на земле дышит, как живые показания. */
+.hero__ground.is-working .ground__figure { opacity: 0.45; }
+
+
+/* z-index выше меток: подпись к машине не имеет права наехать на форму. */
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  /* align-content: center — центрирует по вертикали ВЕСЬ блок (текст + форма
+     как одно целое) в свободном поле под шапкой.
+
+     align-items: stretch — тянет обе колонки на высоту строки, а её задаёт
+     самый высокий элемент (форма). Благодаря этому верх текста совпадает с
+     верхом формы, а низ левой колонки — с низом формы. На этом и держится
+     выравнивание trust bar по нижней линии формы: он просто прижат к низу
+     своей колонки (margin-top: auto), и подгонять отступы не нужно —
+     сменится высота формы, логотипы уедут за ней сами. */
+  align-content: center;
+  align-items: stretch;
+  gap: var(--s-16);
+  flex: 1;
+  padding-block: var(--s-8);
+}
+
+
+/* --- Левая колонка --------------------------------------------------------- */
+
+/* Ширину задаёт колонка сетки, а не max-width: конденсированный Antonio
+   при жёстком ограничении рассыпается по слову на строку.
+
+   Колонка — flex-столбец: текст сверху, trust bar прижат к низу (margin-top:
+   auto). Колонка растянута до высоты формы, поэтому логотипы садятся ровно
+   на её нижнюю линию. */
+.hero__copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Метка главы: 01 — красная засечка — подпись. */
+.hero__chapter {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-6);
+}
+
+.hero__chapter b {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--c-text);
+}
+
+.hero__chapter i {
+  width: 24px;
+  height: 1px;
+  background: var(--c-brand);
+  flex: none;
+}
+
+.hero__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: initial;
+  margin-bottom: var(--s-6);
+}
+
+/* «Luxury & Exotic» — смысловой центр. Отделяем контуром, не цветом:
+   тот же приём, что и призрачная цифра, только в кегле заголовка. */
+.hero__title em {
+  display: block;
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.55);
+}
+
+.hero__lead {
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--c-text-soft);
+  max-width: 40ch;
+  margin-bottom: var(--s-8);
+}
+
+.hero__lead strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+
+/* --- Trust bar -------------------------------------------------------------
+   Логотипы взяты с живого сайта клиента и перекрашены в белый: исходники
+   чёрные (рисовались под светлый фон) и на тёмном кадре были бы не видны.
+
+   Приглушены до 55%: это подпорка доверия, а не витрина чужих брендов.
+   Оживают под курсором — тогда становится понятно, что они кликабельны
+   (ссылки на публикации подставит клиент). */
+
+.trust {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+  flex-wrap: wrap;
+  /* Прижимает полосу к низу левой колонки — а её низ совпадает с низом формы. */
+  margin-top: auto;
+  padding-top: var(--s-10);
+}
+
+.trust__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  white-space: nowrap;
+}
+
+.trust__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--s-6), 3vw, var(--s-12));
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Монохром. Логотипы приходят в своих цветах — фиолетовый Roku, красный
+   CarBuzz, зелёный Trustpilot. В полосе доверия это радуга, которая дерётся
+   с нашим единственным акцентом. brightness(0) гасит любой цвет в чёрный,
+   invert(1) поднимает его в чистый белый — работает с любым логотипом,
+   не трогая сами файлы. */
+.trust__logo {
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.5;
+  transition: opacity var(--t-base) var(--e-out);
+}
+
+/* Высоты — поштучно, по ОПТИЧЕСКОМУ весу, а не по одной линейке.
+   Fox и stl свёрстаны в две строки: при равной высоте они выглядят мелкими
+   рядом со словесными знаками, а те — громоздкими. Выравниваем на глаз,
+   а не по числу. */
+.trust__logo--fox   { height: 44px; }
+.trust__logo--stl   { height: 46px; }
+.trust__logo--roku  { height: 28px; }
+.trust__logo--buzz  { height: 23px; }
+.trust__logo--trust { height: 29px; }
+
+.trust__list li:hover .trust__logo { opacity: 1; }
+
+/* Сеть Marshall Goldman — требование клиента №3. Тонкой строкой, как
+   выходные данные, а не как «ещё один блок». */
+.hero__network {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  margin-bottom: var(--s-5);
+}
+
+.hero__network span {
+  display: block;
+  margin-top: var(--s-2);
+  color: var(--c-text-soft);
+}
+
+
+/* --- Приборный блок --------------------------------------------------------
+   Один слот, два состояния. По умолчанию общие цифры; при наведении на машину
+   в ленте внизу — телеметрия этой машины. Панели лежат друг на друге в гриде,
+   поэтому переключение не дёргает раскладку. */
+
+.readout {
+  display: grid;
+  align-items: end;
+  min-height: 76px;
+}
+
+/* Кросс-фейд, а не подмена. Уходящая панель поднимается и тает, приходящая
+   всплывает снизу с небольшой задержкой — они не сталкиваются в кадре. */
+.readout__pane {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity var(--t-base) var(--e-out),
+              transform var(--t-mid) var(--e-expo),
+              visibility 0s linear var(--t-mid);
+}
+
+.readout__pane.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  /* Задержка 70ms — уходящая панель успевает убраться, и глаз не ловит наложение. */
+  transition: opacity var(--t-base) var(--e-out) 70ms,
+              transform var(--t-slow) var(--e-expo) 70ms,
+              visibility 0s;
+}
+
+/* Состояние по умолчанию — «5.7 s | 250 km/h» из Velar. */
+.readout__stats {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+
+.readout__stats li {
+  padding-right: var(--s-5);
+  margin-right: var(--s-5);
+  border-right: 1px solid var(--c-line);
+}
+.readout__stats li:last-child { border-right: 0; margin-right: 0; }
+
+.readout__stats b {
+  display: block;
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.readout__stats span {
+  display: block;
+  margin-top: var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+}
+
+/* Состояние «машина» */
+.readout__name {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text);
+  margin-bottom: var(--s-3);
+}
+
+.readout__grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.readout__grid > div {
+  padding-right: var(--s-5);
+  margin-right: var(--s-5);
+  border-right: 1px solid var(--c-line);
+}
+.readout__grid > div:last-child { border-right: 0; margin-right: 0; }
+
+.readout__grid dt {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  margin-bottom: var(--s-2);
+}
+
+.readout__grid dd {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Сумма — единственная цифра, ради которой всё затевалось. */
+.readout__grid dd[data-slot='paid'] { color: var(--c-brand); }
+
+
+/* --- Живая оценка ----------------------------------------------------------
+   Главное состояние прибора. Считается, пока человек набирает форму:
+   сайт обещает «no lowballing» — здесь он это обещание выполняет на глазах. */
+
+.readout__status {
+  font-weight: 500;
+  color: var(--c-brand);
+  letter-spacing: 0.1em;
+}
+
+/* Мигает, пока идёт счёт. */
+.readout__status.is-working {
+  animation: blink 900ms steps(2, end) infinite;
+}
+
+@keyframes blink { 50% { opacity: 0.25; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .readout__status.is-working { animation: none; }
+}
+
+/* Сумму на широком экране несёт ЗЕМЛЯ — здесь она была бы вторым экземпляром
+   той же цифры на одном экране. Показываем её тут только там, где земли нет
+   (узкие экраны, см. медиазапрос ниже). */
+.readout__figure {
+  display: none;
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 1.2rem + 2.2vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  /* Табличные цифры: при прокрутке разряды не должны прыгать по ширине. */
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--s-2);
+}
+
+/* Доказательство. Всплывает ровно там, где у человека сомнение «занизят». */
+.readout__compare {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  min-height: 1rem;
+}
+
+.readout__compare b {
+  color: var(--c-text);
+  font-weight: 500;
+}
+
+
+/* --- Выносные линии к машинам ----------------------------------------------
+   Главный приём из elemets.jpg / MAP.jpg: подпись не лежит поверх кадра,
+   а привязана тонкой линией к объекту в нём. Точка — на машине, линия — вверх,
+   подпись — на конце. Живёт только на широком экране, где кадр не обрезан. */
+
+.hero__tags {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: none;
+}
+
+.tag {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Точка на машине */
+.tag::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  bottom: -3px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Выносная линия вверх от точки */
+.tag__line {
+  width: 1px;
+  height: var(--tag-h, 54px);
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.15));
+  order: 2;
+}
+
+.tag__label {
+  order: 1;
+  padding-bottom: var(--s-2);
+  transform: translateX(-2px);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
+}
+
+.tag__label small {
+  display: block;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Позиции подобраны по кадру hero-lineup.jpg. Сменится фото/видео —
+   пересчитать здесь, больше нигде.
+   Держимся левее панели формы (она начинается примерно с 66%): подпись,
+   заезжающая под панель, — это мусор, а не приём. Две метки, не три:
+   третья упиралась в форму, а сдержанность тут читается как вкус. */
+.tag--a { left: 35%; bottom: 33%; --tag-h: 52px; }   /* Ferrari 812 */
+.tag--b { left: 49%; bottom: 36%; --tag-h: 74px; }   /* Lamborghini Revuelto */
+
+@media (min-width: 1200px) {
+  .hero__tags { display: block; }
+}
+
+
+/* --- Правая колонка: форма-прибор ------------------------------------------
+   Не карточка. Панель: прямые углы, волосяная рамка, плотный фон,
+   никакого блюра. Засечки по углам — из RENON. */
+
+/* Белая панель на тёмном кадре. Она обязана «выстреливать»: это единственное
+   место сделки на экране. Тёмная плашка на тёмном фото растворялась.
+   Тень — не декор, а то, что отрывает панель от фотографии. */
+/* СВЕТЛОЕ матовое стекло, а не тёмная карточка с блюром.
+   Тёмная полупрозрачная плашка со скруглениями — самый узнаваемый след
+   нейросети, и мы её уже один раз выбросили. Здесь стекло работает иначе:
+   панель остаётся белой и продолжает выстреливать с тёмного кадра, но
+   фотография слегка проступает сквозь неё — как через матовое архитектурное
+   стекло. Углы прямые, свечения нет.
+
+   0.88, а не 0.7: ниже этого белый перестаёт держать контраст, и панель
+   снова начинает тонуть в фото — ровно то, от чего мы уходили. */
+.quote {
+  position: relative;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(28px) saturate(1.2);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  color: var(--c-panel-ink);
+  border: 0;
+  border-radius: 0;
+  /* Компактнее: панель — прибор, а не просторная карточка. */
+  padding: var(--s-6) var(--s-5) var(--s-5);
+  box-shadow: 0 40px 90px -24px rgba(0, 0, 0, 0.85),
+              0 8px 24px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* Если браузер не умеет backdrop-filter — панель обязана остаться
+   непрозрачной, иначе текст ляжет прямо на фотографию. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .quote { background: var(--c-panel); }
+}
+
+/* Красная засечка по углам — единственный акцент, оставшийся от тёмной версии. */
+.quote::before,
+.quote::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--c-brand);
+}
+.quote::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.quote::after  { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+.quote__head {
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--c-panel-line);
+  margin-bottom: var(--s-5);
+}
+
+.quote__title {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--c-panel-ink);
+}
+
+
+/* --- Поля внутри белой панели ----------------------------------------------
+   Базовые .field рассчитаны на тёмный фон: белый текст, светлые линейки.
+   На белом они бы просто исчезли. Перекрашиваем в пределах .quote. */
+
+.quote .field__label { color: var(--c-panel-muted); }
+.quote .field__optional { color: var(--c-panel-dim); }
+
+/* Настоящие поля ввода, а не подчёркнутые линейки.
+   Линейка выглядела приборно, но глазом не читалась как место, куда пишут:
+   у неё нет ни границы, ни «дна». Заливка + рамка возвращают полю понятную
+   форму — человек видит коробку и понимает, что в неё вводят.
+
+   Радиус 2px, а не 8-10: скругления — то, по чему макет опознаётся как
+   сгенерированный, но абсолютно острый угол на поле ввода выглядит грубо.
+   Два пикселя снимают резкость, не превращая поле в «пилюлю». */
+.quote .field__input {
+  height: var(--ctl-h);
+  padding: 0 var(--s-4);
+  background: #F1F3F5;
+  border: 1px solid #D7DBDF;
+  border-bottom: 1px solid #D7DBDF;
+  border-radius: 2px;
+  color: var(--c-panel-ink);
+}
+
+.quote .field__input::placeholder { color: var(--c-panel-dim); }
+
+.quote .field__input:hover {
+  background: #EAEDF0;
+  border-color: #B9BFC5;
+}
+
+/* В фокусе поле белеет — оно «открылось». Рамка темнеет, вокруг мягкий ореол:
+   он заменяет системный фокус-ринг, который на светлой панели смотрелся бы
+   инородно. */
+.quote .field__input:focus {
+  background: #FFFFFF;
+  border-color: var(--c-panel-ink);
+  box-shadow: 0 0 0 3px rgba(20, 23, 28, 0.10);
+}
+
+.quote .field__input[aria-invalid='true'] {
+  border-color: var(--c-brand);
+  background: rgba(222, 25, 42, 0.04);
+  box-shadow: none;
+}
+
+.quote .field__input[aria-invalid='true']:focus {
+  box-shadow: 0 0 0 3px var(--c-brand-glow);
+}
+
+.quote .field__error { color: var(--c-brand-press); }
+
+.quote__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3) var(--s-5);
+  margin-bottom: var(--s-5);
+}
+
+.quote__grid .field--full { grid-column: 1 / -1; }
+
+
+
+/* --- Телеметрия сети -------------------------------------------------------
+   Требование клиента №3: сеть Marshall Goldman и пять локаций. Ставим прямо
+   в герой отдельной полосой — как приборная строка, а не как «ещё один блок». */
+
+/* Полоса под прибор и ленту. Сейчас они закомментированы в разметке, но стили
+   остаются: раскомментируют — заработает без правок. */
+.hero__rail {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-8);
+  padding-bottom: var(--s-4);
+}
+
+.instrument {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  flex: 1;
+  min-width: 0;
+}
+
+/* --- Живая линейка ---------------------------------------------------------
+   Наведение или фокус на машине перещёлкивает приборный блок слева.
+   Кнопки, а не div: работает с клавиатуры и с тача, читается скринридером. */
+
+.lineup {
+  display: flex;
+  align-items: center;
+  gap: var(--s-6);
+  flex-wrap: wrap;
+  border-top: 1px solid var(--c-line-strong);
+}
+
+.lineup__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  white-space: nowrap;
+}
+
+.lineup__list {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+
+/* Засечка сверху — деление на шкале. Активная краснеет. */
+.lineup__item {
+  position: relative;
+  /* 44px — палец. Текст прижат к низу, засечка остаётся наверху. */
+  display: inline-flex;
+  align-items: flex-end;
+  min-height: 44px;
+  padding: var(--s-3) 0 var(--s-2);
+  background: none;
+  border: 0;
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  white-space: nowrap;
+  transition: color var(--t-base) var(--e-out),
+              transform var(--t-mid) var(--e-expo);
+}
+
+/* Засечка вырастает и краснеет — но не прыжком: expo-кривая сажает её мягко. */
+.lineup__item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 6px;
+  background: var(--c-line-strong);
+  transition: height var(--t-mid) var(--e-expo),
+              background var(--t-base) var(--e-out);
+}
+
+.lineup__item:hover,
+.lineup__item:focus-visible,
+.lineup__item.is-active {
+  color: var(--c-text);
+  /* Микросдвиг вверх: элемент «поднимается» под курсор, а не просто белеет. */
+  transform: translateY(-2px);
+}
+
+.lineup__item:hover::before,
+.lineup__item:focus-visible::before,
+.lineup__item.is-active::before {
+  height: 14px;
+  background: var(--c-brand);
+}
+
+/* --- Появление ------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: reveal var(--t-slow) var(--e-out) forwards;
+}
+.reveal--1 { animation-delay: 60ms; }
+.reveal--2 { animation-delay: 150ms; }
+.reveal--3 { animation-delay: 240ms; }
+
+@keyframes reveal { to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; animation: none; }
+}
+
+
+/* --- Заглушка следующей секции (удалить, когда сделаем Section 02) --------- */
+
+.next-stub {
+  min-height: 42svh;
+  display: flex;
+  align-items: center;
+  background: var(--c-bg);
+  border-top: 1px solid var(--c-line);
+}
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .hero { min-height: auto; }
+
+  /* Земля живёт перспективой, а перспектива живёт шириной. На узкой колонке
+     наклонённая плоскость превращается в нечитаемую кашу — убираем её,
+     и сумму снова несёт прибор. */
+  .hero__ground { display: none; }
+  .readout__figure { display: block; }
+
+  .hero__inner {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: var(--s-10);
+    padding-block: var(--s-10) var(--s-10);
+  }
+
+  .hero__lead { max-width: 48ch; }
+
+  .quote { max-width: 520px; }
+
+  /* Кадр становится полосой сверху: горизонтальное фото, растянутое на всю
+     высоту стопки, зумится так, что от линейки машин ничего не остаётся. */
+  .hero__media,
+  .hero__scrim {
+    height: 68svh;
+    inset: 0 0 auto 0;
+  }
+
+  .hero__scrim {
+    background: linear-gradient(to bottom,
+      rgba(8, 9, 11, 0.84) 0%,
+      rgba(8, 9, 11, 0.68) 20%,
+      rgba(8, 9, 11, 0.62) 52%,
+      rgba(8, 9, 11, 0.86) 80%,
+      var(--c-bg) 100%);
+  }
+
+  .hero__grid { display: none; }
+}
+
+@media (max-width: 860px) {
+  .header__nav { display: none; }
+
+  .header__phone {
+    order: 2;
+    margin-left: auto;
+    padding: var(--s-2) var(--s-3);
+  }
+  .header__phone span { display: none; }
+
+  .header__burger { order: 3; display: inline-flex; }
+
+  /* stretch, а не flex-start: при flex-start блок сжимается по контенту,
+     а контент — лента с nowrap. Она распирала прибор шире экрана, и всё
+     лишнее просто срезалось body { overflow-x: hidden }. Тянем на 100%
+     и явно разрешаем сжатие через min-width: 0, иначе overflow-x у ленты
+     не работает — ей нужна определённая ширина. */
+  .hero__rail {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s-4);
+  }
+
+  .instrument,
+  .lineup {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .lineup { gap: var(--s-3); }
+
+  /* Лента уезжает в горизонтальный скролл, а не сыпется в пять строк. */
+  .lineup__list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: var(--s-5);
+    width: 100%;
+    min-width: 0;
+    padding-bottom: var(--s-1);
+    scrollbar-width: none;
+  }
+  .lineup__list::-webkit-scrollbar { display: none; }
+}
+
+@media (max-width: 560px) {
+  :root { --header-h: 68px; }
+
+  .header__logo img { height: 32px; }
+
+  .quote { padding: var(--s-6) var(--s-5) var(--s-5); }
+
+  /* Два поля в ряд на узком экране — тесно. В колонку. */
+  .quote__grid { grid-template-columns: 1fr; }
+
+  /* Во flex три показателя переносились «2 + 1» с висящей линейкой.
+     Сетка держит их в строку.
+     minmax(0, 1fr), а не 1fr: у 1fr минимум — min-content, и длинное
+     «Newport Beach» распирало колонку за край экрана. */
+  .readout__stats,
+  .readout__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .readout__stats li,
+  .readout__grid > div {
+    padding-right: var(--s-3);
+    margin-right: 0;
+    min-width: 0;
+  }
+
+  .readout__stats b,
+  .readout__grid dd {
+    font-size: 1rem;
+    line-height: 1.15;
+    overflow-wrap: break-word;
+  }
+
+  .readout__stats span,
+  .readout__grid dt { font-size: 0.625rem; letter-spacing: 0.06em; }
+
+  .readout { min-height: 88px; }
+  .readout__name { font-size: 0.625rem; }
+}

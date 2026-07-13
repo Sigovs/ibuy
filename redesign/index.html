@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sell Your Luxury or Exotic Car | iBuy Luxury Cars</title>
+  <meta name="description" content="Get a real cash offer on your luxury or exotic car within 24 hours. No lowball offers, no consignment, no hoops. iBuy Luxury Cars — a division of Marshall Goldman Motor Sales.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/sections/hero.css">
+  <link rel="stylesheet" href="css/sections/network.css">
+  <link rel="stylesheet" href="css/sections/process.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#quote-form">Skip to offer form</a>
+
+  <!-- ======================================================================
+       HEADER
+       ====================================================================== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+
+      <a class="header__logo" href="/" aria-label="iBuy Luxury Cars — home">
+        <img src="assets/img/logo.png" alt="iBuy Luxury Cars, powered by Marshall Goldman" width="183" height="102">
+      </a>
+
+      <nav class="header__nav" aria-label="Main">
+        <a class="header__link" href="#quote-form">Sell my car</a>
+        <a class="header__link" href="#process">Process</a>
+        <a class="header__link" href="#network">Network</a>
+        <a class="header__link" href="#reviews">Reviews</a>
+      </nav>
+
+      <a class="header__phone" href="tel:+13145860508">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        <span>314-586-0508</span>
+      </a>
+
+      <button class="header__burger" type="button" aria-label="Open menu" aria-expanded="false">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M0 1h18M0 6h18M0 11h18"/>
+        </svg>
+      </button>
+
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ====================================================================
+         SECTION 01 — HERO
+         Слева обещание, справа форма. Внизу пресса + подсказка скролла.
+         ==================================================================== -->
+    <section class="hero" aria-labelledby="hero-title">
+
+      <!-- Клиент просил кинематографичный видео-герой; съёмка будет, когда
+           достроят объект. Разметка уже видео-готовая: пока источника нет,
+           браузер показывает poster — тот же кадр. Придёт footage — добавляем
+           <source>, и больше ничего не трогаем. -->
+      <div class="hero__media">
+        <video poster="assets/img/hero-lineup.jpg"
+               autoplay muted loop playsinline preload="none"
+               aria-label="A lineup of luxury and exotic cars parked at a modern estate at sunset.">
+          <!-- <source src="assets/video/hero.webm" type="video/webm"> -->
+          <!-- <source src="assets/video/hero.mp4"  type="video/mp4"> -->
+        </video>
+      </div>
+
+      <div class="hero__scrim" aria-hidden="true"></div>
+
+      <!-- Колоночная сетка — видимая конструкция кадра -->
+      <div class="hero__grid" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <!-- ЗЕМЛЯ.
+           Телеметрия лежит на бетоне перед машинами, в перспективе — как цифры
+           на поле в elemets.jpg и подписи по рельефу в MAP.jpg. Не наклейка
+           поверх кадра: буквы живут в его пространстве.
+           Вырез машин для этого не нужен — земля и так перед ними. -->
+      <!-- Пустая в покое. Оживает только под цифру: наведение на машину или
+           оценка. Дежурный текст тут был дублем секции 02 (она делает то же,
+           но по-настоящему — картой) и просто лежал поперёк машин. -->
+      <div class="hero__ground" aria-hidden="true">
+        <div class="ground__plane">
+          <p class="ground__line" data-slot="ground-label"></p>
+          <p class="ground__figure" data-slot="ground-figure"></p>
+          <p class="ground__line ground__line--sub" data-slot="ground-sub"></p>
+        </div>
+      </div>
+
+      <div class="container hero__inner">
+
+        <!-- Левая колонка -->
+        <div class="hero__copy">
+
+          <h1 class="hero__title reveal reveal--1" id="hero-title">
+            The Nation&rsquo;s Largest
+            <em>Luxury &amp; Exotic</em>
+            Car Buyer
+          </h1>
+
+          <!-- Текст с оригинала (ibuylc.com), сжатый. Свой лид я выбросил:
+               у клиента формулировки точнее и это его голос, а не мой. -->
+          <p class="hero__lead reveal reveal--2">
+            Buying exotic cars is what we live for. We&rsquo;re always in the market
+            and ready to offer <strong>at least Kelley Blue Book value</strong>.
+            No lowballing here.
+          </p>
+
+          <!-- TRUST BAR живёт в левой колонке и прижат к её низу (margin-top:
+               auto). Колонка тянется до высоты формы, поэтому нижняя линия
+               логотипов совпадает с нижним краем формы сама — без подгонки
+               отступами, которая ломалась бы при смене высоты формы.
+
+               Векторы Alex'а, прогнанные через svgo: было ~1 МБ, стало 20 КБ
+               (Fox весил 712 КБ; Roku — 268 КБ, внутри семь base64-растров и
+               ни одного viewBox). У Post-Dispatch снята красная подложка: иначе
+               при перекраске в белый он превращался в сплошной прямоугольник.
+
+               Цвет задаётся из CSS (filter), а не в файлах: логотипы обязаны
+               быть монохромными, иначе фиолетовый Roku, красный CarBuzz и
+               зелёный Trustpilot устроят радугу и подерутся с нашим
+               единственным акцентом. -->
+          <div class="trust reveal reveal--3">
+            <p class="trust__label">As seen in</p>
+            <ul class="trust__list">
+              <li><img class="trust__logo trust__logo--fox"  src="assets/img/logos/fox-business.svg"  alt="Fox Business"></li>
+              <li><img class="trust__logo trust__logo--stl"  src="assets/img/logos/post-dispatch.svg" alt="St. Louis Post-Dispatch"></li>
+              <li><img class="trust__logo trust__logo--roku" src="assets/img/logos/roku.svg"          alt="Roku"></li>
+              <li><img class="trust__logo trust__logo--buzz" src="assets/img/logos/carbuzz.svg"       alt="CarBuzz"></li>
+
+              <!-- TRUSTPILOT ОТКЛЮЧЁН. Проверено 13.07.2026 на самом Trustpilot:
+                   у ibuylc.com профиль заявлен с июня 2021, но отзывов — НОЛЬ.
+                   Страница так и называется: «Be the first to review ibuylc.com».
+                   Логотип здесь обещал бы соцдоказательство, которого нет, а тот,
+                   кто кликнет, упрётся в пустой профиль. Хуже, чем не иметь его.
+
+                   Клиент в брифе просит GOOGLE Reviews — вот там отзывы реальные.
+                   Появятся отзывы на Trustpilot — раскомментировать.
+
+              <li><img class="trust__logo trust__logo--trust" src="assets/img/logos/trustpilot.svg" alt="Trustpilot"></li>
+              -->
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Правая колонка: форма. Смысл всей секции.
+             На текущем сайте она есть только на главной — на 30 SEO-лендингах
+             формы нет вообще. -->
+        <div class="quote reveal reveal--3">
+
+          <div class="quote__head">
+            <h2 class="quote__title">Get your offer</h2>
+          </div>
+
+          <form class="quote__form" id="quote-form" novalidate>
+
+            <div class="quote__grid">
+
+              <div class="field">
+                <label class="field__label" for="q-year">Year</label>
+                <input class="field__input" id="q-year" name="year" type="text"
+                       inputmode="numeric" autocomplete="off" placeholder="2021" required>
+                <span class="field__error" data-error-for="q-year" aria-live="polite"></span>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="q-make">Make</label>
+                <input class="field__input" id="q-make" name="make" type="text"
+                       autocomplete="off" placeholder="Ferrari" required>
+                <span class="field__error" data-error-for="q-make" aria-live="polite"></span>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="q-model">Model</label>
+                <input class="field__input" id="q-model" name="model" type="text"
+                       autocomplete="off" placeholder="F8 Tributo" required>
+                <span class="field__error" data-error-for="q-model" aria-live="polite"></span>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="q-mileage">Mileage</label>
+                <input class="field__input" id="q-mileage" name="mileage" type="text"
+                       inputmode="numeric" autocomplete="off" placeholder="4,200" required>
+                <span class="field__error" data-error-for="q-mileage" aria-live="polite"></span>
+              </div>
+
+              <div class="field field--full">
+                <label class="field__label" for="q-vin">
+                  VIN <span class="field__optional">— optional</span>
+                </label>
+                <input class="field__input" id="q-vin" name="vin" type="text"
+                       autocomplete="off" placeholder="Speeds up your offer">
+                <span class="field__error" data-error-for="q-vin" aria-live="polite"></span>
+              </div>
+
+            </div>
+
+            <button class="btn btn--primary btn--block" type="submit">
+              Get my offer
+              <svg width="18" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M0 5h16M12 1l4 4-4 4"/>
+              </svg>
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <!-- ====================================================================
+           ВРЕМЕННО ОТКЛЮЧЕНО: приборный блок + лента выкупленных машин.
+           На их месте сейчас trust bar (ниже).
+
+           Живая оценка на бетоне при этом ПРОДОЛЖАЕТ работать: в main.js узлы
+           readout и lineup стали необязательными. Раскомментируешь — оживёт
+           обратно, править JS не нужно.
+
+           ВНИМАНИЕ: внутри блока не должно быть вложенных комментариев и даже
+           упоминания закрывающей последовательности. HTML-комментарии не
+           вкладываются: первая же такая последовательность закроет внешний
+           комментарий, часть разметки оживёт, а её остаток вылезет на страницу
+           текстом. Ровно на это здесь уже наступили дважды.
+
+      <div class="instrument">
+
+        <div class="readout" id="readout" aria-live="polite">
+
+          <div class="readout__pane is-active" data-pane="default">
+            <ul class="readout__stats">
+              <li><b>24 h</b><span>Cash offer</span></li>
+              <li><b>KBB+</b><span>Minimum value</span></li>
+              <li><b>50</b><span>States covered</span></li>
+            </ul>
+          </div>
+
+          <div class="readout__pane" data-pane="car">
+            <p class="readout__name" data-slot="name"></p>
+            <dl class="readout__grid">
+              <div><dt>Paid</dt><dd data-slot="paid"></dd></div>
+              <div><dt>Acquired</dt><dd data-slot="where"></dd></div>
+              <div><dt>Offer in</dt><dd data-slot="time"></dd></div>
+            </dl>
+          </div>
+
+          <div class="readout__pane" data-pane="estimate">
+            <p class="readout__name">
+              Estimated offer
+              <b class="readout__status" data-slot="status">Computing</b>
+            </p>
+            <p class="readout__figure" data-slot="range">&mdash;</p>
+            <p class="readout__compare" data-slot="compare"></p>
+          </div>
+
+        </div>
+
+        <div class="lineup">
+          <span class="lineup__label">Recently acquired</span>
+
+          <ul class="lineup__list" id="lineup">
+            <li>
+              <button class="lineup__item" type="button"
+                      data-name="Ferrari 812 Superfast &mdash; 2021 &middot; 4,200 mi"
+                      data-paid="$289,000" data-where="Beverly Hills" data-time="19 hours">
+                812 Superfast
+              </button>
+            </li>
+            <li>
+              <button class="lineup__item" type="button"
+                      data-name="Lamborghini Revuelto &mdash; 2024 &middot; 1,100 mi"
+                      data-paid="$561,000" data-where="Newport Beach" data-time="11 hours">
+                Revuelto
+              </button>
+            </li>
+            <li>
+              <button class="lineup__item" type="button"
+                      data-name="Mercedes-AMG GT Black Series &mdash; 2022 &middot; 6,800 mi"
+                      data-paid="$342,000" data-where="Cleveland" data-time="22 hours">
+                AMG GT Black
+              </button>
+            </li>
+            <li>
+              <button class="lineup__item" type="button"
+                      data-name="Porsche 911 GT3 Touring &mdash; 2023 &middot; 3,400 mi"
+                      data-paid="$237,000" data-where="Kansas City" data-time="14 hours">
+                911 GT3
+              </button>
+            </li>
+            <li>
+              <button class="lineup__item" type="button"
+                      data-name="McLaren 720S Spider &mdash; 2021 &middot; 8,900 mi"
+                      data-paid="$258,000" data-where="Maryland" data-time="16 hours">
+                720S Spider
+              </button>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+           ==================================================================== -->
+
+    </section>
+
+
+    <!-- ====================================================================
+         SECTION 02 — NETWORK
+         Требования клиента №3 и №4: сеть Marshall Goldman и перегон машин
+         между локациями + доставка по стране.
+
+         Адреса и телефоны — НАСТОЯЩИЕ, сняты с marshallgoldman.com.
+         Kansas City клиент назвал в брифе, но на сайте Marshall Goldman его
+         нет — вероятно, это и есть тот «новый объект, который достраивается».
+         Адрес ему не выдуман: помечен как открывающийся.
+         ==================================================================== -->
+    <!-- ТЁМНАЯ. Карта работает кадром — светящиеся точки, дуги перегона, пинг
+         источника — и на светлом теряет всю драму. Светлое начинается со
+         следующей секции (см. .theme-light в tokens.css). -->
+    <section class="network" id="network" aria-labelledby="network-title">
+      <div class="container">
+
+        <header class="network__head">
+          <h2 class="network__title" id="network-title">
+            Sell from anywhere
+            <em>in the country</em>
+          </h2>
+
+          <p class="network__lead">
+            iBuy is the direct&#8209;to&#8209;consumer buying division of
+            <strong>Marshall Goldman Motor Sales</strong> &mdash; a dealer network
+            trading collectible, luxury and exotic cars since 1978. Your car can be
+            bought from, or moved between, any showroom in the network. We arrange
+            the transport and we pay for it.
+          </p>
+        </header>
+
+        <div class="network__body">
+
+          <!-- Карта. Точки страны — canvas (их 3094), маркеры и дуги — SVG. -->
+          <figure class="map">
+            <canvas class="map__dots" aria-hidden="true"></canvas>
+
+            <svg class="map__svg" viewBox="0 0 1000 528" role="img"
+                 aria-label="Map of the United States showing Marshall Goldman showrooms in Cleveland, Baltimore, Beverly Hills, Newport Beach, and a new Kansas City location.">
+              <g class="map__arcs"></g>
+
+              <g class="map__markers">
+                <g class="marker" data-city="cleveland" transform="translate(748.1 172.9)">
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__halo" r="14"></circle>
+                  <circle class="marker__dot" r="4"></circle>
+                  <text class="marker__label" x="0" y="-20">Cleveland</text>
+                </g>
+                <g class="marker" data-city="baltimore" transform="translate(830.2 222.7)">
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__halo" r="14"></circle>
+                  <circle class="marker__dot" r="4"></circle>
+                  <text class="marker__label" x="10" y="18">Baltimore</text>
+                </g>
+                <g class="marker" data-city="beverlyHills" transform="translate(109.2 333.3)">
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__halo" r="14"></circle>
+                  <circle class="marker__dot" r="4"></circle>
+                  <text class="marker__label" x="0" y="-20">Beverly Hills</text>
+                </g>
+                <g class="marker" data-city="newportBeach" transform="translate(117.4 343)">
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__halo" r="14"></circle>
+                  <circle class="marker__dot" r="4"></circle>
+                  <text class="marker__label" x="4" y="26">Newport Beach</text>
+                </g>
+                <g class="marker marker--soon" data-city="kansasCity" transform="translate(521.9 223.8)">
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__halo" r="14"></circle>
+                  <circle class="marker__dot" r="4"></circle>
+                  <text class="marker__label" x="0" y="-20">Kansas City</text>
+                </g>
+              </g>
+            </svg>
+
+            <figcaption class="map__note">
+              <span class="eyebrow">Nationwide pickup &mdash; all 50 states</span>
+            </figcaption>
+          </figure>
+
+          <!-- Список локаций -->
+          <div class="network__side">
+            <ul class="locs">
+
+              <li>
+                <button class="loc" type="button" data-city="cleveland"
+                        data-name="Marshall Goldman Cleveland"
+                        data-address="24661 Miles Rd, Warrensville Heights, OH 44128"
+                        data-phone="216-358-6575">
+                  <span class="loc__city">Cleveland</span>
+                  <span class="loc__state">Ohio</span>
+                </button>
+              </li>
+
+              <li>
+                <button class="loc" type="button" data-city="baltimore"
+                        data-name="Marshall Goldman Baltimore"
+                        data-address="7869 Dorsey Run Rd, Jessup, MD 20794"
+                        data-phone="443-583-3500">
+                  <span class="loc__city">Baltimore</span>
+                  <span class="loc__state">Maryland</span>
+                </button>
+              </li>
+
+              <li>
+                <button class="loc" type="button" data-city="beverlyHills"
+                        data-name="Marshall Goldman Beverly Hills"
+                        data-address="8833 Wilshire Blvd, Beverly Hills, CA 90211"
+                        data-phone="424-201-0084">
+                  <span class="loc__city">Beverly Hills</span>
+                  <span class="loc__state">California</span>
+                </button>
+              </li>
+
+              <li>
+                <button class="loc" type="button" data-city="newportBeach"
+                        data-name="Marshall Goldman Newport Beach"
+                        data-address="2540 West Coast Highway, Newport Beach, CA 92663"
+                        data-phone="949-627-0003">
+                  <span class="loc__city">Newport Beach</span>
+                  <span class="loc__state">California</span>
+                </button>
+              </li>
+
+              <li>
+                <button class="loc loc--soon" type="button" data-city="kansasCity"
+                        data-name="Marshall Goldman Kansas City"
+                        data-address="Opening soon — address to be confirmed">
+                  <span class="loc__city">Kansas City</span>
+                  <span class="loc__state">Missouri &middot; <b>Opening</b></span>
+                </button>
+              </li>
+
+            </ul>
+
+            <!-- Панель раскрывается при наведении на локацию -->
+            <div class="locpanel" aria-live="polite">
+              <p class="locpanel__name" data-slot="loc-name"></p>
+              <p class="locpanel__address" data-slot="loc-address"></p>
+              <a class="locpanel__phone" data-slot="loc-phone" href="#"></a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         SECTION 03 — заглушка. Дизайним следующей.
+         ==================================================================== -->
+    <!-- ====================================================================
+         SECTION 03 — HOW IT WORKS   (светлая)
+         Требование клиента №4: прозрачный процесс.
+
+         ВЕСЬ ТЕКСТ — с ibuylc.com/our-process/, ничего не выдумано.
+         Фотографии — РЕАЛЬНЫЕ машины, выкупленные клиентом (ibuy-main/assets),
+         водяной знак вырезан кадрированием. Оригиналы без знака надо запросить.
+
+         Главное здесь — плашка «You get paid before we collect the car».
+         Это их собственный порядок действий, закопанный в стену текста на
+         странице, куда никто не заходит: чек приходит РАНЬШЕ эвакуатора.
+         Ни один конкурент такого не обещает, а они об этом молчат.
+         ==================================================================== -->
+    <section class="process theme-light" id="process" aria-labelledby="process-title">
+      <div class="container">
+
+        <header class="process__head">
+          <h2 class="process__title" id="process-title">
+            Seller&#8209;focused.
+            <em>Simplicity guaranteed.</em>
+          </h2>
+          <p class="process__lead">
+            We&rsquo;re not a dealership and we&rsquo;re not trying to sell you anything.
+            We&rsquo;re a car buying service that started with one idea: give luxury and
+            exotic owners a stress&#8209;free way to sell their car for a competitive price.
+          </p>
+        </header>
+
+        <ol class="steps">
+
+          <li class="step">
+            <figure class="step__media">
+              <img src="assets/img/process/step-01-garage.jpg"
+                   alt="A black Mercedes-AMG GT parked in its owner's private garage."
+                   width="685" height="570" loading="lazy">
+            </figure>
+            <div class="step__body">
+              <p class="step__num">01</p>
+              <p class="step__kicker">Ready</p>
+              <h3 class="step__title">Submit your car&rsquo;s information.</h3>
+              <p class="step__text">
+                All we need are some photos of your car, its VIN and miles, and your
+                email so we can get in touch with you.
+              </p>
+            </div>
+          </li>
+
+          <li class="step">
+            <figure class="step__media">
+              <img src="assets/img/process/step-02-driveway.jpg"
+                   alt="A red Lamborghini Aventador with its door raised, on a private driveway."
+                   width="690" height="570" loading="lazy">
+            </figure>
+            <div class="step__body">
+              <p class="step__num">02</p>
+              <p class="step__kicker">Set&hellip;</p>
+              <h3 class="step__title">Evaluate our offer.</h3>
+              <p class="step__text">
+                Our team gets back to you with a competitive cash offer &mdash;
+                sometimes in as little as <strong>20 minutes</strong>. No haggling,
+                no lowballing, no obligation.
+              </p>
+            </div>
+          </li>
+
+          <li class="step">
+            <figure class="step__media">
+              <img src="assets/img/process/step-03-collected.jpg"
+                   alt="A Porsche 911 collected and standing in a hangar beside a private jet."
+                   width="647" height="570" loading="lazy">
+            </figure>
+            <div class="step__body">
+              <p class="step__num">03</p>
+              <p class="step__kicker">Sold!</p>
+              <h3 class="step__title">Cash out and move on.</h3>
+              <p class="step__text">
+                We pay you fast and organise transport &mdash; or facilitate the sale
+                at one of our retail locations. You never leave your driveway.
+              </p>
+            </div>
+          </li>
+
+        </ol>
+
+        <!-- Их собственный порядок действий. Сильнейший аргумент на сайте,
+             и он закопан в стене текста на /our-process/. -->
+        <aside class="pledge theme-dark">
+          <p class="pledge__label">The part nobody else offers</p>
+          <p class="pledge__claim">You get paid <em>before</em> we collect the car.</p>
+          <p class="pledge__detail">
+            We cut a check for payment in full and send you a picture of it, so you can
+            call your bank and verify the funds. Then we overnight it to you. Only after
+            the check is in your hands do we send a truck for the car.
+          </p>
+
+          <dl class="pledge__facts">
+            <div>
+              <dt>Offer in</dt>
+              <dd>20 min</dd>
+            </div>
+            <div>
+              <dt>Clear title</dt>
+              <dd>2 days</dd>
+            </div>
+            <div>
+              <dt>Loan or lease payoff</dt>
+              <dd>3&ndash;4 days</dd>
+            </div>
+          </dl>
+
+          <p class="pledge__note">
+            Have a loan? We verify the payoff, pay your lender directly and obtain the
+            lien release ourselves. Paperwork is signed on your phone in 30 seconds, and
+            the FedEx label is on us.
+          </p>
+        </aside>
+
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         SECTION 04 — заглушка. Reviews (требование клиента №2).
+         ==================================================================== -->
+    <section class="next-stub theme-light" id="reviews">
+      <div class="container">
+        <p class="eyebrow">Section 04 &middot; Reviews &mdash; next up</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- type="module" — карта импортирует свои данные из us-map.js.
+       Модули и так откладываются, defer не нужен. -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
