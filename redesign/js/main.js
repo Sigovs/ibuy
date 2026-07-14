@@ -59,6 +59,37 @@ import { initNetwork } from './network.js';
   }
 
 
+  /* --- Пейзаж за маршрутом: медленно выезжает снизу на скролле --------------
+     Горы дрейфуют вверх по мере прохода секции — тихий параллакс, а не рывок.
+     Считаем прогресс по центру рельса относительно центра экрана: внизу экрана
+     кадр опущен (+56px), к центру встаёт на место. --rail-shift читает CSS. */
+
+  const railBg = document.querySelector('.rail__bg img');
+
+  if (railBg && !REDUCED) {
+    const rail = railBg.closest('.rail');
+    let raf = 0;
+
+    const update = () => {
+      raf = 0;
+      const r = rail.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;   // за кадром — не трогаем
+      const mid = r.top + r.height / 2;
+      // 1 у нижнего края экрана → 0 в центре и выше. Кадр выезжает снизу на 120px
+      // и одновременно проявляется (тусклее на входе, полный в покое) — тогда
+      // «слайд снизу» читается, а не просто сдвиг.
+      const p = Math.max(0, Math.min(1, (mid - window.innerHeight * 0.42) / (window.innerHeight * 0.58)));
+      railBg.style.setProperty('--rail-shift', (p * 120).toFixed(1) + 'px');
+      railBg.style.setProperty('--rail-fade', (0.85 - p * 0.55).toFixed(3));
+    };
+
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+
+
   /* --- Появление лесенкой ---------------------------------------------------
      Заголовки выезжают сбоку, текст и блоки — снизу. Шаг задаёт --rise-i.
 
