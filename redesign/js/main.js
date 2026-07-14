@@ -59,6 +59,34 @@ import { initNetwork } from './network.js';
   }
 
 
+  /* --- Появление лесенкой ---------------------------------------------------
+     Заголовки выезжают сбоку, текст и блоки — снизу. Шаг задаёт --rise-i.
+
+     Индекс ставится НЕ заранее, а в момент входа в кадр — и только среди тех
+     элементов, что вошли одной пачкой (сверху вниз). Если раздать индексы
+     заранее, элемент с индексом 3, доехавший до кадра в одиночку, честно
+     отстоит свои 390мс и только потом появится — выглядит как подвисание.
+     Так лесенка играет там, где секция въезжает целиком, и не мешает там, где
+     человек листает медленно. */
+
+  const risers = document.querySelectorAll('[data-rise]');
+
+  if (risers.length) {
+    const rise = new IntersectionObserver((entries) => {
+      entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        .forEach((e, i) => {
+          e.target.style.setProperty('--rise-i', i);
+          e.target.classList.add('is-in');
+          rise.unobserve(e.target);   // появление — один раз, это не карусель
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+    risers.forEach((el) => rise.observe(el));
+  }
+
+
   /* ==========================================================================
      ПРИБОР
      Одно место, три состояния — иначе ховер по ленте и живая оценка начинают

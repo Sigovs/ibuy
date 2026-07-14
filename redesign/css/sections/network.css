@@ -58,12 +58,8 @@
 
 /* Тот же приём, что в герое: смысловая часть — контуром, не цветом.
    currentColor, а не белый: на светлой теме белый контур исчезает. */
-.network__title em {
-  display: block;
-  font-style: normal;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--c-line-strong);
-}
+/* Антиква вместо контура — общее правило в base.css. */
+.network__title em { color: rgba(255, 255, 255, 0.94); }
 
 .network__lead {
   font-size: var(--fs-lead);

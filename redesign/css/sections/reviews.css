@@ -28,12 +28,8 @@
   margin-bottom: var(--s-6);
 }
 
-.reviews__title em {
-  display: block;
-  font-style: normal;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--c-line-strong);
-}
+/* Антиква вместо контура — общее правило в base.css. */
+.reviews__title em { color: var(--c-text-soft); }
 
 .reviews__lead {
   font-size: var(--fs-lead);
