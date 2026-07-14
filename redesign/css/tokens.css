@@ -61,7 +61,7 @@
      mono    — микро-лейблы «телеметрией» (взято из референсов 4bd226 / 9a9da1) */
 
   --f-display: 'Antonio', 'Oswald', 'Helvetica Neue', sans-serif;
-  --f-sans:    'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --f-sans:    'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --f-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Шкала. Fluid — герой должен дышать на 1440 и не ломаться на 390.
