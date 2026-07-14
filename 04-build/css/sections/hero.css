@@ -23,10 +23,12 @@
   align-items: center;
   border-bottom: 1px solid transparent;
   transition: background var(--t-base) var(--e-out),
-              border-color var(--t-base) var(--e-out);
+              border-color var(--t-base) var(--e-out),
+              height var(--t-mid) var(--e-out);
 }
 
 .header.is-stuck {
+  height: var(--header-h-stuck);
   background: var(--c-void);
   border-bottom-color: var(--c-line);
 }
@@ -43,7 +45,15 @@
   min-height: 44px;
 }
 
-.header__logo img { height: 42px; width: auto; }
+/* Логотип ужимается вместе с шапкой. Кривая та же, что у высоты, — иначе
+   логотип и шапка приезжают в разное время, и это видно. */
+.header__logo img {
+  height: var(--logo-h);
+  width: auto;
+  transition: height var(--t-mid) var(--e-out);
+}
+
+.header.is-stuck .header__logo img { height: var(--logo-h-stuck); }
 
 .header__nav {
   display: flex;
@@ -344,14 +354,10 @@
   margin-bottom: var(--s-6);
 }
 
-/* «Luxury & Exotic» — смысловой центр. Отделяем контуром, не цветом:
-   тот же приём, что и в заголовках остальных секций. */
-.hero__title em {
-  display: block;
-  font-style: normal;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.55);
-}
+/* «Luxury & Exotic» набирается контрастной антиквой — правило одно на все
+   секции и живёт в base.css. Здесь только цвет: чуть тише белого, чтобы строка
+   не спорила с двумя капсовыми. */
+.hero__title em { color: rgba(255, 255, 255, 0.94); }
 
 .hero__lead {
   font-size: var(--fs-body);
@@ -914,22 +920,11 @@
   background: var(--c-brand);
 }
 
-/* --- Появление ------------------------------------------------------------- */
-
-.reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  animation: reveal var(--t-slow) var(--e-out) forwards;
-}
-.reveal--1 { animation-delay: 60ms; }
-.reveal--2 { animation-delay: 150ms; }
-.reveal--3 { animation-delay: 240ms; }
-
-@keyframes reveal { to { opacity: 1; transform: none; } }
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; animation: none; }
-}
+/* --- Появление -------------------------------------------------------------
+   Своей анимации у героя больше нет. Он ездит на общем [data-rise] из base.css:
+   на сайте не должно быть двух разных механик появления — одна на загрузке,
+   другая на скролле. Герой просто оказывается в кадре сразу, поэтому его
+   лесенка играет на загрузке. */
 
 
 /* --- Заглушка следующей секции (удалить, когда сделаем Section 02) --------- */
@@ -1032,9 +1027,14 @@
 }
 
 @media (max-width: 560px) {
-  :root { --header-h: 68px; }
-
-  .header__logo img { height: 32px; }
+  /* Те же два состояния, но теснее: на 390px шапка в 96px съедает четверть
+     экрана. Переопределяем токены — правила высоты и логотипа не трогаем. */
+  :root {
+    --header-h:       72px;
+    --header-h-stuck: 56px;
+    --logo-h:         42px;
+    --logo-h-stuck:   30px;
+  }
 
   .quote { padding: var(--s-6) var(--s-5) var(--s-5); }
 
