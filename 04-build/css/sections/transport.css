@@ -1,0 +1,259 @@
+/* ==========================================================================
+   SECTION 03 — TRANSPORT   (тёмная)
+
+   Требование клиента №4: национальный конcierge и перевозка. Раньше оно было
+   проговорено одной строкой в секции карты — этого мало.
+
+   Секция стоит СРАЗУ после карты не случайно: карта обещает «продавайте откуда
+   угодно», и первый вопрос человека — «а как машина доедет из моего двора в
+   Кливленд?». Здесь ответ.
+
+   Все факты — с их собственного сайта (/our-process/): грузовик заказывают и
+   оплачивают они, водитель осматривает машину на месте, титул уезжает по
+   предоплаченной FedEx-наклейке, бумаги подписываются с телефона. Ничего не
+   выдумано: условия доставки — не то место, где можно фантазировать.
+   ========================================================================== */
+
+.transport {
+  position: relative;
+  padding-block: var(--s-20);
+  background: var(--c-bg);
+  overflow: hidden;
+}
+
+/* Свет сбоку, как в секции карты, — но с другой стороны: две одинаково
+   подсвеченные тёмные секции подряд читались бы как одна длинная. */
+.transport::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(46% 60% at 84% 22%, var(--section-glow), transparent 70%);
+}
+
+
+/* --- Шапка ----------------------------------------------------------------- */
+
+.transport__head {
+  max-width: 62ch;
+  margin-bottom: var(--s-16);
+}
+
+.transport__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-block: var(--s-4) var(--s-6);
+}
+
+/* Вторая строка — антиквой, как во всех заголовках (правило в base.css). */
+.transport__title em { color: rgba(255, 255, 255, 0.94); }
+
+.transport__lead {
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+
+.transport__lead strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+
+/* --- Маршрут ---------------------------------------------------------------
+   Тот же язык, что у дуг на карте: волосяная линия, точки, красный только на
+   том, что движется. Это не «иконки процесса», а продолжение карты — просто
+   маршрут развёрнут в прямую. */
+
+.rail {
+  position: relative;
+  margin-bottom: var(--s-16);
+  padding-top: var(--s-10);
+}
+
+/* Сама линия. Растворяется к краям: маршрут приходит откуда-то извне кадра и
+   уходит дальше — ровно то, что значит «по всей стране». */
+.rail__line {
+  position: absolute;
+  top: var(--s-10);
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+              transparent,
+              var(--c-line-strong) 12%,
+              var(--c-line-strong) 88%,
+              transparent);
+}
+
+.rail__stops {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rail__stops li {
+  position: relative;
+  padding-top: var(--s-8);
+  text-align: center;
+}
+
+/* Первая и последняя подписи прижаты к краям линии, а не висят по центру своей
+   трети: иначе маршрут начинается не там, где точка. */
+.rail__stops li:first-child { text-align: left; }
+.rail__stops li:last-child  { text-align: right; }
+
+/* Точки маршрута. Сидят НА линии (top: 0 от начала padding), а не под ней. */
+.rail__stops li::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 1px solid var(--c-text-muted);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.rail__stops li:first-child::before { left: 0; transform: none; }
+.rail__stops li:last-child::before  { left: auto; right: 0; transform: none; }
+
+/* Конечная — красная и залитая: там машина оказывается в итоге. */
+.rail__stops li:last-child::before {
+  background: var(--c-brand);
+  border-color: var(--c-brand);
+}
+
+.rail__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text);
+  margin-bottom: var(--s-2);
+}
+
+.rail__note {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-muted);
+  max-width: 30ch;
+  margin-inline: auto;
+}
+
+.rail__stops li:first-child .rail__note { margin-left: 0; }
+.rail__stops li:last-child  .rail__note { margin-right: 0; }
+
+/* Грузовик — точка, идущая по маршруту. Красная, потому что движется: красный
+   у нас только на действии. Линейно и медленно: это перегон через страну, а не
+   загрузка страницы. */
+.rail__truck {
+  position: absolute;
+  top: calc(var(--s-10) - 3px);
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-brand);
+  box-shadow: 0 0 0 4px var(--c-brand-glow);
+  animation: rail-run 7s linear infinite;
+}
+
+@keyframes rail-run {
+  0%   { left: 0;    opacity: 0; }
+  6%   { opacity: 1; }
+  94%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+
+/* --- Факты -----------------------------------------------------------------
+   Три вещи, которых нет ни у кого из конкурентов и которые человек проверяет
+   перед тем, как отдать машину. Формулировки — с их сайта, не мои. */
+
+.transport__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-12);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transport__facts > li {
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--c-line);
+}
+
+.fact__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: var(--s-3);
+}
+
+.fact__text {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .transport { padding-block: var(--s-16); }
+
+  /* Маршрут в колонку: три подписи в ряд на узком экране сжимаются в лапшу.
+     Линия и бегущая точка тогда не нужны — их роль берёт вертикальный порядок. */
+  .rail__line,
+  .rail__truck { display: none; }
+
+  .rail { padding-top: 0; }
+
+  .rail__stops {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+
+  .rail__stops li,
+  .rail__stops li:first-child,
+  .rail__stops li:last-child {
+    text-align: left;
+    padding-top: 0;
+    padding-left: var(--s-6);
+  }
+
+  .rail__stops li::before,
+  .rail__stops li:first-child::before,
+  .rail__stops li:last-child::before {
+    top: 5px;
+    left: 0;
+    right: auto;
+    transform: none;
+  }
+
+  .rail__note { margin-inline: 0; }
+
+  .transport__facts {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail__truck { animation: none; opacity: 0; }
+}
