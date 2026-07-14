@@ -1,0 +1,238 @@
+/* ==========================================================================
+   SECTION 04 — REVIEWS   (светлая тема)
+
+   Никаких карточек со скруглениями и тенями: отзывы разделяются волосяными
+   линейками, как в печатной вёрстке. Цитата — это текст, а не плитка.
+   ========================================================================== */
+
+.reviews {
+  padding-block: var(--s-24);
+  border-top: 1px solid var(--c-line);
+}
+
+
+/* --- Шапка ----------------------------------------------------------------- */
+
+.reviews__head {
+  max-width: 58ch;
+  margin-bottom: var(--s-16);
+}
+
+.reviews__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: var(--s-6);
+}
+
+.reviews__title em {
+  display: block;
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--c-line-strong);
+}
+
+.reviews__lead {
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+
+
+/* --- Рейтинг ---------------------------------------------------------------
+   Атрибуция стоит В БЛОКЕ, а не сноской: рейтинг принадлежит Marshall Goldman,
+   и выдавать его за рейтинг iBuy нельзя. Честность здесь — не формальность:
+   у самого iBuy Google-отзывов нет. */
+
+.rating {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s-6) var(--s-8);
+  padding-block: var(--s-8);
+  border-top: 1px solid var(--c-line-strong);
+  border-bottom: 1px solid var(--c-line);
+  margin-bottom: var(--s-16);
+}
+
+.rating__score {
+  font-family: var(--f-display);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Звёзды: серая подложка + красная заливка по проценту. Ширина считается
+   от оценки (4.3 / 5 = 86%), а не подгоняется на глаз. */
+.stars {
+  position: relative;
+  display: inline-block;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.stars__base { color: var(--c-line-strong); }
+
+.stars__fill {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: var(--c-brand);
+}
+
+.rating__count {
+  margin-top: var(--s-3);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+
+.rating__attrib {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--c-text-muted);
+  max-width: 48ch;
+}
+
+.rating__attrib strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+
+/* --- Отзывы ----------------------------------------------------------------
+   Цитата набрана НЕ конденсированным Antonio: он для заголовков, а длинную
+   человеческую речь в узких капсах читать невозможно. */
+
+.review__quote {
+  margin: 0 0 var(--s-5);
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  color: var(--c-text);
+  text-wrap: pretty;
+}
+
+/* Кавычка висит в поле — строка начинается ровно по сетке. */
+.review__quote::before {
+  content: '\201C';
+  margin-left: -0.42em;
+}
+
+.review__quote em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--c-brand);
+}
+
+.review__by {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.review__name {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text);
+}
+
+.review__where {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+}
+
+/* Развёрнутый — крупнее и на всю ширину. */
+.review--lead {
+  margin: 0 0 var(--s-12);
+  padding-bottom: var(--s-12);
+  border-bottom: 1px solid var(--c-line);
+}
+
+/* 46ch, а не 34: на 34 цитата вытягивалась в девять строк узкой колонкой,
+   а справа оставалось мёртвое поле. Верхняя граница читаемой строки — около
+   65 знаков, так что запас ещё есть. */
+.review--lead .review__quote {
+  font-size: clamp(1.25rem, 0.9rem + 1.3vw, 1.75rem);
+  line-height: 1.4;
+  max-width: 46ch;
+}
+
+
+/* Сетка коротких. Разделены линейками, а не заперты в карточки. */
+.reviews__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-12) var(--s-16);
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--s-16);
+}
+
+.reviews__grid > li {
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--c-line);
+}
+
+
+/* --- Возврат к форме -------------------------------------------------------
+   Доверие построено — действие должно быть под рукой, а не через полстраницы. */
+
+.reviews__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-8);
+  flex-wrap: wrap;
+  padding-top: var(--s-10);
+  border-top: 1px solid var(--c-line-strong);
+}
+
+.reviews__ask {
+  font-family: var(--f-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  max-width: 30ch;
+}
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .reviews { padding-block: var(--s-16); }
+  .reviews__head { margin-bottom: var(--s-12); }
+
+  /* Оценка и звёзды остаются в строке, атрибуция уходит под них: втиснутая
+     в третью колонку, она на узком экране сжимается в лапшу по два слова. */
+  .rating {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+  .rating__attrib { grid-column: 1 / -1; }
+
+  .reviews__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-10);
+  }
+
+  .reviews__cta { align-items: flex-start; }
+}
