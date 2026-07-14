@@ -806,10 +806,19 @@
                   </svg>
                 </div>
 
-                <p class="verdict__score">5.0</p>
-                <p class="verdict__meta">95 reviews &middot; iBuy Luxury Cars</p>
+                <!-- Цифры набегают: 5.0 — пока зажигаются звёзды, 95 — пока
+                     обводится кольцо. Тогда кольцо читается как «просмотрено
+                     95 отзывов», а галочка как итог. -->
+                <p class="verdict__score" id="verdict-score">5.0</p>
+                <p class="verdict__meta">
+                  <span id="verdict-count">95</span> reviews &middot; iBuy Luxury Cars
+                </p>
               </div>
 
+              <!-- Блик. Одна полоса света, проходящая по стеклу в момент
+                   галочки. Не глянец стокового макета — короткий свет,
+                   сообщающий «щёлкнуло». -->
+              <div class="phone__sheen" aria-hidden="true"></div>
             </div>
           </div>
         </aside>

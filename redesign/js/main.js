@@ -401,18 +401,48 @@ import { initNetwork } from './network.js';
 
     const stop = () => { clearTimeout(timer); timer = null; };
 
+
+    /* Цифры. 5.0 набегает, пока зажигаются звёзды; 95 — пока обводится кольцо.
+       Кольцо тогда читается как «просмотрено 95 отзывов», а галочка — как итог.
+       Счётчик тот же, что у живой оценки в герое: экспоненциальное затухание. */
+
+    const scoreEl = document.getElementById('verdict-score');
+    const countEl = document.getElementById('verdict-count');
+    let cancelScore = () => {};
+    let cancelCountUp = () => {};
+
+    const runScore = () => {
+      cancelScore();
+      // 5 звёзд × 110мс задержки + посадка последней — счёт должен закончиться
+      // вместе с ними, а не раньше.
+      cancelScore = countTo(0, 5, 900, (v) => { scoreEl.textContent = v.toFixed(1); });
+    };
+
+    const runCount = () => {
+      cancelCountUp();
+      // Стартуем с задержкой кольца (140мс) и идём его длительностью (700мс).
+      const id = setTimeout(() => {
+        cancelCountUp = countTo(0, 95, 700, (v) => {
+          countEl.textContent = String(Math.round(v));
+        });
+      }, 140);
+      cancelCountUp = () => clearTimeout(id);
+    };
+
     // Звёзды держим 2.4с (успеть досчитать до пяти), галочку — 2.8с: это
     // финальный кадр, ему нужно дать постоять.
     const step = (toCheck) => {
       if (!canRun()) return stop();
       verdict.classList.toggle('is-check', toCheck);
       verdict.classList.toggle('is-stars', !toCheck);
+      toCheck ? runCount() : runScore();
       timer = setTimeout(() => step(!toCheck), toCheck ? 2800 : 2400);
     };
 
     const start = () => {
       stop();
       if (!canRun()) return;
+      runScore();
       timer = setTimeout(() => step(true), 2400);
     };
 
@@ -427,41 +457,71 @@ import { initNetwork } from './network.js';
       document.hidden ? stop() : start();
     });
 
-    /* Наклон за курсором. Углы покоя заданы в CSS (--ry/--rx), JS только
-       отклоняет от них — на тач-устройствах, где mousemove не приходит,
-       телефон остаётся наклонённым сам по себе.
 
-       Считаем от центра корпуса, а не от секции: иначе на широком экране
-       телефон реагировал бы на курсор, который к нему и не приближался. */
-    if (!REDUCED && window.matchMedia('(hover: hover)').matches) {
+    /* Наклон. Углы ведут ДВА источника: курсор и скролл. Считаем их в одном
+       месте и складываем — иначе они дерутся за одни и те же --ry/--rx и
+       последний записавший стирает чужой вклад.
+
+       Углы покоя продублированы здесь и в CSS. Так задумано: в CSS они держат
+       телефон наклонённым там, где JS молчит (тач, reduced-motion), а здесь
+       служат нулём, от которого считается отклонение. */
+
+    if (!REDUCED) {
       const REST_RY = -15;
       const REST_RX = 7;
-      const RANGE = 12;          // максимум ±12° от покоя
+      const PTR_RANGE = 12;      // ±12° от курсора
+      const SCROLL_RANGE = 9;    // ±9° за проход секции
+
+      let ptrX = 0, ptrY = 0;    // -1..1
+      let scrollT = 0;           // -1..1
       let raf = 0;
 
-      const tilt = (e) => {
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = 0;
+      const clamp = (v) => Math.max(-1, Math.min(1, v));
+
+      const render = () => {
+        raf = 0;
+        const ry = REST_RY + ptrX * PTR_RANGE + scrollT * (SCROLL_RANGE * 0.35);
+        const rx = REST_RX - ptrY * PTR_RANGE + scrollT * SCROLL_RANGE;
+        frame.style.setProperty('--ry', `${ry.toFixed(2)}deg`);
+        frame.style.setProperty('--rx', `${rx.toFixed(2)}deg`);
+      };
+
+      const schedule = () => { if (!raf) raf = requestAnimationFrame(render); };
+
+      // Скролл: телефон доворачивается по мере прохода мимо. Работает и там,
+      // где курсора нет вообще — на тач-устройствах 3D иначе просто мёртв.
+      const onScroll = () => {
+        if (!onScreen) return;
+        const r = frame.getBoundingClientRect();
+        const mid = r.top + r.height / 2;
+        // 0 в центре экрана, ±1 у краёв: телефон «кивает», проходя кадр.
+        scrollT = clamp((mid - window.innerHeight / 2) / (window.innerHeight / 2));
+        schedule();
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      onScroll();
+
+      // Курсор — только там, где он есть. Слушаем всю секцию: телефон должен
+      // «замечать» руку заранее, а не только когда на него навели.
+      if (window.matchMedia('(hover: hover)').matches) {
+        const section = document.getElementById('reviews');
+
+        section.addEventListener('mousemove', (e) => {
           const r = frame.getBoundingClientRect();
           // Нормируем на два радиуса: курсор в метре от телефона не должен
           // класть его набок.
-          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 2);
-          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 2);
-          const clamp = (v) => Math.max(-1, Math.min(1, v));
-          frame.style.setProperty('--ry', `${REST_RY + clamp(dx) * RANGE}deg`);
-          frame.style.setProperty('--rx', `${REST_RX - clamp(dy) * RANGE}deg`);
+          ptrX = clamp((e.clientX - (r.left + r.width / 2)) / (r.width * 2));
+          ptrY = clamp((e.clientY - (r.top + r.height / 2)) / (r.height * 2));
+          schedule();
         });
-      };
 
-      // Слушаем всю секцию: телефон должен «замечать» руку заранее, а не только
-      // когда на него навели.
-      const section = document.getElementById('reviews');
-      section.addEventListener('mousemove', tilt);
-      section.addEventListener('mouseleave', () => {
-        frame.style.removeProperty('--ry');
-        frame.style.removeProperty('--rx');
-      });
+        section.addEventListener('mouseleave', () => {
+          ptrX = ptrY = 0;       // возвращаем к покою, но скролл продолжает вести
+          schedule();
+        });
+      }
     }
   }
 
