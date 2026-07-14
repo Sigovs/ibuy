@@ -62,19 +62,21 @@
   margin-left: auto;
 }
 
-/* Пункты меню — моно-капсы с разрядкой. Не «ссылки на сайте», а подписи на приборе. */
+/* Пункты меню — моно-капсы с разрядкой. Не «ссылки на сайте», а подписи на
+   приборе. Крупнее и ярче обычного моно-лейбла: это навигация, её должно быть
+   видно, а не угадывать. */
 .header__link {
   position: relative;
   padding: var(--s-2) 0;
   font-family: var(--f-mono);
-  font-size: var(--fs-mono);
+  font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: var(--ls-mono);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--c-text-soft);
+  color: var(--c-text);
   transition: color var(--t-fast) var(--e-out);
 }
-.header__link:hover { color: var(--c-text); }
+.header__link:hover { color: var(--c-brand-hover); }
 
 .header__link::after {
   content: '';
