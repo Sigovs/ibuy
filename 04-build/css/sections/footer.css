@@ -1,0 +1,305 @@
+/* ==========================================================================
+   FOOTER   (тёмная тема)
+
+   Собирает три требования клиента: сеть Marshall Goldman пятью адресами,
+   вордмарк материнского бренда, возврат к действию с подпиской. Язык тот же,
+   что у всей тёмной части: волосяные линейки, моно-лейблы, красный только на
+   действии.
+   ========================================================================== */
+
+.footer {
+  position: relative;
+  padding-block: var(--s-20) var(--s-10);
+  background: var(--c-void);
+  border-top: 1px solid var(--c-line);
+  overflow: hidden;
+}
+
+
+/* --- Возврат к действию + подписка ----------------------------------------- */
+
+.footer__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--s-16);
+  align-items: end;
+  padding-bottom: var(--s-16);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.footer__ask {
+  font-family: var(--f-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  max-width: 24ch;
+  margin-block: var(--s-4) var(--s-6);
+}
+
+/* Вторая строка — антиквой, как во всех заголовках (правило в base.css). */
+.footer__ask em { color: rgba(255, 255, 255, 0.94); }
+
+
+.signup__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin-bottom: var(--s-3);
+}
+
+/* Поле и кнопка в одну линию, без зазора: единый прибор, а не два элемента. */
+.signup__row {
+  display: flex;
+  gap: 0;
+}
+
+.signup__input {
+  flex: 1;
+  min-width: 0;
+  height: var(--ctl-h);
+  padding: 0 var(--s-4);
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-line);
+  border-right: 0;
+  border-radius: 0;
+  color: var(--c-text);
+  font-family: var(--f-sans);
+  font-size: var(--fs-sm);
+}
+
+.signup__input::placeholder { color: var(--c-text-dim); }
+.signup__input:focus {
+  outline: none;
+  border-color: var(--c-text-muted);
+}
+
+.signup__row .btn { flex: none; }
+
+.signup__note {
+  margin-top: var(--s-3);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+}
+
+
+/* --- Колонки: сеть, навигация, контакты ------------------------------------ */
+
+.footer__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-16);
+  padding-block: var(--s-16);
+}
+
+.footer__head {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin-bottom: var(--s-6);
+}
+
+/* Сеть — пять адресов в две колонки, разделены линейками. */
+.fnet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8) var(--s-10);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fnet > li {
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--c-line);
+}
+
+.fnet__city {
+  font-family: var(--f-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: var(--s-2);
+}
+
+/* Штат — мелким моно рядом с городом, тише названия. */
+.fnet__city span {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--c-text-dim);
+}
+.fnet__city b { color: var(--c-brand-hover); font-weight: 500; }
+
+.fnet__addr {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-muted);
+  margin-bottom: var(--s-2);
+  max-width: 26ch;
+}
+.fnet__addr--soon { color: var(--c-text-dim); }
+
+.fnet__phone {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  color: var(--c-text-soft);
+  transition: color var(--t-fast) var(--e-out);
+}
+.fnet__phone:hover { color: var(--c-text); }
+
+
+.flinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+
+.flinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--fs-sm);
+  color: var(--c-text-soft);
+  transition: color var(--t-fast) var(--e-out);
+}
+.flinks a:hover { color: var(--c-text); }
+
+.flinks__ig {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+
+/* --- Нижняя строка: iBuy + Marshall Goldman + правовое ---------------------- */
+
+.footer__base {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s-10);
+  padding-top: var(--s-10);
+  border-top: 1px solid var(--c-line);
+}
+
+.footer__logo img {
+  height: 46px;
+  width: auto;
+}
+
+/* Вордмарк Marshall Goldman. Набран нашим языком: капсы, красная черта между
+   словами — как в их фирменном начертании. Вектора нет, но связь с брендом
+   читается, а клиент требовал логотип обязательно. */
+.mglock {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+  justify-self: center;
+  text-align: center;
+}
+
+.mglock__div {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+}
+
+.mglock__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text);
+  transition: opacity var(--t-fast) var(--e-out);
+}
+.mglock:hover .mglock__mark { opacity: 0.8; }
+
+/* Красная разделительная черта — из их логотипа. */
+.mglock__mark i {
+  width: 1px;
+  height: 1.05em;
+  background: var(--c-brand);
+}
+.mglock__red { color: var(--c-brand); }
+
+
+.footer__legal {
+  justify-self: end;
+  text-align: right;
+}
+
+.footer__legal p {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  margin-bottom: var(--s-2);
+}
+
+.footer__legal nav {
+  display: inline-flex;
+  gap: var(--s-4);
+}
+.footer__legal a {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  transition: color var(--t-fast) var(--e-out);
+}
+.footer__legal a:hover { color: var(--c-text); }
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .footer__cols { grid-template-columns: 1fr 1fr; }
+  .footer__col--net { grid-column: 1 / -1; }
+}
+
+@media (max-width: 760px) {
+  .footer { padding-block: var(--s-16) var(--s-8); }
+
+  .footer__top {
+    grid-template-columns: 1fr;
+    gap: var(--s-10);
+  }
+
+  .fnet { grid-template-columns: 1fr; }
+  .footer__cols { grid-template-columns: 1fr; gap: var(--s-10); }
+
+  /* Нижняя строка в столбец: три элемента в ряд на телефоне не помещаются. */
+  .footer__base {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: var(--s-8);
+  }
+  .mglock { justify-self: start; align-items: flex-start; text-align: left; }
+  .footer__legal { justify-self: start; text-align: left; }
+}
