@@ -145,26 +145,31 @@
   fill: var(--c-brand);
 }
 
-.rail__trail {
+/* След — пройденный участок маршрута. Загорается за кареткой и продолжает
+   гореть, пока она стоит: линия не «тянется за машиной», а показывает, сколько
+   уже проехали.
+
+   Комета из короткого штриха здесь не работала: у хвоста жёсткий обрыв
+   (градиента ВДОЛЬ пути в SVG нет — линейный идёт по осям, а не по кривой), и
+   два штриха разной прозрачности давали ступеньку вместо затухания. */
+
+.rail__trace {
   fill: none;
   stroke: var(--c-brand);
+  stroke-width: 1.5;
   stroke-linecap: round;
-  animation: rail-trail 8s linear infinite;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  animation: rail-trace 8s linear infinite;
 }
 
-.rail__trail--far  { stroke-width: 1.5; --trail-o: 0.22; }
-.rail__trail--near { stroke-width: 2;   --trail-o: 0.65; }
-
-/* Окна видимости совпадают с перегонами: 0.125–0.4 и 0.525–0.8. Всё остальное
-   время каретка стоит, и хвоста нет. */
-@keyframes rail-trail {
-  0%, 12.5%   { opacity: 0; }
-  17%         { opacity: var(--trail-o, 0.5); }
-  37%         { opacity: var(--trail-o, 0.5); }
-  40%, 52.5%  { opacity: 0; }
-  57%         { opacity: var(--trail-o, 0.5); }
-  77%         { opacity: var(--trail-o, 0.5); }
-  80%, 100%   { opacity: 0; }
+/* Гаснет только в самом конце цикла — чтобы маршрут не «стирался» рывком
+   у человека на глазах, а сходил на нет перед новым проходом. */
+@keyframes rail-trace {
+  0%        { opacity: 0; }
+  4%        { opacity: 1; }
+  90%       { opacity: 1; }
+  100%      { opacity: 0; }
 }
 
 
@@ -315,7 +320,7 @@
   /* SMIL-анимацию каретки CSS не остановит — поэтому просто прячем её и хвост.
      Кривая, точки и подписи остаются: маршрут читается и без движения. */
   .rail__car,
-  .rail__trail { visibility: hidden; }
+  .rail__trace { visibility: hidden; }
 
   .rail__ping { animation: none; opacity: 0; }
 
