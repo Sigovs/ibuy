@@ -95,6 +95,12 @@ a { color: inherit; text-decoration: none; }
   padding-inline: var(--gutter);
 }
 
+/* Шапка фиксированная: без этого переход по якорю (#network, #process…)
+   подводит секцию под её нижний край, и заголовок оказывается срезан. */
+section[id] {
+  scroll-margin-top: calc(var(--header-h) + var(--s-6));
+}
+
 /* Микро-лейбл «телеметрией» — mono, капсы, разрядка.
    Тот самый приём из HUD-референсов. Используется по всему сайту. */
 .eyebrow {
