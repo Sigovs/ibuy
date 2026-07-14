@@ -186,6 +186,80 @@
 }
 
 
+/* --- Лента Instagram -------------------------------------------------------
+   Реальные машины клиента. Плитки квадратные, встык, без скруглений — это не
+   карточки, а именно лента. Красного нет: цвет держим для действия. */
+
+.iglive {
+  padding-block: var(--s-12) var(--s-16);
+  border-top: 1px solid var(--c-line);
+}
+
+.iglive__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-6);
+  margin-bottom: var(--s-6);
+}
+
+/* .footer__head сбрасывает нижний отступ — здесь он на флексе. */
+.iglive__head .footer__head { margin-bottom: 0; }
+
+.iglive__handle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  transition: color var(--t-fast) var(--e-out);
+}
+.iglive__handle:hover { color: var(--c-text); }
+.iglive__handle svg { width: 15px; height: 15px; }
+
+.iglive__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--s-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.iglive__grid a {
+  position: relative;
+  display: block;
+  overflow: hidden;   /* кадрирует зум и режет углы картинке */
+  aspect-ratio: 1;
+  border-radius: var(--r-lg);
+}
+
+.iglive__grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(0.15);
+  transition: transform var(--t-slow) var(--e-expo),
+              filter var(--t-base) var(--e-out);
+}
+
+/* Наведение: кадр оживает цветом и чуть наезжает, поверх — знак Instagram. */
+.iglive__grid a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 9, 11, 0.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.6'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='5'/%3E%3Ccircle cx='12' cy='12' r='4.2'/%3E%3Ccircle cx='17.4' cy='6.6' r='1' fill='white' stroke='none'/%3E%3C/svg%3E") center / 26px no-repeat;
+  opacity: 0;
+  transition: opacity var(--t-base) var(--e-out);
+}
+.iglive__grid a:hover::after { opacity: 1; }
+.iglive__grid a:hover img { transform: scale(1.06); filter: grayscale(0); }
+
+
 /* --- Нижняя строка: iBuy + Marshall Goldman + правовое ---------------------- */
 
 .footer__base {
@@ -222,27 +296,15 @@
   color: var(--c-text-dim);
 }
 
+/* Настоящий вордмарк (SVG, монохром белым). Высотой держим в узде — исходник
+   415×55, на всю ширину он бы задавил iBuy рядом. */
 .mglock__mark {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-3);
-  font-family: var(--f-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--c-text);
+  display: block;
+  height: 28px;
+  width: auto;
   transition: opacity var(--t-fast) var(--e-out);
 }
 .mglock:hover .mglock__mark { opacity: 0.8; }
-
-/* Красная разделительная черта — из их логотипа. */
-.mglock__mark i {
-  width: 1px;
-  height: 1.05em;
-  background: var(--c-brand);
-}
-.mglock__red { color: var(--c-brand); }
 
 
 .footer__legal {
@@ -257,6 +319,17 @@
   text-transform: uppercase;
   color: var(--c-text-dim);
   margin-bottom: var(--s-2);
+}
+
+/* Строка агентства — как на живом сайте. Тише всего в подвале: это выходные
+   данные, а не сообщение. */
+.footer__powered {
+  margin-top: var(--s-3);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
 }
 
 .footer__legal nav {
@@ -285,6 +358,9 @@
 
 @media (max-width: 760px) {
   .footer { padding-block: var(--s-16) var(--s-8); }
+
+  /* Лента: 3 в ряд, последние три уходят на вторую строку. */
+  .iglive__grid { grid-template-columns: repeat(3, 1fr); }
 
   .footer__top {
     grid-template-columns: 1fr;

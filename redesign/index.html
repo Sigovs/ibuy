@@ -1185,6 +1185,34 @@
 
     <div class="container">
 
+      <!-- Лента Instagram — реальные машины, выкупленные клиентом (их же снимки
+           из inventory, водяной знак срезан кадрированием). Не живой виджет:
+           официальное API закрыто, а сторонние виджеты тащат чужой JS и точку
+           отказа. Это отобранная полоса, обновляется руками — для лидогенератора
+           нормально. Каждая плитка ведёт в их аккаунт. -->
+      <div class="iglive">
+        <div class="iglive__head">
+          <p class="footer__head">Latest from the lot</p>
+          <a class="iglive__handle" href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5"/>
+              <circle cx="12" cy="12" r="4.2"/>
+              <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            @ibuyluxurycars
+          </a>
+        </div>
+        <ul class="iglive__grid">
+          <li><a href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener"><img src="assets/img/social/ig-1.jpg" alt="A red Lamborghini bought by iBuy" width="560" height="560" loading="lazy"></a></li>
+          <li><a href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener"><img src="assets/img/social/ig-2.jpg" alt="A black convertible bought by iBuy" width="560" height="560" loading="lazy"></a></li>
+          <li><a href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener"><img src="assets/img/social/ig-3.jpg" alt="A grey Aston Martin Vantage bought by iBuy" width="560" height="560" loading="lazy"></a></li>
+          <li><a href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener"><img src="assets/img/social/ig-4.jpg" alt="A silver Aston Martin DBS bought by iBuy" width="560" height="560" loading="lazy"></a></li>
+          <li><a href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener"><img src="assets/img/social/ig-5.jpg" alt="A grey Porsche 911 bought by iBuy" width="560" height="560" loading="lazy"></a></li>
+          <li><a href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener"><img src="assets/img/social/ig-6.jpg" alt="A grey Mercedes-AMG GT bought by iBuy" width="560" height="560" loading="lazy"></a></li>
+        </ul>
+      </div>
+
+
       <!-- Возврат к действию + подписка -->
       <div class="footer__top">
         <div class="footer__cta">
@@ -1287,15 +1315,13 @@
           <img src="assets/img/logo.png" alt="iBuy Luxury Cars" width="183" height="102">
         </a>
 
-        <!-- ВОРДМАРК MARSHALL GOLDMAN. Вектора у нас нет, поэтому набран нашим
-             языком: капсы, красная разделительная черта, как в их фирменном
-             начертании. Клиент требовал логотип обязательно — вот он. -->
+        <!-- Настоящий вордмарк Marshall Goldman (goldman_logo.svg, монохром белым)
+             — клиент требовал логотип обязательно. Над ним тихая подпись связи. -->
         <a class="mglock" href="https://www.marshallgoldman.com/" target="_blank" rel="noopener"
            aria-label="A division of Marshall Goldman Motor Sales">
           <span class="mglock__div">A division of</span>
-          <span class="mglock__mark">
-            <span>Marshall</span><i aria-hidden="true"></i><span class="mglock__red">Goldman</span>
-          </span>
+          <img class="mglock__mark" src="assets/img/goldman_logo.svg"
+               alt="Marshall Goldman Motor Sales" width="415" height="55">
         </a>
 
         <div class="footer__legal">
@@ -1304,6 +1330,7 @@
             <a href="/privacy/">Privacy</a>
             <a href="/terms/">Terms</a>
           </nav>
+          <p class="footer__powered">Powered by All Auto Network</p>
         </div>
       </div>
 
