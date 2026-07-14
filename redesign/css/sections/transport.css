@@ -65,73 +65,108 @@
 
 
 /* --- Маршрут ---------------------------------------------------------------
-   Тот же язык, что у дуг на карте: волосяная линия, точки, красный только на
-   том, что движется. Это не «иконки процесса», а продолжение карты — просто
-   маршрут развёрнут в прямую. */
+   ДУГА, а не прямая. Прямая линия читалась как полоса загрузки; дуга рифмуется
+   с перегонами на карте выше — они там тоже выгнуты, — и сразу говорит «это
+   перелёт через страну», а не «шаг 1-2-3».
+
+   Кривая, точки и каретка живут в одном SVG. Иначе не сходится: на прямой точку
+   можно вести процентами, а на кривой её положение надо брать с самого пути.
+   Каретку ведёт animateMotion по <mpath> — она идёт ровно по нарисованной линии
+   при любой ширине экрана. */
 
 .rail {
   position: relative;
   margin-bottom: var(--s-16);
-  padding-top: var(--s-10);
 }
 
-/* Сама линия. Растворяется к краям: маршрут приходит откуда-то извне кадра и
-   уходит дальше — ровно то, что значит «по всей стране». */
-.rail__line {
-  position: absolute;
-  top: var(--s-10);
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(to right,
-              transparent,
-              var(--c-line-strong) 12%,
-              var(--c-line-strong) 88%,
-              transparent);
+.rail__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;       /* кольца пульса выходят за viewBox */
+  color: var(--c-line-strong);   /* currentColor — цвет градиента линии */
 }
+
+.rail__curve {
+  fill: none;
+  stroke-width: 1;
+  /* Волосяная при любой ширине: без этого SVG растягивает и штрих. */
+  vector-effect: non-scaling-stroke;
+}
+
+
+/* Остановки. Сидят НА кривой (середина выше краёв — так её поднимает
+   квадратичная кривая), а не под ней. */
+
+.rail__stop {
+  fill: var(--c-bg);
+  stroke: var(--c-text-muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Конечная — красная и залитая: там машина оказывается в итоге. */
+.rail__stop--end {
+  fill: var(--c-brand);
+  stroke: var(--c-brand);
+}
+
+/* Кольцо, которое разлетается в момент прибытия. Задержки 0 / 3.2 / 6.4с — те
+   же моменты, что у каретки: синхронность держится длиной цикла, без JS. */
+.rail__ping {
+  fill: none;
+  stroke: var(--c-brand);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rail-ping 8s linear infinite calc(var(--i) * 3.2s);
+}
+
+@keyframes rail-ping {
+  0%   { transform: scale(1);   opacity: 0.85; }
+  11%  { transform: scale(3.4); opacity: 0; }
+  100% { transform: scale(3.4); opacity: 0; }
+}
+
+
+/* Каретка и хвост. Хвост — три призрака, отстающих на 0.12 / 0.24 / 0.36с: на
+   перегоне они растягиваются за кареткой в след, а на остановке ДОГОНЯЮТ её и
+   сливаются — хвост пропадает сам, отдельной анимации на это не нужно. */
+
+.rail__car {
+  fill: var(--c-brand);
+}
+
+.rail__ghost {
+  fill: var(--c-brand);
+  opacity: var(--o);
+}
+
+
+/* --- Подписи --------------------------------------------------------------- */
 
 .rail__stops {
-  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: var(--s-4) 0 0;
 }
 
 .rail__stops li {
   position: relative;
-  padding-top: var(--s-8);
   text-align: center;
 }
 
-/* Первая и последняя подписи прижаты к краям линии, а не висят по центру своей
-   трети: иначе маршрут начинается не там, где точка. */
+/* Крайние подписи прижаты к краям, а не висят по центру своей трети: иначе они
+   разъезжаются с точками, к которым относятся. */
 .rail__stops li:first-child { text-align: left; }
 .rail__stops li:last-child  { text-align: right; }
 
-/* Точки маршрута. Сидят НА линии (top: 0 от начала padding), а не под ней. */
-.rail__stops li::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--c-bg);
-  border: 1px solid var(--c-text-muted);
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.rail__stops li:first-child::before { left: 0; transform: none; }
-.rail__stops li:last-child::before  { left: auto; right: 0; transform: none; }
-
-/* Конечная — красная и залитая: там машина оказывается в итоге. */
-.rail__stops li:last-child::before {
-  background: var(--c-brand);
-  border-color: var(--c-brand);
-}
+/* Точки-маркеры у подписей нужны только в мобильной раскладке, где SVG нет.
+   На десктопе точки рисует сам SVG — иначе их было бы по две на остановку. */
+.rail__stops li::before { content: none; }
 
 /* Подпись остановки. В покое приглушена, загорается ровно на ту секунду, пока
    каретка стоит рядом: взгляд идёт за движением и читает то, что происходит
@@ -146,8 +181,6 @@
   margin-bottom: var(--s-2);
 }
 
-/* Те же период и задержки, что у вспышки на точке: 0 / 3.2 / 6.4с — моменты
-   прибытия. Ничего не синхронизируем руками, всё держится длиной цикла. */
 .rail__stops li:nth-child(1) .rail__label { animation: stop-label 8s linear infinite 0s; }
 .rail__stops li:nth-child(2) .rail__label { animation: stop-label 8s linear infinite 3.2s; }
 .rail__stops li:nth-child(3) .rail__label { animation: stop-label 8s linear infinite 6.4s; }
@@ -169,113 +202,6 @@
 
 .rail__stops li:first-child .rail__note { margin-left: 0; }
 .rail__stops li:last-child  .rail__note { margin-right: 0; }
-
-/* Грузовик — точка, идущая по маршруту. Красная, потому что движется: красный
-   у нас только на действии.
-
-   Едет НЕ равномерно. Цикл 8с: доехал до точки — постоял секунду — поехал
-   дальше. Пауза здесь не украшение: это и есть перегон, у которого на каждой
-   остановке что-то происходит (осмотр, погрузка), а ровный бег читался бы как
-   полоса загрузки.
-
-   Носитель во всю ширину рельса, а точка — внутри него. Поэтому ход задаётся
-   в transform (проценты берутся от ширины рельса), а не в left: браузер не
-   пересчитывает раскладку на каждом кадре. */
-.rail__truck {
-  position: absolute;
-  top: var(--s-10);
-  left: 0;
-  right: 0;
-  height: 0;
-  animation: rail-run 8s linear infinite;
-}
-
-.rail__truck span {
-  position: absolute;
-  top: -3.5px;
-  left: 0;
-  margin-left: -3.5px;   /* центр точки садится ровно на отметку */
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--c-brand);
-  box-shadow: 0 0 0 4px var(--c-brand-glow);
-}
-
-/* След. Тянется ЗА точкой и гаснет — поэтому существует только на ходу: на
-   стоянке хвост у стоящей машины взялся бы из ниоткуда.
-
-   Растёт от нуля (scaleX с опорой справа, у самой точки) — как разгон, а не
-   как выехавшая из-под неё полоса. */
-.rail__truck span::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 50%;
-  width: 96px;
-  height: 2px;
-  border-radius: 1px;
-  background: linear-gradient(to left,
-              rgba(222, 25, 42, 0.85),
-              rgba(222, 25, 42, 0));
-  transform: translateY(-50%) scaleX(0);
-  transform-origin: 100% 50%;
-  animation: rail-trail 8s linear infinite;
-  pointer-events: none;
-}
-
-/* Тот же цикл в 8с, что у хода. Хвост появляется через мгновение после старта
-   и опадает ДО прибытия — к точке машина подходит уже без него. */
-@keyframes rail-trail {
-  0%, 13%    { transform: translateY(-50%) scaleX(0);    opacity: 0; }
-  18%        { transform: translateY(-50%) scaleX(1);    opacity: 1; }
-  36%        { transform: translateY(-50%) scaleX(1);    opacity: 1; }
-  40%, 53%   { transform: translateY(-50%) scaleX(0);    opacity: 0; }
-  58%        { transform: translateY(-50%) scaleX(1);    opacity: 1; }
-  76%        { transform: translateY(-50%) scaleX(1);    opacity: 1; }
-  80%, 100%  { transform: translateY(-50%) scaleX(0);    opacity: 0; }
-}
-
-/* linear, а форма движения — в самих кадрах. Экспоненту сюда класть нельзя:
-   она размажет паузы, и остановки перестанут читаться (на пинге карты мы на
-   это уже наступали). */
-@keyframes rail-run {
-  0%    { transform: translateX(0);    opacity: 0; }
-  3%    { opacity: 1; }
-  12.5% { transform: translateX(0); }        /* стоит секунду у первой */
-  40%   { transform: translateX(50%); }      /* перегон */
-  52.5% { transform: translateX(50%); }      /* стоит секунду у второй */
-  80%   { transform: translateX(100%); }     /* перегон */
-  95%   { transform: translateX(100%); opacity: 1; }   /* стоит у третьей */
-  100%  { transform: translateX(100%); opacity: 0; }
-}
-
-/* Вспышка на точке в момент прибытия. Отдельная анимация того же периода (8с),
-   сдвинутая задержкой под каждую остановку: 0с, 3.2с, 6.4с — ровно те моменты,
-   когда каретка доезжает. Синхронность держится сама, без JS: обе анимации
-   бесконечные и одной длины. */
-.rail__stops li:nth-child(1)::before { animation: stop-hit 8s linear infinite 0s; }
-.rail__stops li:nth-child(2)::before { animation: stop-hit 8s linear infinite 3.2s; }
-.rail__stops li:nth-child(3)::before { animation: stop-hit 8s linear infinite 6.4s; }
-
-@keyframes stop-hit {
-  0%   { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0.55); border-color: var(--c-brand); }
-  11%  { box-shadow: 0 0 0 13px rgba(222, 25, 42, 0); border-color: var(--c-brand); }
-  14%  { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0); border-color: var(--c-text-muted); }
-  100% { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0); border-color: var(--c-text-muted); }
-}
-
-/* Конечная и в покое красная — там машина оказывается в итоге. Возвращаем ей
-   цвет после вспышки, иначе анимация гасила бы его до серого. */
-.rail__stops li:last-child::before {
-  animation-name: stop-hit-final;
-}
-
-@keyframes stop-hit-final {
-  0%   { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0.55); }
-  11%  { box-shadow: 0 0 0 13px rgba(222, 25, 42, 0); }
-  14%, 100% { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0); }
-}
 
 
 /* --- Факты -----------------------------------------------------------------
@@ -320,11 +246,9 @@
   .transport { padding-block: var(--s-16); }
 
   /* Маршрут в колонку: три подписи в ряд на узком экране сжимаются в лапшу.
-     Линия и бегущая точка тогда не нужны — их роль берёт вертикальный порядок. */
-  .rail__line,
-  .rail__truck { display: none; }
-
-  .rail { padding-top: 0; }
+     Дуга и каретка тогда не нужны — их роль берёт вертикальный порядок, а
+     точки возвращаем подписям (в SVG они остались бы лежать поперёк). */
+  .rail__svg { display: none; }
 
   .rail__stops {
     grid-template-columns: 1fr;
@@ -335,17 +259,24 @@
   .rail__stops li:first-child,
   .rail__stops li:last-child {
     text-align: left;
-    padding-top: 0;
     padding-left: var(--s-6);
   }
 
-  .rail__stops li::before,
-  .rail__stops li:first-child::before,
-  .rail__stops li:last-child::before {
+  .rail__stops li::before {
+    content: '';
+    position: absolute;
     top: 5px;
     left: 0;
-    right: auto;
-    transform: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--c-bg);
+    border: 1px solid var(--c-text-muted);
+  }
+
+  .rail__stops li:last-child::before {
+    background: var(--c-brand);
+    border-color: var(--c-brand);
   }
 
   .rail__note { margin-inline: 0; }
@@ -357,8 +288,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rail__truck { animation: none; opacity: 0; }
-  .rail__stops li::before { animation: none; }
+  /* SMIL-анимацию каретки CSS не остановит — поэтому просто прячем её и хвост.
+     Кривая, точки и подписи остаются: маршрут читается и без движения. */
+  .rail__car,
+  .rail__ghost { visibility: hidden; }
+
+  .rail__ping { animation: none; opacity: 0; }
 
   /* Без анимации подсвечивать нечем — тогда все подписи читаются одинаково
      ярко, а не сидят вечно приглушёнными. */
