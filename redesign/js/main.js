@@ -85,10 +85,20 @@ import { initNetwork } from './network.js';
         .forEach((e, i) => {
           const to = parseFloat(e.target.dataset.count);
           count.unobserve(e.target);
+
+          // data-money — деньги: с долларом и разрядами. Без этого порог
+          // набегал бы как «100000» и читался бы как номер, а не как сумма.
+          const money = 'money' in e.target.dataset;
+          const step  = money ? 1000 : 1;
+          const write = (v) => {
+            const n = Math.round(v / step) * step;
+            e.target.textContent = money ? '$' + n.toLocaleString('en-US') : String(n);
+          };
+
           // Задержка в шаг лесенки: цифры должны догонять свой блок, а не
           // стартовать раньше него.
           setTimeout(() => {
-            countTo(0, to, 1200, (v) => { e.target.textContent = Math.round(v); });
+            countTo(0, to, money ? 1600 : 1200, write);
           }, 260 + i * 130);
         });
     }, { threshold: 0.6 });
