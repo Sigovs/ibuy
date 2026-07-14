@@ -151,7 +151,9 @@
   --ry: -15deg;
   --rx: 7deg;
   transform: rotateY(var(--ry)) rotateX(var(--rx));
-  transition: transform var(--t-slow) var(--e-out);
+  /* Не --t-slow: углы теперь ведёт ещё и скролл, а 760мс на скролле читаются
+     как задержка. 480мс работают демпфером и не отстают. */
+  transition: transform var(--t-mid) var(--e-out);
 }
 
 /* Торец. Одна плоскость, отодвинутая назад по Z: даёт толщину устройства,
@@ -181,6 +183,7 @@
 
 .phone__screen {
   position: relative;
+  overflow: hidden;          /* блик не должен вылезать за стекло */
   border-radius: 22px;
   background: #0B0D10;
   padding: var(--s-10) var(--s-5) var(--s-6);
@@ -365,6 +368,45 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
   text-align: center;
+}
+
+/* Табличные цифры обязательны: без них набегающее число дёргает строку. */
+#verdict-count { font-variant-numeric: tabular-nums; }
+
+
+/* --- Блик -------------------------------------------------------------------
+   Полоса света идёт по стеклу один раз — в момент галочки. Анимация привязана
+   к классу состояния, поэтому перезапускается каждый цикл сама.
+
+   Полоса узкая и слабая (10% белого). Всё, что ярче, немедленно превращается
+   в глянец стокового макета — то самое, за что старый сайт получил в аудите. */
+
+.phone__sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 22px;
+  background: linear-gradient(105deg,
+              transparent 42%,
+              rgba(255, 255, 255, 0.10) 50%,
+              transparent 58%);
+  opacity: 0;
+  transform: translateX(-130%);
+}
+
+.verdict.is-check ~ .phone__sheen {
+  animation: sheen 900ms var(--e-out) 220ms;   /* следом за кольцом */
+}
+
+@keyframes sheen {
+  from { opacity: 0; transform: translateX(-130%); }
+  25%  { opacity: 1; }
+  75%  { opacity: 1; }
+  to   { opacity: 0; transform: translateX(130%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone__sheen { display: none; }
 }
 
 
