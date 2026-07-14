@@ -388,13 +388,16 @@ import { initNetwork } from './network.js';
     const phone = verdict.closest('.phone');
     const frame = phone.querySelector('.phone__frame');
 
-    /* Цикл. Те же три правила, что и у карты: не крутится за кадром, не крутится
-       при скрытой вкладке, и не крутится, когда человек на неё смотрит вблизи. */
+    /* Цикл крутится непрерывно, пока телефон в кадре. Паузы на наведении тут
+       НЕТ — и это осознанно: чтобы разглядеть наклон, курсор ведут прямо на
+       телефон, и анимация замирала ровно в тот момент, когда на неё смотрят.
+       Читать здесь нечего (это не лента отзывов), останавливать нечего.
+
+       Остаются два правила карты: не крутиться за кадром и при скрытой вкладке. */
     let onScreen = false;
-    let hover = false;
     let timer = null;
 
-    const canRun = () => onScreen && !hover && !document.hidden && !REDUCED;
+    const canRun = () => onScreen && !document.hidden && !REDUCED;
 
     const stop = () => { clearTimeout(timer); timer = null; };
 
@@ -459,10 +462,6 @@ import { initNetwork } from './network.js';
         frame.style.removeProperty('--ry');
         frame.style.removeProperty('--rx');
       });
-
-      // Навёл прямо на телефон — цикл замирает: человек разглядывает предмет.
-      phone.addEventListener('mouseenter', () => { hover = true; stop(); });
-      phone.addEventListener('mouseleave', () => { hover = false; start(); });
     }
   }
 
