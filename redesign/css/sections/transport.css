@@ -156,20 +156,19 @@
 .rail__trace {
   fill: none;
   stroke: var(--c-brand);
-  stroke-width: 1.5;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
   animation: rail-trace 8s linear infinite;
 }
 
-/* Гаснет только в самом конце цикла — чтобы маршрут не «стирался» рывком
-   у человека на глазах, а сходил на нет перед новым проходом. */
+/* Гаснет в самом конце цикла — чтобы маршрут не «стирался» рывком на глазах,
+   а сходил на нет перед новым проходом. */
 @keyframes rail-trace {
-  0%        { opacity: 0; }
-  4%        { opacity: 1; }
-  90%       { opacity: 1; }
-  100%      { opacity: 0; }
+  0%   { opacity: 0; }
+  4%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 
