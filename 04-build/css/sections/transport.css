@@ -154,25 +154,76 @@
 .rail__stops li:last-child  .rail__note { margin-right: 0; }
 
 /* Грузовик — точка, идущая по маршруту. Красная, потому что движется: красный
-   у нас только на действии. Линейно и медленно: это перегон через страну, а не
-   загрузка страницы. */
+   у нас только на действии.
+
+   Едет НЕ равномерно. Цикл 8с: доехал до точки — постоял секунду — поехал
+   дальше. Пауза здесь не украшение: это и есть перегон, у которого на каждой
+   остановке что-то происходит (осмотр, погрузка), а ровный бег читался бы как
+   полоса загрузки.
+
+   Носитель во всю ширину рельса, а точка — внутри него. Поэтому ход задаётся
+   в transform (проценты берутся от ширины рельса), а не в left: браузер не
+   пересчитывает раскладку на каждом кадре. */
 .rail__truck {
   position: absolute;
-  top: calc(var(--s-10) - 3px);
+  top: var(--s-10);
   left: 0;
+  right: 0;
+  height: 0;
+  animation: rail-run 8s linear infinite;
+}
+
+.rail__truck span {
+  position: absolute;
+  top: -3.5px;
+  left: 0;
+  margin-left: -3.5px;   /* центр точки садится ровно на отметку */
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--c-brand);
   box-shadow: 0 0 0 4px var(--c-brand-glow);
-  animation: rail-run 7s linear infinite;
 }
 
+/* linear, а форма движения — в самих кадрах. Экспоненту сюда класть нельзя:
+   она размажет паузы, и остановки перестанут читаться (на пинге карты мы на
+   это уже наступали). */
 @keyframes rail-run {
-  0%   { left: 0;    opacity: 0; }
-  6%   { opacity: 1; }
-  94%  { opacity: 1; }
-  100% { left: 100%; opacity: 0; }
+  0%    { transform: translateX(0);    opacity: 0; }
+  3%    { opacity: 1; }
+  12.5% { transform: translateX(0); }        /* стоит секунду у первой */
+  40%   { transform: translateX(50%); }      /* перегон */
+  52.5% { transform: translateX(50%); }      /* стоит секунду у второй */
+  80%   { transform: translateX(100%); }     /* перегон */
+  95%   { transform: translateX(100%); opacity: 1; }   /* стоит у третьей */
+  100%  { transform: translateX(100%); opacity: 0; }
+}
+
+/* Вспышка на точке в момент прибытия. Отдельная анимация того же периода (8с),
+   сдвинутая задержкой под каждую остановку: 0с, 3.2с, 6.4с — ровно те моменты,
+   когда каретка доезжает. Синхронность держится сама, без JS: обе анимации
+   бесконечные и одной длины. */
+.rail__stops li:nth-child(1)::before { animation: stop-hit 8s linear infinite 0s; }
+.rail__stops li:nth-child(2)::before { animation: stop-hit 8s linear infinite 3.2s; }
+.rail__stops li:nth-child(3)::before { animation: stop-hit 8s linear infinite 6.4s; }
+
+@keyframes stop-hit {
+  0%   { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0.55); border-color: var(--c-brand); }
+  11%  { box-shadow: 0 0 0 13px rgba(222, 25, 42, 0); border-color: var(--c-brand); }
+  14%  { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0); border-color: var(--c-text-muted); }
+  100% { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0); border-color: var(--c-text-muted); }
+}
+
+/* Конечная и в покое красная — там машина оказывается в итоге. Возвращаем ей
+   цвет после вспышки, иначе анимация гасила бы его до серого. */
+.rail__stops li:last-child::before {
+  animation-name: stop-hit-final;
+}
+
+@keyframes stop-hit-final {
+  0%   { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0.55); }
+  11%  { box-shadow: 0 0 0 13px rgba(222, 25, 42, 0); }
+  14%, 100% { box-shadow: 0 0 0 0 rgba(222, 25, 42, 0); }
 }
 
 
@@ -256,4 +307,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rail__truck { animation: none; opacity: 0; }
+  .rail__stops li::before { animation: none; }
 }
