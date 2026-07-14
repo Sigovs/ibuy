@@ -528,12 +528,12 @@
         <ol class="steps">
 
           <li class="step">
-            <figure class="step__media">
+            <figure class="step__media" data-rise="side">
               <img src="assets/img/process/step-01-garage.jpg"
                    alt="A black Mercedes-AMG GT parked in its owner's private garage."
                    width="685" height="570" loading="lazy">
             </figure>
-            <div class="step__body">
+            <div class="step__body" data-rise>
               <p class="step__num">01</p>
               <p class="step__kicker">Ready</p>
               <h3 class="step__title">Submit your car&rsquo;s information.</h3>
@@ -545,12 +545,12 @@
           </li>
 
           <li class="step">
-            <figure class="step__media">
+            <figure class="step__media" data-rise="side-right">
               <img src="assets/img/process/step-02-driveway.jpg"
                    alt="A red Lamborghini Aventador with its door raised, on a private driveway."
                    width="690" height="570" loading="lazy">
             </figure>
-            <div class="step__body">
+            <div class="step__body" data-rise>
               <p class="step__num">02</p>
               <p class="step__kicker">Set&hellip;</p>
               <h3 class="step__title">Evaluate our offer.</h3>
@@ -563,12 +563,12 @@
           </li>
 
           <li class="step">
-            <figure class="step__media">
+            <figure class="step__media" data-rise="side">
               <img src="assets/img/process/step-03-collected.jpg"
                    alt="A Porsche 911 collected and standing in a hangar beside a private jet."
                    width="647" height="570" loading="lazy">
             </figure>
-            <div class="step__body">
+            <div class="step__body" data-rise>
               <p class="step__num">03</p>
               <p class="step__kicker">Sold!</p>
               <h3 class="step__title">Cash out and move on.</h3>
@@ -592,18 +592,20 @@
             the check is in your hands do we send a truck for the car.
           </p>
 
+          <!-- Цифры набегают, когда блок входит в кадр. У диапазона считаются
+               ОБА числа: если гнать только второе, на экране мелькает «3–0». -->
           <dl class="pledge__facts">
             <div>
               <dt>Offer in</dt>
-              <dd>20 min</dd>
+              <dd><span data-count="20">20</span> min</dd>
             </div>
             <div>
               <dt>Clear title</dt>
-              <dd>2 days</dd>
+              <dd><span data-count="2">2</span> days</dd>
             </div>
             <div>
               <dt>Loan or lease payoff</dt>
-              <dd>3&ndash;4 days</dd>
+              <dd><span data-count="3">3</span>&ndash;<span data-count="4">4</span> days</dd>
             </div>
           </dl>
 

@@ -69,6 +69,34 @@ import { initNetwork } from './network.js';
      Так лесенка играет там, где секция въезжает целиком, и не мешает там, где
      человек листает медленно. */
 
+  /* --- Счётчики -------------------------------------------------------------
+     Любой [data-count] набегает к своему числу, когда входит в кадр. Тот же
+     easeOutExpo, что у живой оценки: быстро стартует, мягко доезжает.
+
+     Ширину поля держат табличные цифры (CSS), иначе «20 min» дёргается на
+     каждом кадре: у пропорциональной единицы ширина меньше нуля. */
+
+  const counters = document.querySelectorAll('[data-count]');
+
+  if (counters.length) {
+    const count = new IntersectionObserver((entries) => {
+      entries
+        .filter((e) => e.isIntersecting)
+        .forEach((e, i) => {
+          const to = parseFloat(e.target.dataset.count);
+          count.unobserve(e.target);
+          // Задержка в шаг лесенки: цифры должны догонять свой блок, а не
+          // стартовать раньше него.
+          setTimeout(() => {
+            countTo(0, to, 1200, (v) => { e.target.textContent = Math.round(v); });
+          }, 260 + i * 130);
+        });
+    }, { threshold: 0.6 });
+
+    counters.forEach((el) => count.observe(el));
+  }
+
+
   const risers = document.querySelectorAll('[data-rise]');
 
   if (risers.length) {
