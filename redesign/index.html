@@ -538,7 +538,11 @@
 
         <div class="rail" data-rise>
           <div class="rail__line" aria-hidden="true"></div>
-          <div class="rail__truck" aria-hidden="true"></div>
+
+          <!-- Каретка едет не сама точка, а её носитель во всю ширину рельса:
+               так ход задаётся в transform (проценты от ширины рельса), а не в
+               left — браузер не пересчитывает раскладку на каждом кадре. -->
+          <div class="rail__truck" aria-hidden="true"><span></span></div>
 
           <ol class="rail__stops">
             <li>
