@@ -236,11 +236,14 @@ main h2 em {
   padding: 0 var(--s-5);
   border: 1px solid transparent;
   border-radius: 0;
-  font-family: var(--f-sans);
-  font-weight: 600;
-  font-size: var(--fs-xs);
+  /* Antonio на всех CTA. Он конденсированный, поэтому кегль выше (0.9375 против
+     0.8125), а трекинг уже (0.06 против 0.14) — широкая разрядка растащила бы
+     узкие капсы в решётку. Вес 700: на кнопке Antonio должен звучать уверенно. */
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 0.9375rem;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
   transition: background var(--t-base) var(--e-out),
               border-color var(--t-base) var(--e-out),
