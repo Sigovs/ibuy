@@ -77,9 +77,55 @@
 .rail {
   position: relative;
   margin-bottom: var(--s-16);
+  isolation: isolate;   /* фон-кадр не должен вылезать под соседние секции */
+}
+
+/* Пейзаж под маршрутом. Каретка едет по горам, а не по пустоте.
+
+   Кадр прижат к НИЗУ рельса (object-position) и растворён маской сверху и с
+   боков: горы поднимаются к линии, а вверху уходят в цвет секции, чтобы не
+   спорить с заголовком. Поверх — скрим, иначе подписи остановок тонут в лесу. */
+.rail__bg {
+  position: absolute;
+  /* Тянем ВЫШЕ рельса: сам рельс низкий, и горам негде подняться до линии.
+     Кадр начинается над маршрутом и заканчивается у подписей — тогда каретка
+     идёт по гребню, а не над плоской полоской внизу. */
+  left: 0;
+  right: 0;
+  top: -180px;
+  bottom: var(--s-8);
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.rail__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Кадрируем по ЛИНИИ гребня: вершины выходят на высоту маршрута, чтобы
+     каретка шла ровно по хребту. */
+  object-position: 50% 30%;
+  opacity: 0.8;
+  /* Растворяем по краям, чтобы кадр вырастал из секции, а не лежал плашкой. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Скрим поверх кадра: держит контраст подписей и топит лес, чтобы линия
+   маршрута читалась как главная, а горы — как фон. */
+.rail__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+              rgba(11, 13, 16, 0.30) 0%,
+              rgba(11, 13, 16, 0.55) 60%,
+              var(--c-bg) 100%);
 }
 
 .rail__svg {
+  position: relative;   /* над фоном-кадром */
   display: block;
   width: 100%;
   height: auto;
@@ -326,33 +372,4 @@
   /* Без анимации подсвечивать нечем — тогда все подписи читаются одинаково
      ярко, а не сидят вечно приглушёнными. */
   .rail__label { animation: none; color: var(--c-text); }
-}
-
-
-/* --- Кадр внизу секции ------------------------------------------------------
-   До него мы про перевозку рассказывали (схема, факты) — он её показывает.
-
-   Края растворены маской: жёсткий прямоугольник фотографии на тёмной секции
-   читается наклейкой. С маской кадр вырастает из секции, а не лежит на ней.
-   Тот же приём, что у героя, — и по той же причине. */
-
-.transport__shot {
-  margin: var(--s-16) 0 0;
-}
-
-.transport__shot img {
-  display: block;
-  width: 100%;
-  /* height: auto обязателен: атрибуты width/height в разметке — это
-     презентационная подсказка CSS, и без сброса aspect-ratio игнорируется. */
-  height: auto;
-  aspect-ratio: 21 / 9;
-  object-fit: cover;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
-          mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
-}
-
-@media (max-width: 900px) {
-  /* На узком экране 21:9 превращается в полоску, где ничего не разобрать. */
-  .transport__shot img { aspect-ratio: 16 / 9; }
 }
