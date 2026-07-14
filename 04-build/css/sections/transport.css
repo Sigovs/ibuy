@@ -327,3 +327,32 @@
      ярко, а не сидят вечно приглушёнными. */
   .rail__label { animation: none; color: var(--c-text); }
 }
+
+
+/* --- Кадр внизу секции ------------------------------------------------------
+   До него мы про перевозку рассказывали (схема, факты) — он её показывает.
+
+   Края растворены маской: жёсткий прямоугольник фотографии на тёмной секции
+   читается наклейкой. С маской кадр вырастает из секции, а не лежит на ней.
+   Тот же приём, что у героя, — и по той же причине. */
+
+.transport__shot {
+  margin: var(--s-16) 0 0;
+}
+
+.transport__shot img {
+  display: block;
+  width: 100%;
+  /* height: auto обязателен: атрибуты width/height в разметке — это
+     презентационная подсказка CSS, и без сброса aspect-ratio игнорируется. */
+  height: auto;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+@media (max-width: 900px) {
+  /* На узком экране 21:9 превращается в полоску, где ничего не разобрать. */
+  .transport__shot img { aspect-ratio: 16 / 9; }
+}
