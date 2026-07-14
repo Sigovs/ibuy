@@ -582,26 +582,32 @@
             <circle class="rail__stop" cx="500" cy="30"  r="5"/>
             <circle class="rail__stop rail__stop--end" cx="990" cy="112" r="5"/>
 
-            <!-- Хвост: догоняющие призраки. Порядок в разметке — от дальнего к
-                 ближнему, чтобы голова осталась сверху. -->
-            <circle class="rail__ghost" r="3.4" cx="0" cy="0" style="--o: 0.16">
-              <animateMotion dur="8s" repeatCount="indefinite" begin="0.36s" calcMode="linear"
-                             keyPoints="0;0;0.5;0.5;1;1" keyTimes="0;0.125;0.4;0.525;0.8;1">
-                <mpath href="#rail-path"/>
-              </animateMotion>
-            </circle>
-            <circle class="rail__ghost" r="3.8" cx="0" cy="0" style="--o: 0.3">
-              <animateMotion dur="8s" repeatCount="indefinite" begin="0.24s" calcMode="linear"
-                             keyPoints="0;0;0.5;0.5;1;1" keyTimes="0;0.125;0.4;0.525;0.8;1">
-                <mpath href="#rail-path"/>
-              </animateMotion>
-            </circle>
-            <circle class="rail__ghost" r="4.2" cx="0" cy="0" style="--o: 0.5">
-              <animateMotion dur="8s" repeatCount="indefinite" begin="0.12s" calcMode="linear"
-                             keyPoints="0;0;0.5;0.5;1;1" keyTimes="0;0.125;0.4;0.525;0.8;1">
-                <mpath href="#rail-path"/>
-              </animateMotion>
-            </circle>
+            <!-- ХВОСТ — ЛИНИЯ ПО МАРШРУТУ, не цепочка кружков. Это тот же путь,
+                 нарисованный красным, но показанный только на коротком отрезке:
+                 штрих длиной 60 (и второй, длиннее и бледнее — 120), который
+                 едет вдоль пути синхронно с кареткой.
+
+                 Синхронность не на глаз: голова штриха обязана совпадать с
+                 кареткой, поэтому dashoffset = (длина хвоста − пройденный путь).
+                 Длина пути посчитана — 1048.1, отсюда и значения ниже.
+
+                 Порядок в разметке: сначала длинный бледный, потом короткий
+                 яркий — так ближе к каретке след плотнее, и хвост тает к концу. -->
+            <path class="rail__trail rail__trail--far"
+                  d="M10 124 L150 58 L300 104 L500 30 L700 96 L840 46 L990 112"
+                  stroke-dasharray="120 4000">
+              <animate attributeName="stroke-dashoffset" dur="8s" repeatCount="indefinite"
+                       calcMode="linear" keyTimes="0;0.125;0.4;0.525;0.8;1"
+                       values="120; 120; -404; -404; -928; -928"/>
+            </path>
+
+            <path class="rail__trail rail__trail--near"
+                  d="M10 124 L150 58 L300 104 L500 30 L700 96 L840 46 L990 112"
+                  stroke-dasharray="60 4000">
+              <animate attributeName="stroke-dashoffset" dur="8s" repeatCount="indefinite"
+                       calcMode="linear" keyTimes="0;0.125;0.4;0.525;0.8;1"
+                       values="60; 60; -464; -464; -988; -988"/>
+            </path>
 
             <!-- Каретка. Держится 1с на каждой остановке: keyPoints повторяют
                  одно и то же значение, пока идёт стоянка. -->
@@ -842,14 +848,23 @@
           </p>
         </header>
 
-        <!-- Порог. Единственная цифра, которую человек обязан унести с собой,
-             поэтому она стоит отдельной строкой, а не прячется в абзаце. -->
+        <!-- Порог остался (он отсекает мусорные заявки), но развёрнут другой
+             стороной. Раньше секция открывалась гигантским «$100,000 — that's
+             the floor»: для владельца 812 это ничего не значит, а для остальных
+             читается как отказ. Секция не должна начинаться с «вам тут не рады».
+
+             Теперь это не потолок, а СТАРТ: «100K+», где плюс — красный, наш
+             единственный акцент, и он означает движение вверх. Отсечка ушла в
+             последнюю фразу, тихо. -->
         <div class="floor" data-rise>
-          <p class="floor__num"><span data-count="100000" data-money>$100,000</span></p>
+          <p class="floor__num">
+            $<span data-count="100">100</span>K<em>+</em>
+          </p>
           <p class="floor__note">
-            That&rsquo;s the floor. iBuy buys to <strong>resell</strong> through the
-            Marshall Goldman network, and below six figures the numbers stop working.
-            Above it &mdash; the rarer the car, the more interested we are.
+            Where we start &mdash; not where we stop. iBuy buys to
+            <strong>resell</strong> through the Marshall Goldman network, so the rarer
+            the car, the more we want it. Under six figures we&rsquo;re simply not the
+            right buyer for you.
           </p>
         </div>
 
