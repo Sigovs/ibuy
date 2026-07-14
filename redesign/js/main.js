@@ -90,6 +90,43 @@ import { initNetwork } from './network.js';
   }
 
 
+  /* --- Рендеры шагов: 3D-наклон за курсором ---------------------------------
+     Та же 3D-симуляция, что у карты и телефона: рендер наклоняется вслед за
+     курсором в своей колонке. Перспектива задана в CSS, JS ведёт только углы
+     --rx/--ry, которые складываются с лифтом от ховера в один transform.
+
+     Наклон небольшой (±7°): предмет и так «объёмный» (телефон + машина парят),
+     сильный поворот сломал бы его тени. Только hover-устройства и не в reduced. */
+
+  if (!REDUCED && window.matchMedia('(hover: hover)').matches) {
+    const RANGE = 7;
+    document.querySelectorAll('.step__media--plate').forEach((media) => {
+      const img = media.querySelector('img');
+      if (!img) return;
+      let raf = 0;
+
+      const tilt = (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const r = media.getBoundingClientRect();
+          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+          const clamp = (v) => Math.max(-1, Math.min(1, v));
+          img.style.setProperty('--ry', `${clamp(dx) * RANGE}deg`);
+          img.style.setProperty('--rx', `${-clamp(dy) * RANGE}deg`);
+        });
+      };
+
+      media.addEventListener('mousemove', tilt);
+      media.addEventListener('mouseleave', () => {
+        img.style.setProperty('--ry', '0deg');
+        img.style.setProperty('--rx', '0deg');
+      });
+    });
+  }
+
+
   /* --- Появление лесенкой ---------------------------------------------------
      Заголовки выезжают сбоку, текст и блоки — снизу. Шаг задаёт --rise-i.
 
@@ -142,14 +179,23 @@ import { initNetwork } from './network.js';
 
   if (risers.length) {
     const rise = new IntersectionObserver((entries) => {
-      entries
+      // Вошедшие одной пачкой нумеруем сверху вниз — это и даёт лесенку: заголовок,
+      // за ним подзаголовок, за ним блоки, по одному.
+      const entering = entries
         .filter((e) => e.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-        .forEach((e, i) => {
-          e.target.style.setProperty('--rise-i', i);
-          e.target.classList.add('is-in');
-          rise.unobserve(e.target);   // появление — один раз, это не карусель
-        });
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      entering.forEach((e, i) => {
+        e.target.style.setProperty('--rise-i', i);
+        e.target.classList.add('is-in');
+      });
+
+      // Ушедшие за кадр СБРАСЫВАЕМ — тогда лесенка играет снова при следующем
+      // заходе. Раньше стоял unobserve, и появление было одноразовым; клиент
+      // хочет, чтобы оно повторялось всегда. Сбрасываем только когда элемент
+      // полностью вышел, иначе он мигал бы на самом краю кадра.
+      entries
+        .filter((e) => !e.isIntersecting && e.boundingClientRect.top > 0)
+        .forEach((e) => e.target.classList.remove('is-in'));
     }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
 
     risers.forEach((el) => rise.observe(el));

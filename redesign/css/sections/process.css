@@ -83,9 +83,15 @@
    Кадрировать его нельзя — обрежется телефон, ради которого он и взят, — поэтому
    contain вместо cover. Пропорция под серию рендеров (4:3). */
 .step__media--plate {
-  overflow: visible;   /* лифт при наведении не должен обрезаться рамкой */
+  overflow: visible;   /* лифт и наклон не должны обрезаться рамкой */
+  /* Перспектива на рамке, а наклон — на картинке внутри: тот же приём, что у
+     карты и телефона. Без perspective rotateX/rotateY плоские, объём не читается. */
+  perspective: 1400px;
 }
 
+/* Все слагаемые трансформа — через переменные, чтобы лифт (CSS по ховеру) и
+   наклон (JS за курсором) складывались в ОДНО значение, а не затирали друг друга.
+   На этом мы уже обжигались: класс с transform молча стирал чужой transform. */
 .step__media--plate img {
   aspect-ratio: 4 / 3;
   object-fit: contain;
@@ -93,19 +99,26 @@
      падингом: при object-fit: contain он ужимает саму картинку, а не добавляет
      полей вокруг. Плашка цвета секции — поля не видно. */
   padding: var(--s-6) var(--s-8);
+  transform:
+    translateY(var(--lift, 0px))
+    scale(var(--scale, 1))
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
   transition: transform var(--t-mid) var(--e-out);
 }
 
 /* Три рендера — как три отдельных плавающих элемента. На наведении по ВСЕЙ
    секции все три чуть приподнимаются со сдвигом по времени (тогда они читаются
    как три отдельные панели, а не как ряд картинок), а тот, на который навёл
-   прямо, выходит вперёд сильнее. Только изображения — текст не трогаем. */
-.process:hover .step__media--plate img { transform: translateY(-8px) scale(1.015); }
+   прямо, выходит вперёд сильнее. Наклон за курсором добавляет JS (см. main.js).
+   Только изображения — текст не трогаем. */
+.process:hover .step__media--plate img { --lift: -8px; --scale: 1.015; }
 .process .step:nth-child(2) .step__media--plate img { transition-delay: 70ms; }
 .process .step:nth-child(3) .step__media--plate img { transition-delay: 140ms; }
 
 .step:hover .step__media--plate img {
-  transform: translateY(-16px) scale(1.04);
+  --lift: -16px;
+  --scale: 1.04;
   transition-delay: 0ms;
 }
 
