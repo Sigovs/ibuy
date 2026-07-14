@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/sections/process.css">
   <link rel="stylesheet" href="css/sections/buy.css">
   <link rel="stylesheet" href="css/sections/reviews.css">
+  <link rel="stylesheet" href="css/sections/footer.css">
 </head>
 
 <body>
@@ -1162,6 +1163,152 @@
     </section>
 
   </main>
+
+  <!-- ======================================================================
+       FOOTER
+
+       Три требования клиента сходятся тут: сеть Marshall Goldman (№3) — пятью
+       адресами текстом, а не только точками на карте; связь с материнским
+       брендом — вордмарком MARSHALL GOLDMAN (клиент просил обязательно); и
+       возврат к действию — крупной строкой + формой подписки.
+
+       Адреса и телефоны — те же, что на карте (data-address из секции сети),
+       ничего не выдумано. Kansas City без адреса: его ещё нет.
+
+       ⚠️ Подписка НИКУДА НЕ УХОДИТ: у нас нет эндпоинта, как и у главной формы.
+       Поле свёрстано, но клиент должен дать Mailchimp/CRM. Помечено ниже. -->
+  <footer class="footer theme-dark" role="contentinfo">
+
+    <div class="gridlines" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="container">
+
+      <!-- Возврат к действию + подписка -->
+      <div class="footer__top">
+        <div class="footer__cta">
+          <p class="eyebrow">Ready when you are</p>
+          <p class="footer__ask">
+            The offer takes twenty minutes.
+            <em>The car stays yours until the check clears.</em>
+          </p>
+          <a class="btn btn--primary" href="#quote-form">
+            Get my offer
+            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M0 5h16M12 1l4 4-4 4"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- ⚠️ Эндпоинта нет — форма пока только визуальная. -->
+        <form class="signup" novalidate aria-label="Newsletter signup">
+          <p class="signup__label">New arrivals &amp; market notes</p>
+          <div class="signup__row">
+            <input class="signup__input" type="email" name="email"
+                   placeholder="you@email.com" autocomplete="email" required>
+            <button class="btn btn--primary" type="submit">
+              Subscribe
+              <svg width="18" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M0 5h16M12 1l4 4-4 4"/>
+              </svg>
+            </button>
+          </div>
+          <p class="signup__note">No spam. Unsubscribe anytime.</p>
+        </form>
+      </div>
+
+      <!-- Сеть + навигация + соцсети -->
+      <div class="footer__cols">
+
+        <div class="footer__col footer__col--net">
+          <p class="footer__head">The network</p>
+          <ul class="fnet">
+            <li>
+              <p class="fnet__city">Cleveland <span>Ohio</span></p>
+              <p class="fnet__addr">24661 Miles Rd, Warrensville Heights, OH 44128</p>
+              <a class="fnet__phone" href="tel:+12163586575">216-358-6575</a>
+            </li>
+            <li>
+              <p class="fnet__city">Baltimore <span>Maryland</span></p>
+              <p class="fnet__addr">7869 Dorsey Run Rd, Jessup, MD 20794</p>
+              <a class="fnet__phone" href="tel:+14435833500">443-583-3500</a>
+            </li>
+            <li>
+              <p class="fnet__city">Beverly Hills <span>California</span></p>
+              <p class="fnet__addr">8833 Wilshire Blvd, Beverly Hills, CA 90211</p>
+              <a class="fnet__phone" href="tel:+14242010084">424-201-0084</a>
+            </li>
+            <li>
+              <p class="fnet__city">Newport Beach <span>California</span></p>
+              <p class="fnet__addr">2540 West Coast Highway, Newport Beach, CA 92663</p>
+              <a class="fnet__phone" href="tel:+19496270003">949-627-0003</a>
+            </li>
+            <li>
+              <p class="fnet__city">Kansas City <span>Missouri &middot; <b>Opening</b></span></p>
+              <p class="fnet__addr fnet__addr--soon">Address coming soon.</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <p class="footer__head">Sell your car</p>
+          <ul class="flinks">
+            <li><a href="#quote-form">Get an offer</a></li>
+            <li><a href="#process">How it works</a></li>
+            <li><a href="#what-we-buy">What we buy</a></li>
+            <li><a href="#transport">Nationwide transport</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <p class="footer__head">Reach us</p>
+          <ul class="flinks">
+            <li><a href="tel:+13145860508">314-586-0508</a></li>
+            <li><a href="mailto:info@ibuylc.com">info@ibuylc.com</a></li>
+            <li>
+              <a href="https://www.instagram.com/ibuyluxurycars/" target="_blank" rel="noopener">
+                <svg class="flinks__ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <rect x="2.5" y="2.5" width="19" height="19" rx="5"/>
+                  <circle cx="12" cy="12" r="4.2"/>
+                  <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+                @ibuyluxurycars
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Нижняя строка: связь с материнским брендом обязательна -->
+      <div class="footer__base">
+        <a class="footer__logo" href="/" aria-label="iBuy Luxury Cars — home">
+          <img src="assets/img/logo.png" alt="iBuy Luxury Cars" width="183" height="102">
+        </a>
+
+        <!-- ВОРДМАРК MARSHALL GOLDMAN. Вектора у нас нет, поэтому набран нашим
+             языком: капсы, красная разделительная черта, как в их фирменном
+             начертании. Клиент требовал логотип обязательно — вот он. -->
+        <a class="mglock" href="https://www.marshallgoldman.com/" target="_blank" rel="noopener"
+           aria-label="A division of Marshall Goldman Motor Sales">
+          <span class="mglock__div">A division of</span>
+          <span class="mglock__mark">
+            <span>Marshall</span><i aria-hidden="true"></i><span class="mglock__red">Goldman</span>
+          </span>
+        </a>
+
+        <div class="footer__legal">
+          <p>&copy; 2026 iBuy Luxury Cars. All rights reserved.</p>
+          <nav aria-label="Legal">
+            <a href="/privacy/">Privacy</a>
+            <a href="/terms/">Terms</a>
+          </nav>
+        </div>
+      </div>
+
+    </div>
+  </footer>
 
   <!-- type="module" — карта импортирует свои данные из us-map.js.
        Модули и так откладываются, defer не нужен. -->
