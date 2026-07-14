@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/sections/network.css">
   <link rel="stylesheet" href="css/sections/transport.css">
   <link rel="stylesheet" href="css/sections/process.css">
+  <link rel="stylesheet" href="css/sections/buy.css">
   <link rel="stylesheet" href="css/sections/reviews.css">
 </head>
 
@@ -729,24 +730,135 @@
 
 
     <!-- ====================================================================
-         SECTION 04 — заглушка. Reviews (требование клиента №2).
+         SECTION 05 — WHAT WE'RE LOOKING FOR   (светлая)
+
+         Дыры не было ни в брифе, ни в макете — она есть на живом сайте, и она
+         рабочая: человек нигде не узнаёт, ЧТО именно они покупают и от какой
+         суммы. Блок отсеивает мусорные заявки: владелец Camry не должен доходить
+         до формы, а владелец 812 Superfast обязан увидеть себя в списке.
+
+         Порог ($100,000), четыре типа кузова и все 28 марок — с ibuylc.com,
+         дословно. Заголовок — их собственная фраза «we aren't interested in cars
+         just anyone can buy»: она честнее и злее любой, которую написал бы я.
+
+         КАРТОЧКИ ТИПОВ ГОТОВЫ ПОД ФОТО. Придут кадры — <img> встаёт в
+         .type__media, CSS уже написан. Пока кадров нет, карточка живёт
+         типографикой: это печатная полоса, а не дырка с надписью «здесь фото».
          ==================================================================== -->
+    <section class="buy theme-light" id="what-we-buy" aria-labelledby="buy-title">
+
+      <div class="gridlines" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="container">
+
+        <header class="buy__head">
+          <p class="eyebrow">What we&rsquo;re looking for</p>
+          <h2 class="buy__title" id="buy-title" data-rise="side">
+            We aren&rsquo;t interested in cars
+            <em>just anyone can buy.</em>
+          </h2>
+          <p class="buy__lead" data-rise>
+            Supercars, exotic sports cars, luxury sedans and luxury SUVs. If yours is
+            one of them, we&rsquo;re already in the market for it &mdash; and we&rsquo;re
+            ready to offer at least Kelley Blue Book value.
+          </p>
+        </header>
+
+        <!-- Порог. Единственная цифра, которую человек обязан унести с собой,
+             поэтому она стоит отдельной строкой, а не прячется в абзаце. -->
+        <div class="floor" data-rise>
+          <p class="floor__num"><span data-count="100000" data-money>$100,000</span></p>
+          <p class="floor__note">
+            That&rsquo;s the floor. iBuy buys to <strong>resell</strong> through the
+            Marshall Goldman network, and below six figures the numbers stop working.
+            Above it &mdash; the rarer the car, the more interested we are.
+          </p>
+        </div>
+
+        <ul class="types">
+          <li data-rise>
+            <!-- <figure class="type__media"><img src="…" alt="…" width="…" height="…" loading="lazy"></figure> -->
+            <h3 class="type__title">Supercars</h3>
+            <p class="type__makes">
+              Ferrari &middot; Lamborghini &middot; McLaren &middot; Bugatti &middot; Koenigsegg
+            </p>
+          </li>
+          <li data-rise>
+            <h3 class="type__title">Exotic sports</h3>
+            <p class="type__makes">
+              Porsche &middot; Aston Martin &middot; Lotus &middot; Acura NSX &middot; Dodge
+            </p>
+          </li>
+          <li data-rise>
+            <h3 class="type__title">Luxury sedans</h3>
+            <p class="type__makes">
+              Rolls&#8209;Royce &middot; Bentley &middot; Maybach &middot; Mercedes&#8209;Benz &middot; Maserati
+            </p>
+          </li>
+          <li data-rise>
+            <h3 class="type__title">Luxury SUVs</h3>
+            <p class="type__makes">
+              Range Rover &middot; Land Rover &middot; Cadillac &middot; Lexus &middot; Infiniti
+            </p>
+          </li>
+        </ul>
+
+        <!-- Все 28 марок с их сайта, по алфавиту. Человек ищет глазами свою —
+             алфавит тут важнее любой красоты. -->
+        <ul class="makes" data-rise>
+          <li>Acura NSX</li>
+          <li>Aston Martin</li>
+          <li>Audi</li>
+          <li>Bentley</li>
+          <li>BMW</li>
+          <li>Bugatti</li>
+          <li>Cadillac</li>
+          <li>Chevrolet</li>
+          <li>Dodge</li>
+          <li>Ferrari</li>
+          <li>Fisker</li>
+          <li>Ford</li>
+          <li>Infiniti</li>
+          <li>Koenigsegg</li>
+          <li>Lamborghini</li>
+          <li>Land Rover</li>
+          <li>Lexus</li>
+          <li>Lotus</li>
+          <li>Maserati</li>
+          <li>Maybach</li>
+          <li>McLaren</li>
+          <li>Mercedes-Benz</li>
+          <li>Nissan</li>
+          <li>Porsche</li>
+          <li>Range Rover</li>
+          <li>Rolls-Royce</li>
+          <li>Spyker</li>
+          <li>Volvo</li>
+        </ul>
+
+      </div>
+    </section>
+
+
+
     <!-- ====================================================================
-         SECTION 04 — REVIEWS   (светлая)
+         SECTION 06 — REVIEWS   (светлая)
          Требование клиента №2: Google Reviews на видном месте.
 
-         ЧЕСТНОСТЬ ЗДЕСЬ КРИТИЧНА. Расклад такой:
-         · у самого iBuy Google-отзывов НЕТ (0 на Trustpilot, ~8 Yelp, 3 BirdEye);
-         · все 4.3★ / 461 отзыв принадлежат MARSHALL GOLDMAN (проверено 14.07.2026).
+         ЧЕСТНОСТЬ ЗДЕСЬ КРИТИЧНА, и мой первый расклад был НЕВЕРЕН. Проверено
+         14.07.2026 повторно:
+         · у iBuy ЕСТЬ свой профиль в Google — 5.0★ по 95 отзывам;
+         · 4.3★ / 461 — это отдельная цифра MARSHALL GOLDMAN, другой компании.
 
-         Показывать их можно — iBuy сам себя называет их подразделением. Но
-         подавать чужой рейтинг как свой нельзя, поэтому атрибуция стоит прямо
-         в блоке, а не мелким шрифтом.
+         Прежний вывод («у iBuy отзывов нет») стоял на странице Kansas City с
+         тремя отзывами, которую я принял за всю компанию. Поэтому рейтинг тут
+         СВОЙ, а цифра сети стоит рядом отдельной строкой — смешивать нельзя.
 
-         При этом отзывы Marshall Goldman — от тех, кто ПОКУПАЛ машину, а наш
-         сайт про то, чтобы ПРОДАТЬ. Поэтому содержание берём из четырёх
-         собственных именных отзывов iBuy с ibuylc.com/testimonials/ — они
-         ровно про продажу и отвечают на настоящий страх продавца.
+         Тексты отзывов — с ibuylc.com/testimonials/: они про ПРОДАЖУ машины и
+         отвечают на настоящий страх продавца, а отзывы Marshall Goldman писали
+         те, кто машину покупал.
          ==================================================================== -->
     <section class="reviews theme-light" id="reviews" aria-labelledby="reviews-title">
 

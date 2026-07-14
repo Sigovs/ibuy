@@ -146,11 +146,11 @@ section > .container { position: relative; z-index: 1; }
    1.08em — оптическая компенсация: рост строчных у Instrument Serif ниже, чем
    капитель Antonio, и в один кегль строка выглядела бы мельче соседних. */
 
-.hero__title em,
-.network__title em,
-.transport__title em,
-.process__title em,
-.reviews__title em {
+/* Селектор общий, а не список секций поимённо: перечисление я забывал обновить
+   при каждой новой секции, и заголовок молча выходил капсом вместо антиквы.
+   <em> в заголовке значит ровно одно — вторая строка. */
+main h1 em,
+main h2 em {
   display: block;
   font-family: var(--f-accent);
   font-style: italic;

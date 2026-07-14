@@ -1,0 +1,197 @@
+/* ==========================================================================
+   SECTION 05 — WHAT WE'RE LOOKING FOR   (светлая)
+
+   Дыра, которой не было ни в брифе, ни в нашем макете, но есть на живом сайте:
+   человек нигде не узнаёт, ЧТО именно они покупают и от какой суммы.
+
+   Это не косметика. Блок отсеивает мусорные заявки: владелец Camry не должен
+   доходить до формы, а владелец 812 Superfast — должен увидеть себя в списке
+   и понять, что пришёл по адресу.
+
+   Порог и список марок — с ibuylc.com, дословно. Заголовок — их собственная
+   фраза «we aren't interested in cars just anyone can buy»: она честнее и злее
+   любой, которую я бы написал.
+   ========================================================================== */
+
+.buy {
+  position: relative;
+  padding-block: var(--s-24);
+  border-top: 1px solid var(--c-line);
+}
+
+
+/* --- Шапка ----------------------------------------------------------------- */
+
+.buy__head {
+  max-width: 58ch;
+  margin-bottom: var(--s-12);
+}
+
+.buy__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-block: var(--s-4) var(--s-6);
+}
+
+/* Вторая строка — антиквой (общее правило в base.css). */
+.buy__title em { color: var(--c-text-soft); }
+
+.buy__lead {
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+
+
+/* --- Порог -----------------------------------------------------------------
+   Единственная цифра, которую человек обязан унести с собой. Поэтому она стоит
+   отдельной строкой между линейками, а не прячется в абзаце. */
+
+.floor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s-6) var(--s-10);
+  padding-block: var(--s-8);
+  border-top: 1px solid var(--c-line-strong);
+  border-bottom: 1px solid var(--c-line);
+  margin-bottom: var(--s-16);
+}
+
+.floor__num {
+  font-family: var(--f-display);
+  font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+  /* Табличные цифры обязательны: набегающее число иначе дёргает всю строку. */
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.floor__note {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--c-text-muted);
+  max-width: 46ch;
+}
+
+.floor__note strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+
+/* --- Типы ------------------------------------------------------------------
+   Четыре типа кузова — их деление, не моё. Карточки СРАЗУ под фото: как только
+   Alex отдаст кадры, <img> встаёт в .type__media, и правила ниже уже готовы.
+   Пока кадров нет, карточка живёт типографикой — как и должна печатная полоса,
+   а не как дырка с надписью «здесь будет фото». */
+
+.types {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-10);
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--s-16);
+}
+
+.types > li {
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--c-line);
+}
+
+.type__media {
+  margin: 0 0 var(--s-5);
+  overflow: hidden;   /* кадрирует зум при наведении, как в «How it works» */
+}
+
+.type__media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--t-slow) var(--e-expo);
+}
+
+.types > li:hover .type__media img { transform: scale(1.03); }
+
+.type__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: var(--s-3);
+}
+
+.type__makes {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--c-text-muted);
+}
+
+
+/* --- Стена марок -----------------------------------------------------------
+   28 марок с их сайта. Не «облако тегов» и не плитки: набор в столбцы с
+   волосяными линейками — так же, как отзывы. Человек ищет глазами свою марку,
+   и алфавитный порядок для этого важнее любой красоты.
+
+   Красного тут нет: марка — не действие. Наведение просто вытягивает строку
+   из приглушённого в основной цвет. */
+
+.makes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0 var(--s-8);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.makes li {
+  padding-block: var(--s-3);
+  border-top: 1px solid var(--c-line);
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  transition: color var(--t-fast) var(--e-out);
+}
+
+.makes li:hover { color: var(--c-text); }
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .types { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .buy { padding-block: var(--s-16); }
+
+  /* Сумма и подпись в столбец: втиснутая во вторую колонку подпись на узком
+     экране сжимается в лапшу по два слова. */
+  .floor {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+
+  .types {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+
+  .makes { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  .makes li { font-size: 1.0625rem; }
+}
