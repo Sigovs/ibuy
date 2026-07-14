@@ -653,25 +653,30 @@
           </p>
         </header>
 
-        <!-- Рейтинг. Атрибуция — не сноска, а часть блока. -->
+        <!-- Рейтинг iBuy — СВОЙ, а не занятый у материнской компании: 5.0 по 95
+             отзывам в Google. Рейтинг Marshall Goldman стоит рядом отдельной
+             строкой, потому что это другая компания и другие цифры. -->
         <div class="rating">
-          <p class="rating__score">4.3</p>
+          <p class="rating__score">5.0</p>
 
           <div class="rating__meta">
-            <!-- 4.3 из 5 = 86%. Заливка тянется по этому проценту, а не «на глаз». -->
-            <div class="stars" role="img" aria-label="Rated 4.3 out of 5">
+            <div class="stars" role="img" aria-label="Rated 5.0 out of 5">
               <div class="stars__base" aria-hidden="true">★★★★★</div>
-              <div class="stars__fill" style="width: 86%" aria-hidden="true">★★★★★</div>
+              <div class="stars__fill" style="width: 100%" aria-hidden="true">★★★★★</div>
             </div>
-            <p class="rating__count">461 Google reviews</p>
+            <p class="rating__count">95 Google reviews</p>
           </div>
 
           <p class="rating__attrib">
-            Rating belongs to <strong>Marshall Goldman Motor Sales</strong> &mdash; the
-            dealer network iBuy buys for. Trading collectible, luxury and exotic cars
-            since 1978, across four showrooms.
+            iBuy&rsquo;s own Google rating. The dealer network behind it &mdash;
+            <strong>Marshall Goldman Motor Sales</strong>, trading collectible, luxury
+            and exotic cars since 1978 &mdash; holds 4.3 across 461 reviews.
           </p>
         </div>
+
+        <div class="reviews__body">
+
+        <div class="reviews__main">
 
         <!-- Развёрнутый отзыв. Единственный, где человек прямо сравнивает
              iBuy с CarMax — поэтому он и вынесен вперёд. -->
@@ -747,6 +752,69 @@
           </li>
 
         </ul>
+
+        </div>
+
+        <!-- ТЕЛЕФОН.
+             Отзывы уже набраны слева — повторять их тут же на экране было бы
+             дублированием в пределах одного взгляда. Поэтому телефон показывает
+             не ленту, а РЕЗУЛЬТАТ: пять звёзд собираются и превращаются в галочку.
+
+             Цвета — гугловские (синий, красный, жёлтый, зелёный). Это не «яркости
+             ради»: 5.0 по 95 отзывам — это именно рейтинг iBuy в Google, и палитра
+             называет источник, не подделывая логотип.
+
+             Корпус нарисован нашим языком: волосяной контур, без бликов, глянца и
+             теней. Фотореалистичный макет — ровно то, за что старый сайт получил
+             в аудите. -->
+        <aside class="phone" aria-label="iBuy is rated 5.0 out of 5 across 95 Google reviews">
+          <div class="phone__frame">
+            <div class="phone__notch" aria-hidden="true"></div>
+
+            <div class="phone__screen">
+              <p class="phone__label">Google reviews</p>
+
+              <div class="verdict is-stars" id="verdict">
+
+                <div class="verdict__stage" aria-hidden="true">
+                  <div class="verdict__glow"></div>
+
+                  <!-- Пять звёзд. У каждой свой цвет и свой шаг задержки: они
+                       зажигаются по одной, как считающийся результат. -->
+                  <ul class="verdict__stars">
+                    <li style="--i: 0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"/></svg></li>
+                    <li style="--i: 1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"/></svg></li>
+                    <li style="--i: 2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"/></svg></li>
+                    <li style="--i: 3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"/></svg></li>
+                    <li style="--i: 4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"/></svg></li>
+                  </ul>
+
+                  <!-- Кольцо обводится градиентом из тех же четырёх цветов,
+                       галочка дорисовывается следом. Обе — обводка по длине пути,
+                       поэтому анимация идёт в обе стороны и цикл замыкается. -->
+                  <svg class="verdict__check" viewBox="0 0 100 100">
+                    <defs>
+                      <linearGradient id="g-ring" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0"    stop-color="#4285F4"/>
+                        <stop offset="0.34" stop-color="#EA4335"/>
+                        <stop offset="0.67" stop-color="#FBBC05"/>
+                        <stop offset="1"    stop-color="#34A853"/>
+                      </linearGradient>
+                    </defs>
+                    <circle class="verdict__ring" cx="50" cy="50" r="42"/>
+                    <path class="verdict__tick" d="M31 51 L44 64 L69 36"/>
+                  </svg>
+                </div>
+
+                <p class="verdict__score">5.0</p>
+                <p class="verdict__meta">95 reviews &middot; iBuy Luxury Cars</p>
+              </div>
+
+            </div>
+          </div>
+        </aside>
+
+        </div>
 
         <!-- Их собственная строка со страницы отзывов. Возвращаем человека
              к форме: доверие уже построено, действие должно быть под рукой. -->

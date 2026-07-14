@@ -372,6 +372,101 @@ import { initNetwork } from './network.js';
   }
 
 
+  /* --- Телефон: 3D-корпус и сцена «пять звёзд → галочка» --------------------
+     Экран не листает отзывы (они уже набраны слева — это было бы дублирование),
+     а показывает результат: звёзды зажигаются по одной, собираются, и на их
+     месте дорисовывается галочка. Потом цикл повторяется.
+
+     Вся анимация живёт в CSS-переходах, JS только переключает состояние. Значит
+     prefers-reduced-motion гасит её сам: в reduced длительности сведены к 1мс,
+     и переключение читается как мгновенная смена картинки. Поэтому в reduced мы
+     просто не запускаем цикл и оставляем звёзды. */
+
+  const verdict = document.getElementById('verdict');
+
+  if (verdict) {
+    const phone = verdict.closest('.phone');
+    const frame = phone.querySelector('.phone__frame');
+
+    /* Цикл. Те же три правила, что и у карты: не крутится за кадром, не крутится
+       при скрытой вкладке, и не крутится, когда человек на неё смотрит вблизи. */
+    let onScreen = false;
+    let hover = false;
+    let timer = null;
+
+    const canRun = () => onScreen && !hover && !document.hidden && !REDUCED;
+
+    const stop = () => { clearTimeout(timer); timer = null; };
+
+    // Звёзды держим 2.4с (успеть досчитать до пяти), галочку — 2.8с: это
+    // финальный кадр, ему нужно дать постоять.
+    const step = (toCheck) => {
+      if (!canRun()) return stop();
+      verdict.classList.toggle('is-check', toCheck);
+      verdict.classList.toggle('is-stars', !toCheck);
+      timer = setTimeout(() => step(!toCheck), toCheck ? 2800 : 2400);
+    };
+
+    const start = () => {
+      stop();
+      if (!canRun()) return;
+      timer = setTimeout(() => step(true), 2400);
+    };
+
+    // Порог низкий: сцена высокая, и на 0.4 она «невидима» даже когда телефон
+    // уже наполовину в кадре — цикл просто не запускался.
+    new IntersectionObserver((entries) => {
+      onScreen = entries[0].isIntersecting;
+      onScreen ? start() : stop();
+    }, { threshold: 0.15 }).observe(verdict);
+
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stop() : start();
+    });
+
+    /* Наклон за курсором. Углы покоя заданы в CSS (--ry/--rx), JS только
+       отклоняет от них — на тач-устройствах, где mousemove не приходит,
+       телефон остаётся наклонённым сам по себе.
+
+       Считаем от центра корпуса, а не от секции: иначе на широком экране
+       телефон реагировал бы на курсор, который к нему и не приближался. */
+    if (!REDUCED && window.matchMedia('(hover: hover)').matches) {
+      const REST_RY = -15;
+      const REST_RX = 7;
+      const RANGE = 12;          // максимум ±12° от покоя
+      let raf = 0;
+
+      const tilt = (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const r = frame.getBoundingClientRect();
+          // Нормируем на два радиуса: курсор в метре от телефона не должен
+          // класть его набок.
+          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 2);
+          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 2);
+          const clamp = (v) => Math.max(-1, Math.min(1, v));
+          frame.style.setProperty('--ry', `${REST_RY + clamp(dx) * RANGE}deg`);
+          frame.style.setProperty('--rx', `${REST_RX - clamp(dy) * RANGE}deg`);
+        });
+      };
+
+      // Слушаем всю секцию: телефон должен «замечать» руку заранее, а не только
+      // когда на него навели.
+      const section = document.getElementById('reviews');
+      section.addEventListener('mousemove', tilt);
+      section.addEventListener('mouseleave', () => {
+        frame.style.removeProperty('--ry');
+        frame.style.removeProperty('--rx');
+      });
+
+      // Навёл прямо на телефон — цикл замирает: человек разглядывает предмет.
+      phone.addEventListener('mouseenter', () => { hover = true; stop(); });
+      phone.addEventListener('mouseleave', () => { hover = false; start(); });
+    }
+  }
+
+
   /* ==========================================================================
      ФОРМА
      Валидация ручная, а не через :invalid — нативная красит поле ещё до

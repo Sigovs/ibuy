@@ -110,6 +110,264 @@
 }
 
 
+/* --- Раскладка: текст + телефон -------------------------------------------- */
+
+.reviews__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 272px);
+  gap: var(--s-16);
+  align-items: start;
+  margin-bottom: var(--s-16);
+}
+
+
+/* --- Телефон, 3D ------------------------------------------------------------
+   Тот же приём, что и у карты: предмет лежит в перспективе, а не наклеен
+   картинкой. Наклон реальный (rotateY/rotateX), экран отодвинут по Z, поэтому
+   при движении курсора содержимое сдвигается относительно корпуса — параллакс
+   получается сам, его не надо подделывать.
+
+   Корпус нарисован нашим языком: волосяной контур, никакого глянца, бликов и
+   фотореализма — ровно за них старый сайт и получил в аудите. Единственное
+   скругление на сайте — здесь, и оно оправдано: телефон и есть скруглённый
+   предмет. */
+
+.phone {
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-8));
+  perspective: 1400px;
+  perspective-origin: 50% 45%;
+}
+
+.phone__frame {
+  position: relative;
+  border: 1px solid var(--c-line-strong);
+  border-radius: 30px;
+  padding: 10px;
+  background: var(--c-surface);
+  transform-style: preserve-3d;
+  /* Углы задаются переменными: JS двигает только их, а состояние покоя
+     остаётся в CSS — на тач-устройствах телефон так и стоит наклонённым. */
+  --ry: -15deg;
+  --rx: 7deg;
+  transform: rotateY(var(--ry)) rotateX(var(--rx));
+  transition: transform var(--t-slow) var(--e-out);
+}
+
+/* Торец. Одна плоскость, отодвинутая назад по Z: даёт толщину устройства,
+   когда корпус повёрнут. Тень не рисуем — рисуем грань. */
+.phone__frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  background: var(--c-line);
+  transform: translateZ(-14px);
+}
+
+/* Вырез камеры — единственная «деталь устройства». Кнопки и динамики
+   превратили бы это в стоковый макет. */
+.phone__notch {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 66px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  transform: translate3d(-50%, 0, 2px);
+  z-index: 2;
+}
+
+.phone__screen {
+  position: relative;
+  border-radius: 22px;
+  background: #0B0D10;
+  padding: var(--s-10) var(--s-5) var(--s-6);
+  /* Пропорция ~0.57 — телефон. На 380px читалось планшетом. */
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+}
+
+.phone__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.40);
+  margin-bottom: var(--s-5);
+  transform: translateZ(12px);
+}
+
+
+/* --- Экран: пять звёзд → галочка --------------------------------------------
+   Отзывы уже набраны слева. Повторять их здесь же — дублирование в пределах
+   одного взгляда, поэтому телефон показывает не ленту, а результат.
+
+   Цвета гугловские: 5.0 по 95 отзывам — это рейтинг iBuy именно в Google.
+   Палитра называет источник, не подделывая логотип. */
+
+.verdict {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-6);
+  transform: translateZ(28px);   /* содержимое парит над стеклом */
+}
+
+.verdict__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 104px;
+}
+
+/* Цветное свечение под сценой. Разгорается на галочке — момент, ради которого
+   всё и затевалось. */
+.verdict__glow {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(52, 168, 83, 0.30), transparent 65%);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity var(--t-slow) var(--e-out), transform var(--t-slow) var(--e-out);
+}
+
+.verdict.is-check .verdict__glow {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* Звёзды */
+
+.verdict__stars {
+  grid-area: 1 / 1;
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.verdict__stars li {
+  opacity: 0;
+  transform: scale(0.3) rotate(-25deg);
+  transition: opacity 260ms var(--e-out), transform 420ms var(--e-back);
+}
+
+/* Зажигаются по одной: шаг 110мс от индекса. Это и есть «считающийся» результат. */
+.verdict.is-stars .verdict__stars li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i) * 110ms);
+}
+
+/* На галочке звёзды схлопываются к центру — не исчезают, а собираются в неё. */
+.verdict.is-check .verdict__stars li {
+  opacity: 0;
+  transform: scale(0.2);
+  transition-delay: calc((4 - var(--i)) * 40ms);
+}
+
+.verdict__stars svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+/* Четыре цвета Google, пятая замыкает круг синим. */
+.verdict__stars li:nth-child(1) svg { fill: #4285F4; }
+.verdict__stars li:nth-child(2) svg { fill: #EA4335; }
+.verdict__stars li:nth-child(3) svg { fill: #FBBC05; }
+.verdict__stars li:nth-child(4) svg { fill: #34A853; }
+.verdict__stars li:nth-child(5) svg { fill: #4285F4; }
+
+
+/* Галочка. Кольцо и птичка обводятся по длине пути (stroke-dashoffset),
+   поэтому переход идёт в обе стороны и цикл замыкается без перезапуска. */
+
+.verdict__check {
+  grid-area: 1 / 1;
+  width: 96px;
+  height: 96px;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 240ms var(--e-out), transform 520ms var(--e-back);
+}
+
+.verdict.is-check .verdict__check {
+  opacity: 1;
+  transform: none;
+  transition-delay: 120ms;
+}
+
+.verdict__ring {
+  stroke: url(#g-ring);
+  stroke-width: 3;
+  stroke-dasharray: 264;          /* 2πr при r=42 */
+  stroke-dashoffset: 264;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset var(--t-slow) var(--e-out);
+}
+
+.verdict.is-check .verdict__ring {
+  stroke-dashoffset: 0;
+  transition-duration: 700ms;
+  transition-delay: 140ms;
+}
+
+.verdict__tick {
+  stroke: #34A853;
+  stroke-width: 6;
+  /* Длина пути ≈ 56. Берём с запасом: если dasharray короче пути, штрих
+     повторяется и у птички отъедает хвост. */
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  transition: stroke-dashoffset 300ms var(--e-out);
+}
+
+.verdict.is-check .verdict__tick {
+  stroke-dashoffset: 0;
+  transition-duration: 420ms;
+  transition-delay: 560ms;        /* после кольца, а не одновременно с ним */
+}
+
+
+/* Цифра и подпись стоят всегда: анимация меняет картинку, а не факт. */
+
+.verdict__score {
+  font-family: var(--f-display);
+  font-size: 3.25rem;
+  font-weight: 700;
+  line-height: 0.85;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  margin-top: var(--s-4);
+}
+
+.verdict__meta {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+}
+
+
 /* --- Отзывы ----------------------------------------------------------------
    Цитата набрана НЕ конденсированным Antonio: он для заголовков, а длинную
    человеческую речь в узких капсах читать невозможно. */
@@ -228,6 +486,19 @@
     gap: var(--s-5);
   }
   .rating__attrib { grid-column: 1 / -1; }
+
+  /* Телефон уходит под текст и перестаёт липнуть: sticky-элемент в один
+     столбец — это просто блок, который зря держит скролл. */
+  .reviews__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-12);
+  }
+
+  .phone {
+    position: static;
+    max-width: 272px;
+    margin-inline: auto;
+  }
 
   .reviews__grid {
     grid-template-columns: 1fr;
