@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/sections/hero.css">
   <link rel="stylesheet" href="css/sections/network.css">
   <link rel="stylesheet" href="css/sections/process.css">
+  <link rel="stylesheet" href="css/sections/reviews.css">
 </head>
 
 <body>
@@ -602,9 +603,147 @@
     <!-- ====================================================================
          SECTION 04 — заглушка. Reviews (требование клиента №2).
          ==================================================================== -->
-    <section class="next-stub theme-light" id="reviews">
+    <!-- ====================================================================
+         SECTION 04 — REVIEWS   (светлая)
+         Требование клиента №2: Google Reviews на видном месте.
+
+         ЧЕСТНОСТЬ ЗДЕСЬ КРИТИЧНА. Расклад такой:
+         · у самого iBuy Google-отзывов НЕТ (0 на Trustpilot, ~8 Yelp, 3 BirdEye);
+         · все 4.3★ / 461 отзыв принадлежат MARSHALL GOLDMAN (проверено 14.07.2026).
+
+         Показывать их можно — iBuy сам себя называет их подразделением. Но
+         подавать чужой рейтинг как свой нельзя, поэтому атрибуция стоит прямо
+         в блоке, а не мелким шрифтом.
+
+         При этом отзывы Marshall Goldman — от тех, кто ПОКУПАЛ машину, а наш
+         сайт про то, чтобы ПРОДАТЬ. Поэтому содержание берём из четырёх
+         собственных именных отзывов iBuy с ibuylc.com/testimonials/ — они
+         ровно про продажу и отвечают на настоящий страх продавца.
+         ==================================================================== -->
+    <section class="reviews theme-light" id="reviews" aria-labelledby="reviews-title">
       <div class="container">
-        <p class="eyebrow">Section 04 &middot; Reviews &mdash; next up</p>
+
+        <header class="reviews__head">
+          <h2 class="reviews__title" id="reviews-title">
+            Don&rsquo;t take our word for it.
+            <em>Take theirs.</em>
+          </h2>
+          <p class="reviews__lead">
+            A company should be measured by how well its business model solves its
+            customer&rsquo;s problems. The only way to judge that is by looking at
+            what past clients have to say.
+          </p>
+        </header>
+
+        <!-- Рейтинг. Атрибуция — не сноска, а часть блока. -->
+        <div class="rating">
+          <p class="rating__score">4.3</p>
+
+          <div class="rating__meta">
+            <!-- 4.3 из 5 = 86%. Заливка тянется по этому проценту, а не «на глаз». -->
+            <div class="stars" role="img" aria-label="Rated 4.3 out of 5">
+              <div class="stars__base" aria-hidden="true">★★★★★</div>
+              <div class="stars__fill" style="width: 86%" aria-hidden="true">★★★★★</div>
+            </div>
+            <p class="rating__count">461 Google reviews</p>
+          </div>
+
+          <p class="rating__attrib">
+            Rating belongs to <strong>Marshall Goldman Motor Sales</strong> &mdash; the
+            dealer network iBuy buys for. Trading collectible, luxury and exotic cars
+            since 1978, across four showrooms.
+          </p>
+        </div>
+
+        <!-- Развёрнутый отзыв. Единственный, где человек прямо сравнивает
+             iBuy с CarMax — поэтому он и вынесен вперёд. -->
+        <figure class="review review--lead">
+          <blockquote class="review__quote">
+            From the moment I met Danny and his team, I was treated like a VIP. What
+            separates iBuy from any other car buying service &mdash; generic websites,
+            CarMax &mdash; is that <em>they know cars</em>. Specifically unique, special
+            cars. They make the process fast, efficient, straightforward and completely
+            stress&#8209;free.
+          </blockquote>
+          <figcaption class="review__by">
+            <span class="review__name">Corey Chopra</span>
+            <span class="review__where">Kansas City, MO</span>
+          </figcaption>
+        </figure>
+
+        <ul class="reviews__grid">
+
+          <li>
+            <figure class="review">
+              <blockquote class="review__quote">
+                I have sold iBuy two exotic cars on two separate occasions. In both
+                transactions the entire process was amazingly easy and straightforward,
+                with payment received quickly &mdash; at the exact time I was told it
+                would arrive.
+              </blockquote>
+              <figcaption class="review__by">
+                <span class="review__name">Chad Joost</span>
+                <span class="review__where">Houston, TX</span>
+              </figcaption>
+            </figure>
+          </li>
+
+          <li>
+            <figure class="review">
+              <blockquote class="review__quote">
+                I sold my Lotus Elise to iBuy using the online service and the process
+                was just as smooth as advertised. He gave me a very fair price and got
+                the whole thing done lightning fast.
+              </blockquote>
+              <figcaption class="review__by">
+                <span class="review__name">F. Sather</span>
+                <span class="review__where">Lotus Elise</span>
+              </figcaption>
+            </figure>
+          </li>
+
+          <li>
+            <figure class="review">
+              <blockquote class="review__quote">
+                I will miss the car, but the communication, inspection and transaction
+                were as smooth as I could have hoped for.
+              </blockquote>
+              <figcaption class="review__by">
+                <span class="review__name">A. V.</span>
+                <span class="review__where">California</span>
+              </figcaption>
+            </figure>
+          </li>
+
+          <li>
+            <figure class="review">
+              <blockquote class="review__quote">
+                Great company. Great service. Talk&rsquo;s cheap &mdash; and these guys
+                deliver.
+              </blockquote>
+              <figcaption class="review__by">
+                <span class="review__name">Jay Levitt</span>
+                <span class="review__where">San Diego, CA</span>
+              </figcaption>
+            </figure>
+          </li>
+
+        </ul>
+
+        <!-- Их собственная строка со страницы отзывов. Возвращаем человека
+             к форме: доверие уже построено, действие должно быть под рукой. -->
+        <div class="reviews__cta">
+          <p class="reviews__ask">
+            We&rsquo;ll pay more than the dealership for your car. Interested?
+          </p>
+          <a class="btn btn--primary" href="#quote-form">
+            Get my offer
+            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M0 5h16M12 1l4 4-4 4"/>
+            </svg>
+          </a>
+        </div>
+
       </div>
     </section>
 
