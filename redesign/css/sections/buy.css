@@ -113,6 +113,11 @@
 
 .type__media img {
   width: 100%;
+  /* height: auto обязателен. Атрибуты width/height в разметке — это
+     презентационная подсказка CSS (height: 1059px), и пока её не сбросить,
+     aspect-ratio молча игнорируется: картинка выходила во всю натуральную
+     высоту и вытягивала карточку в столб. */
+  height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   display: block;
