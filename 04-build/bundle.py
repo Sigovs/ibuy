@@ -43,7 +43,7 @@ IMG_MAX = {
 
 FONT_CSS = ("https://fonts.googleapis.com/css2"
             "?family=Antonio:wght@400;600;700"
-            "&family=Archivo:wght@400;500;600"
+            "&family=Inter+Tight:wght@400;500;600"
             "&family=JetBrains+Mono:wght@400;500"
             "&display=swap")
 

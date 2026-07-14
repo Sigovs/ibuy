@@ -29,17 +29,28 @@ export function initNetwork() {
      на retina точки превращаются в кашу. */
 
   const paintDots = () => {
-    const rect = canvas.getBoundingClientRect();
-    if (!rect.width) return;
+    /* offsetWidth/offsetHeight, а НЕ getBoundingClientRect.
+
+       Canvas лежит внутри наклонённой плоскости (rotateX). getBoundingClientRect
+       возвращает СПРОЕЦИРОВАННЫЙ размер — сплющенный наклоном: высота приходила
+       371 вместо 489. Битмап получался на четверть короче нужного, и весь юг
+       страны — Техас, Флорида, залив — просто не рисовался: точки уезжали
+       за нижний край битмапа. Карта выглядела чётко обрезанной, и никакая
+       правка секции этого не лечила.
+
+       offset* отдаёт РАЗМЕР В РАЗМЕТКЕ и трансформами не искажается. */
+    const w = canvas.offsetWidth;
+    const h = canvas.offsetHeight;
+    if (!w || !h) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width  = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.height * dpr);
+    canvas.width  = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, rect.width, rect.height);
+    ctx.clearRect(0, 0, w, h);
 
-    const scale = rect.width / MAP_W;
+    const scale = w / MAP_W;
     const r = Math.max(1, 1.5 * scale);
 
     /* Цвет берём из токена, а не из литерала: canvas не знает про тему, и на
