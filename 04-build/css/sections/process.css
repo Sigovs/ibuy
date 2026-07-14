@@ -84,6 +84,9 @@
 .step__media--plate img {
   aspect-ratio: 16 / 10;
   object-fit: contain;
+  /* Поля обрезаны по альфе, поэтому предмет упирался бампером в самый край
+     колонки. Воздух возвращаем здесь — на плашке цвета секции он невидим. */
+  padding-inline: var(--s-6);
 }
 
 .step__body { max-width: 44ch; }

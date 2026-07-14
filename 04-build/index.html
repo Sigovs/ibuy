@@ -626,14 +626,16 @@
         <ol class="steps">
 
           <li class="step">
-            <!-- Рендер Alex'а. Фон приведён к цвету секции, поэтому предмет
-                 лежит на плашке, а не в белой коробке (исходник — на белом).
-                 object-fit: contain, а не cover: кадрирование срезало бы
-                 телефон, ради которого рендер и взят. -->
+            <!-- Рендер Alex'а (steps/01/01.png — PNG с честной альфой). Пустые
+                 поля обрезаны по альфе, предмет положен на цвет секции: он лежит
+                 на плашке, а не в белой коробке.
+
+                 object-fit: contain, а не cover: кадрирование срезало бы телефон,
+                 ради которого рендер и взят. -->
             <figure class="step__media step__media--plate" data-rise="side">
               <img src="assets/img/steps/step-01-submit.jpg"
-                   alt="A black Aston Martin DB11 with photos of it flying into a phone: VIN and mileage confirmed."
-                   width="2000" height="1152" loading="lazy">
+                   alt="A green Aston Martin DB11 beside a phone showing the iBuy form: photos uploaded, VIN, mileage and condition confirmed."
+                   width="1391" height="806" loading="lazy">
             </figure>
             <div class="step__body" data-rise>
               <p class="step__num">01</p>
