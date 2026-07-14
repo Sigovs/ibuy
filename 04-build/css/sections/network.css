@@ -31,8 +31,14 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* Белое свечение — по центру: оно светит на карту, а не в угол секции.
+     Чуть выше середины (46%), потому что карта висит в верхней половине —
+     ровно 50% увели бы свет под неё.
+
+     Красное осталось сбоку: два источника в центре погасили бы друг друга в
+     сплошную виньетку — ту самую, что читается как «сделано в CSS». */
   background:
-    radial-gradient(48% 62% at 12% 28%, var(--section-glow), transparent 68%),
+    radial-gradient(62% 70% at 50% 46%, var(--section-glow), transparent 70%),
     radial-gradient(38% 48% at 88% 76%, rgba(222, 25, 42, 0.10), transparent 70%);
 }
 
