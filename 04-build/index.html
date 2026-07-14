@@ -349,15 +349,28 @@
 
         <div class="network__body">
 
-          <!-- Карта. Точки страны — canvas (их 3094), маркеры и дуги — SVG. -->
+          <!-- Карта. Наклонена в перспективе: плоская читается как схема,
+               наклонённая — как местность. Приём тот же, что у «земли» в герое.
+
+               ДВА СЛОЯ, и это принципиально:
+               · .map__stage — наклонён. В нём точки страны (canvas) и маркеры
+                 с подписями (SVG). Подписи ложатся НА местность, кольца пинга
+                 становятся эллипсами — так и должно быть на плоскости в перспективе.
+               · .map__air — НЕ наклонён, лежит поверх. В нём дуги перегона.
+                 Если бы они жили в наклонённой плоскости, то легли бы на землю
+                 крашеными полосами. В отдельном слое они выгибаются НАД страной —
+                 и только тогда читаются как маршруты.
+
+               Концы дуг берутся из реальных экранных координат маркеров после
+               3D-трансформа (см. network.js), а не считаются заново. -->
           <figure class="map">
-            <canvas class="map__dots" aria-hidden="true"></canvas>
 
-            <svg class="map__svg" viewBox="0 0 1000 528" role="img"
-                 aria-label="Map of the United States showing Marshall Goldman showrooms in Cleveland, Baltimore, Beverly Hills, Newport Beach, and a new Kansas City location.">
-              <g class="map__arcs"></g>
+            <div class="map__stage">
+              <canvas class="map__dots" aria-hidden="true"></canvas>
 
-              <g class="map__markers">
+              <svg class="map__svg" viewBox="0 0 1000 528" role="img"
+                   aria-label="Map of the United States showing Marshall Goldman showrooms in Cleveland, Baltimore, Beverly Hills, Newport Beach, and a new Kansas City location.">
+                <g class="map__markers">
                 <g class="marker" data-city="cleveland" transform="translate(748.1 172.9)">
                   <circle class="marker__ping" r="4"></circle>
                   <circle class="marker__ping" r="4"></circle>
@@ -399,6 +412,14 @@
                   <text class="marker__label" x="0" y="-20">Kansas City</text>
                 </g>
               </g>
+              </svg>
+            </div>
+
+            <!-- Дуги перегона. Отдельный, НЕ наклонённый слой поверх плоскости —
+                 иначе маршрут ляжет на землю. viewBox выставляется из JS
+                 по реальному размеру карты в пикселях. -->
+            <svg class="map__air" aria-hidden="true">
+              <g class="map__arcs"></g>
             </svg>
 
             <figcaption class="map__note">

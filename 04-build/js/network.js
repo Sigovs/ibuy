@@ -59,34 +59,73 @@ export function initNetwork() {
   let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(paintDots, 150);
+    resizeTimer = setTimeout(() => {
+      paintDots();
+      // Дуги привязаны к ЭКРАННЫМ координатам маркеров: изменился размер —
+      // города уехали, и дуги надо перечертить, иначе они повиснут в стороне.
+      if (currentKey) drawArcs(currentKey);
+    }, 150);
   });
 
 
   /* --- Дуги ---------------------------------------------------------------
      Требование клиента №3: машины перегоняются между любыми локациями.
-     Дуга — это и есть перегон. Рисуем её как кривую, выгнутую вверх: прямая
-     линия между городами читалась бы как граница, а не как маршрут. */
 
-  const arcLayer = svg.querySelector('.map__arcs');
+     Дуги живут в ОТДЕЛЬНОМ, НЕ наклонённом слое (.map__air) поверх плоскости.
+     Если бы они были внутри наклонённого <svg>, то легли бы на землю крашеными
+     полосами. Здесь они выгибаются НАД страной — и только тогда читаются как
+     маршруты, а не как границы.
+
+     Из-за этого концы дуг НЕЛЬЗЯ брать из MAP_CITIES: те координаты — в системе
+     карты, а после rotateX город на экране оказывается совсем не там. Берём
+     реальные экранные позиции маркеров (getBoundingClientRect уже учитывает
+     3D-трансформ) и пересчитываем их в координаты слоя. */
+
+  const air = root.querySelector('.map__air');
+  const arcLayer = air.querySelector('.map__arcs');
+
+  /* Экранная позиция города = центр его точки после наклона. */
+  const screenPoint = (key) => {
+    const dot = root.querySelector(`.marker[data-city="${key}"] .marker__dot`);
+    if (!dot) return null;
+
+    const r = dot.getBoundingClientRect();
+    const box = air.getBoundingClientRect();
+    return [r.left + r.width / 2 - box.left, r.top + r.height / 2 - box.top];
+  };
 
   const arcPath = (a, b) => {
     const [x1, y1] = a;
     const [x2, y2] = b;
     const mx = (x1 + x2) / 2;
     const my = (y1 + y2) / 2;
-    // Чем дальше города, тем выше дуга.
-    const lift = Math.hypot(x2 - x1, y2 - y1) * 0.22;
+    // Чем дальше города, тем выше летит маршрут.
+    const lift = Math.hypot(x2 - x1, y2 - y1) * 0.26;
     return `M ${x1} ${y1} Q ${mx} ${my - lift} ${x2} ${y2}`;
   };
 
+  /* Слой рисуем в ПИКСЕЛЯХ карты, а не в её внутренних координатах: экранные
+     позиции маркеров приходят именно в пикселях. */
+  const syncAirViewBox = () => {
+    const box = air.getBoundingClientRect();
+    if (box.width) air.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+  };
+
+  let currentKey = null;
+
   const drawArcs = (fromKey) => {
+    currentKey = fromKey;
     arcLayer.innerHTML = '';
-    const from = MAP_CITIES[fromKey];
+    syncAirViewBox();
+
+    const from = screenPoint(fromKey);
     if (!from) return;
 
-    Object.entries(MAP_CITIES).forEach(([key, to]) => {
+    Object.keys(MAP_CITIES).forEach((key) => {
       if (key === fromKey) return;
+
+      const to = screenPoint(key);
+      if (!to) return;
 
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.setAttribute('d', arcPath(from, to));
@@ -105,7 +144,10 @@ export function initNetwork() {
     });
   };
 
-  const clearArcs = () => { arcLayer.innerHTML = ''; };
+  const clearArcs = () => {
+    currentKey = null;
+    arcLayer.innerHTML = '';
+  };
 
 
   /* --- Связка карты и списка ---------------------------------------------- */
