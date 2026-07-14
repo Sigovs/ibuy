@@ -162,17 +162,24 @@
       rgba(8, 9, 11, 0.34) 46%,
       rgba(8, 9, 11, 0.04) 66%,
       rgba(8, 9, 11, 0.00) 100%),
+    /* Низ кадра. Раньше ступень тут была видна: фото гасло за 9% высоты (≈70px)
+       и упиралось в границу секции ещё живым. Растворитель длинный — фото
+       уходит в цвет секции постепенно, и стык перестаёт существовать.
+       Цвет тот же, что у .network (--c-bg), поэтому шва нет вовсе. */
     linear-gradient(to top,
       var(--c-bg) 0%,
-      rgba(11, 13, 16, 0.55) 9%,
-      transparent 32%),
+      var(--c-bg) 5%,
+      rgba(11, 13, 16, 0.94) 11%,
+      rgba(11, 13, 16, 0.70) 19%,
+      rgba(11, 13, 16, 0.34) 30%,
+      transparent 46%),
     linear-gradient(to bottom,
       rgba(8, 9, 11, 0.62) 0%,
       transparent 18%);
 }
 
-/* Колоночная сетка поверх кадра — конструкция, а не декор.
-   Вертикали идут во всю высоту, как разметка чертежа. */
+/* Колоночная сетка поверх кадра — конструкция, а не декор. Продолжается во всех
+   секциях ниже (.gridlines в base.css), поэтому цвет берётся из общего токена. */
 .hero__grid {
   position: absolute;
   inset: 0;
@@ -186,10 +193,10 @@
 }
 
 .hero__grid span {
-  border-left: 1px solid rgba(255, 255, 255, 0.055);
+  border-left: 1px solid var(--grid-line);
 }
 .hero__grid span:last-child {
-  border-right: 1px solid rgba(255, 255, 255, 0.055);
+  border-right: 1px solid var(--grid-line);
 }
 
 /* --- Земля -----------------------------------------------------------------
@@ -941,6 +948,65 @@
 /* ==========================================================================
    Адаптив
    ========================================================================== */
+
+/* ==========================================================================
+   НИЗКИЕ ЭКРАНЫ
+
+   Герой обязан помещаться целиком, а не обрезаться. Ширина тут ни при чём —
+   виновата ВЫСОТА: на 1180×560 форма уходила на 46px за нижний край, и кнопка
+   «Get my offer» — главное действие страницы — оказывалась за фолдом.
+
+   Поэтому запросы по height, а не по width. Жмём то, что дышит: шапку, кегль
+   заголовка, отступы и высоту полей. Ничего не прячем — на маленьком ноутбуке
+   человек должен видеть тот же герой, только плотнее.
+   ========================================================================== */
+
+@media (max-height: 800px) {
+  :root {
+    --header-h:       76px;
+    --header-h-stuck: 58px;
+    --logo-h:         46px;
+    --logo-h-stuck:   34px;
+    --ctl-h:          42px;
+    --fs-display:     clamp(2.25rem, 1rem + 3.2vw, 3.6rem);
+  }
+
+  .hero__inner { padding-block: var(--s-5); gap: var(--s-10); }
+  .hero__title { margin-bottom: var(--s-4); }
+  .hero__lead  { margin-bottom: var(--s-5); }
+
+  .quote { padding: var(--s-5) var(--s-5) var(--s-4); }
+
+  .trust { padding-top: var(--s-6); gap: var(--s-6); }
+  .trust__logo--fox   { height: 34px; }
+  .trust__logo--stl   { height: 36px; }
+  .trust__logo--roku  { height: 22px; }
+  .trust__logo--buzz  { height: 18px; }
+  .trust__logo--trust { height: 23px; }
+}
+
+@media (max-height: 660px) {
+  :root {
+    --header-h:       64px;
+    --header-h-stuck: 52px;
+    --logo-h:         38px;
+    --logo-h-stuck:   30px;
+    --ctl-h:          38px;
+    --fs-display:     clamp(1.9rem, 0.9rem + 2.6vw, 2.9rem);
+  }
+
+  .hero__inner { padding-block: var(--s-4); }
+  .hero__lead  { margin-bottom: var(--s-4); }
+
+  .quote { padding: var(--s-4); }
+
+  .trust { padding-top: var(--s-5); gap: var(--s-5); }
+  .trust__logo--fox   { height: 26px; }
+  .trust__logo--stl   { height: 28px; }
+  .trust__logo--roku  { height: 17px; }
+  .trust__logo--buzz  { height: 14px; }
+  .trust__logo--trust { height: 18px; }
+}
 
 @media (max-width: 1080px) {
   .hero { min-height: auto; }
