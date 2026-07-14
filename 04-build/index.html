@@ -537,13 +537,81 @@
           </p>
         </header>
 
-        <div class="rail" data-rise>
-          <div class="rail__line" aria-hidden="true"></div>
+        <!-- МАРШРУТ — ДУГА, а не прямая. Прямая читалась как полоса загрузки;
+             дуга рифмуется с перегонами на карте выше (они там тоже выгнуты) и
+             сразу говорит «это перелёт через страну», а не «шаг 1-2-3».
 
-          <!-- Каретка едет не сама точка, а её носитель во всю ширину рельса:
-               так ход задаётся в transform (проценты от ширины рельса), а не в
-               left — браузер не пересчитывает раскладку на каждом кадре. -->
-          <div class="rail__truck" aria-hidden="true"><span></span></div>
+             Всё внутри SVG: и кривая, и точки, и каретка. Иначе не сходится —
+             точка на прямой держится процентами, а на кривой её положение надо
+             брать с самого пути. Каретку ведёт animateMotion по <mpath>: она
+             идёт ровно по нарисованной линии при любой ширине экрана.
+
+             Хвост — три «призрака», отстающих на 0.12/0.24/0.36с. На перегоне
+             они растягиваются за кареткой в след, а на остановке догоняют её и
+             сливаются — хвост пропадает сам, без отдельной анимации. -->
+        <div class="rail" data-rise>
+          <svg class="rail__svg" viewBox="0 0 1000 140" fill="none" aria-hidden="true">
+            <defs>
+              <!-- Линия растворяется к краям: маршрут приходит извне кадра и
+                   уходит дальше — ровно то, что значит «по всей стране». -->
+              <linearGradient id="rail-fade" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0"    stop-color="currentColor" stop-opacity="0"/>
+                <stop offset="0.14" stop-color="currentColor" stop-opacity="1"/>
+                <stop offset="0.86" stop-color="currentColor" stop-opacity="1"/>
+                <stop offset="1"    stop-color="currentColor" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+
+            <!-- ЛОМАНАЯ, а не гладкая дуга: маршрут прыгает по высотам, как
+                 профиль перегона. Вершины между остановками — это не украшение,
+                 а те самые «где-то там» между вашим двором и шоурумом.
+
+                 Геометрия посчитана, а не подобрана: средняя остановка попадает
+                 ровно на половину длины пути (0.5008), поэтому keyPoints каретки
+                 остаются 0 / 0.5 / 1 и она встаёт точно в точку. -->
+            <path id="rail-path" class="rail__curve"
+                  d="M10 124 L150 58 L300 104 L500 30 L700 96 L840 46 L990 112"
+                  stroke="url(#rail-fade)"/>
+
+            <!-- Остановки сидят на вершинах ломаной: своя высота у каждой. -->
+            <circle class="rail__ping"     cx="10"  cy="124" r="5" style="--i: 0"/>
+            <circle class="rail__ping"     cx="500" cy="30"  r="5" style="--i: 1"/>
+            <circle class="rail__ping"     cx="990" cy="112" r="5" style="--i: 2"/>
+
+            <circle class="rail__stop" cx="10"  cy="124" r="5"/>
+            <circle class="rail__stop" cx="500" cy="30"  r="5"/>
+            <circle class="rail__stop rail__stop--end" cx="990" cy="112" r="5"/>
+
+            <!-- Хвост: догоняющие призраки. Порядок в разметке — от дальнего к
+                 ближнему, чтобы голова осталась сверху. -->
+            <circle class="rail__ghost" r="3.4" cx="0" cy="0" style="--o: 0.16">
+              <animateMotion dur="8s" repeatCount="indefinite" begin="0.36s" calcMode="linear"
+                             keyPoints="0;0;0.5;0.5;1;1" keyTimes="0;0.125;0.4;0.525;0.8;1">
+                <mpath href="#rail-path"/>
+              </animateMotion>
+            </circle>
+            <circle class="rail__ghost" r="3.8" cx="0" cy="0" style="--o: 0.3">
+              <animateMotion dur="8s" repeatCount="indefinite" begin="0.24s" calcMode="linear"
+                             keyPoints="0;0;0.5;0.5;1;1" keyTimes="0;0.125;0.4;0.525;0.8;1">
+                <mpath href="#rail-path"/>
+              </animateMotion>
+            </circle>
+            <circle class="rail__ghost" r="4.2" cx="0" cy="0" style="--o: 0.5">
+              <animateMotion dur="8s" repeatCount="indefinite" begin="0.12s" calcMode="linear"
+                             keyPoints="0;0;0.5;0.5;1;1" keyTimes="0;0.125;0.4;0.525;0.8;1">
+                <mpath href="#rail-path"/>
+              </animateMotion>
+            </circle>
+
+            <!-- Каретка. Держится 1с на каждой остановке: keyPoints повторяют
+                 одно и то же значение, пока идёт стоянка. -->
+            <circle class="rail__car" r="5" cx="0" cy="0">
+              <animateMotion dur="8s" repeatCount="indefinite" calcMode="linear"
+                             keyPoints="0;0;0.5;0.5;1;1" keyTimes="0;0.125;0.4;0.525;0.8;1">
+                <mpath href="#rail-path"/>
+              </animateMotion>
+            </circle>
+          </svg>
 
           <ol class="rail__stops">
             <li>
@@ -665,7 +733,7 @@
             <figure class="step__media step__media--plate" data-rise="side-right">
               <img src="assets/img/steps/step-02-offer.jpg"
                    alt="A phone showing the iBuy offer: the final number, the market range and how long it stays valid."
-                   width="948" height="961" loading="lazy">
+                   width="1800" height="1037" loading="lazy">
             </figure>
             <div class="step__body" data-rise>
               <p class="step__num">02</p>
