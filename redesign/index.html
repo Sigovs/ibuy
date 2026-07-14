@@ -538,10 +538,15 @@
         <ol class="steps">
 
           <li class="step">
-            <figure class="step__media" data-rise="side">
-              <img src="assets/img/process/step-01-garage.jpg"
-                   alt="A black Mercedes-AMG GT parked in its owner's private garage."
-                   width="685" height="570" loading="lazy">
+            <!-- Рендер Alex'а. Фон у исходника был запечённой шахматкой
+                 прозрачности — вычищен и залит цветом секции, поэтому предмет
+                 лежит на плашке, а не в белой коробке. object-fit: contain, а
+                 не cover: кадрирование срезало бы телефон, ради которого рендер
+                 и взят. -->
+            <figure class="step__media step__media--plate" data-rise="side">
+              <img src="assets/img/steps/step-01-submit.jpg"
+                   alt="A black Aston Martin DB11 beside a phone showing the iBuy form: photos uploaded, VIN, mileage and condition confirmed."
+                   width="2000" height="1152" loading="lazy">
             </figure>
             <div class="step__body" data-rise>
               <p class="step__num">01</p>
