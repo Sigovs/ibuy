@@ -113,7 +113,9 @@
               box-shadow var(--t-base) var(--e-out);
 }
 
-.quote .field__input::placeholder { color: rgba(255, 255, 255, 0.40); }
+/* Плейсхолдер ярче: он работает подписью поля (Year, Make…), 40% читались
+   тускло. 0.62 — чёткий, но всё ещё тише введённого текста (белого). */
+.quote .field__input::placeholder { color: rgba(255, 255, 255, 0.62); }
 
 .quote .field__input:hover {
   background: rgba(255, 255, 255, 0.08);
