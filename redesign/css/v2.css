@@ -1,0 +1,129 @@
+/* ==========================================================================
+   V2 — слой правок клиента. Подключается ТОЛЬКО в index_2.html.
+   Грузится ПОСЛЕ секционных стилей, поэтому переопределяет их. Оригинальный
+   index.html этот файл не подключает и остаётся нетронутым.
+   ========================================================================== */
+
+
+/* --- ФОРМА: премиальнее -----------------------------------------------------
+   Было: белая приборная плашка с серыми полями — читалось утилитарно, ближе к
+   CarMax, чем к конcierge. Стало: тёплая карточка частной оценки — больше
+   воздуха, волосяные рамки, изящный фокус, крупная шапка с эйрбоу. Материал и
+   ритм делают «дорого», а не украшения. */
+
+.quote {
+  /* Тёплый офф-вайт вместо стерильного #FFF: чистый белый рядом с тёмным
+     кадром звенит и выглядит дёшево. Тёплая кость — как хорошая бумага. */
+  background: rgba(250, 249, 246, 0.94);
+  backdrop-filter: blur(32px) saturate(1.1);
+  -webkit-backdrop-filter: blur(32px) saturate(1.1);
+  /* Воздух: панель перестаёт быть «прибором» и становится карточкой.
+     --s-7 в шкале НЕТ (после --s-6 сразу --s-8), а невалидный var() обнуляет
+     всё свойство до initial уже после каскада — поэтому только существующие
+     токены. */
+  padding: var(--s-8) var(--s-8) var(--s-6);
+  /* Двойная граница — приём премиальной полиграфии: волосяная рамка снаружи
+     плюс глубокая мягкая тень. Тень длиннее и мягче прежней. */
+  border: 1px solid rgba(20, 23, 28, 0.07);
+  box-shadow:
+    0 60px 130px -34px rgba(0, 0, 0, 0.92),
+    0 12px 34px -14px rgba(0, 0, 0, 0.55);
+}
+
+/* Внутренняя волосяная линия в 1px от края — та самая «двойная рамка». */
+.quote::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(20, 23, 28, 0.06);
+  pointer-events: none;
+}
+
+/* Красные засечки остаются брендовой деталью, но тоньше и сдержаннее —
+   переопределяем только верхний-левый (::before), нижний угол занял ::after. */
+.quote::before {
+  width: 16px;
+  height: 16px;
+  top: var(--s-4);
+  left: var(--s-4);
+  border-width: 1px;
+  border-right: 0;
+  border-bottom: 0;
+  opacity: 0.9;
+}
+
+
+/* Шапка: крупнее, с эйрбоу и большим воздухом. */
+.quote__head {
+  padding-bottom: var(--s-5);
+  margin-bottom: var(--s-6);
+  border-bottom: 1px solid rgba(20, 23, 28, 0.12);
+}
+
+.quote__eyebrow {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-brand);
+  margin-bottom: var(--s-3);
+}
+
+.quote__title {
+  font-size: 1.875rem;
+  letter-spacing: 0.005em;
+}
+
+
+/* Лейблы — чуть плотнее по трекингу, тише по цвету: телеметрия, а не подписи
+   к чертежу. */
+.quote .field__label {
+  letter-spacing: 0.16em;
+  color: #6A7078;
+}
+
+
+/* Поля: белые, волосяная рамка по всему периметру, выше и с воздухом. Серую
+   заливку убираем — именно она читалась «дёшево». Фокус — тонкая тёмная рамка
+   и мягкий ореол, без грубой подсветки. */
+.quote .field__input {
+  height: 52px;
+  padding: 0 var(--s-4);
+  background: #FFFFFF;
+  border: 1px solid rgba(20, 23, 28, 0.14);
+  border-radius: 3px;
+  font-size: 0.9375rem;
+  transition: border-color var(--t-base) var(--e-out),
+              box-shadow var(--t-base) var(--e-out);
+}
+
+.quote .field__input:hover {
+  background: #FFFFFF;
+  border-color: rgba(20, 23, 28, 0.28);
+}
+
+.quote .field__input:focus {
+  background: #FFFFFF;
+  border-color: var(--c-panel-ink);
+  box-shadow: 0 0 0 3px rgba(20, 23, 28, 0.07);
+}
+
+/* Больше воздуха между полями — карточка дышит. */
+.quote__grid {
+  gap: var(--s-4) var(--s-5);
+  margin-bottom: var(--s-6);
+}
+
+/* Кнопка выше: на премиальной карточке главное действие не должно быть мелким. */
+.quote .btn--block {
+  min-height: 54px;
+  letter-spacing: 0.08em;
+}
+
+
+/* На узких экранах панель и так компактнее — возвращаем ей чуть меньше полей,
+   чтобы не распирало. */
+@media (max-width: 560px) {
+  .quote { padding: var(--s-6) var(--s-5) var(--s-5); }
+  .quote .field__input { height: 48px; }
+}
