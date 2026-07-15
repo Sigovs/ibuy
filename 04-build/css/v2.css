@@ -137,12 +137,21 @@
 
 .quote .field__error { color: var(--c-brand-hover); }
 
+/* Пустой блок ошибки убираем из потока: он резервировал зазор под каждым полем
+   и растягивал стопку. Появляется только когда есть что показать. */
+.quote .field__error:empty { display: none; }
+
+/* Внутренний зазор поля к нулю — теперь расстояние между полями задаёт только
+   сетка (gap), и стопка читается плотной. */
+.quote .field { gap: 0; }
+
 /* Все пять полей в ОДНУ колонку, стопкой — без двухколоночной сетки. Читается
-   как единый вертикальный поток, спокойнее и дороже, чем плитка 2×2. */
+   как единый вертикальный поток, спокойнее и дороже, чем плитка 2×2. Спейсинг
+   между полями плотный (s-3): стопка не должна разъезжаться. */
 .quote__grid {
   grid-template-columns: 1fr;
-  gap: var(--s-4);
-  margin-bottom: var(--s-6);
+  gap: var(--s-3);
+  margin-bottom: var(--s-5);
 }
 
 /* Кнопка выше: главное действие не должно быть мелким. */
@@ -152,7 +161,43 @@
 }
 
 
+/* --- Форма помещается в экран ЛЮБОЙ высоты, без фолда -----------------------
+   Стопка из пяти полей выше плитки 2×2 и на низких экранах уезжала за сгиб.
+   Сжимаем по ВЫСОТЕ вьюпорта: поля, зазоры, шапку и кнопку — по ступеням.
+   Ширина ни при чём, поэтому запросы по height. Поля у v2 фиксированы в px
+   (не через --ctl-h), поэтому их высоту здесь правим отдельно. */
+
+@media (max-height: 840px) {
+  .quote { padding: var(--s-6) var(--s-6) var(--s-5); }
+  .quote__head { padding-bottom: var(--s-4); margin-bottom: var(--s-4); }
+  .quote__eyebrow { margin-bottom: var(--s-2); }
+  .quote__title { font-size: 1.625rem; }
+  .quote .field__input { height: 46px; }
+  .quote__grid { gap: var(--s-2); margin-bottom: var(--s-4); }
+  .quote .btn--block { min-height: 48px; }
+}
+
+@media (max-height: 720px) {
+  .quote { padding: var(--s-5) var(--s-5) var(--s-4); }
+  .quote__head { padding-bottom: var(--s-3); margin-bottom: var(--s-3); }
+  .quote__title { font-size: 1.5rem; }
+  .quote .field__input { height: 42px; font-size: 0.875rem; }
+  .quote__grid { gap: 6px; margin-bottom: var(--s-3); }
+  .quote .btn--block { min-height: 44px; }
+}
+
+@media (max-height: 620px) {
+  .quote { padding: var(--s-4); }
+  .quote__head { padding-bottom: var(--s-2); margin-bottom: var(--s-2); }
+  .quote__eyebrow { margin-bottom: 2px; }
+  .quote__title { font-size: 1.375rem; }
+  .quote .field__input { height: 38px; }
+  .quote__grid { gap: 5px; margin-bottom: var(--s-2); }
+  .quote .btn--block { min-height: 42px; }
+}
+
 @media (max-width: 560px) {
   .quote { padding: var(--s-6) var(--s-5) var(--s-5); }
   .quote .field__input { height: 48px; }
+  .quote__grid { gap: var(--s-3); }
 }
