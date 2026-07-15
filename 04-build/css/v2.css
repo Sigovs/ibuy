@@ -5,71 +5,64 @@
    ========================================================================== */
 
 
-/* --- ФОРМА: премиальнее -----------------------------------------------------
-   Было: белая приборная плашка с серыми полями — читалось утилитарно, ближе к
-   CarMax, чем к конcierge. Стало: тёплая карточка частной оценки — больше
-   воздуха, волосяные рамки, изящный фокус, крупная шапка с эйрбоу. Материал и
-   ритм делают «дорого», а не украшения. */
+/* --- ФОРМА: ЧЁРНОЕ МАТОВОЕ СТЕКЛО -------------------------------------------
+   Тёмная «ювелирная» панель на просвет. Горы и дом за ней размываются сквозь
+   стекло, но тонированное в чёрный — читается дороже светлого: как затемнённое
+   стекло лимузина, а не бумажный бланк. Текст светлый, поля — колодцы на
+   просвет, единственный цвет — красный на эйрбоу и кнопке. */
 
 .quote {
-  /* МАТОВОЕ СТЕКЛО. Панель полупрозрачная — горы и дом за ней размываются
-     сквозь стекло, и это даёт глубину, которой не бывает у плотной плашки.
-     Не чистый белый: тёплый оттенок держит «дорогую бумагу», а лёгкий градиент
-     сверху вниз — как блик света по стеклу.
-
-     Сильный blur (44px) + saturate: фон под стеклом становится мягче и
-     насыщеннее, отсюда ощущение толстого стекла, а не плёнки. */
+  /* Тёмный тон достаточно плотный (0.6+), чтобы белый текст держался даже над
+     светлым закатным небом за стеклом. Лёгкий градиент — блик света по стеклу. */
   background:
     linear-gradient(160deg,
-      rgba(255, 255, 255, 0.62) 0%,
-      rgba(250, 249, 246, 0.50) 45%,
-      rgba(248, 247, 244, 0.46) 100%);
-  backdrop-filter: blur(44px) saturate(1.4) brightness(1.04);
-  -webkit-backdrop-filter: blur(44px) saturate(1.4) brightness(1.04);
+      rgba(16, 18, 22, 0.66) 0%,
+      rgba(11, 13, 16, 0.60) 45%,
+      rgba(9, 10, 13, 0.62) 100%);
+  backdrop-filter: blur(44px) saturate(1.3);
+  -webkit-backdrop-filter: blur(44px) saturate(1.3);
+  color: #fff;
   padding: var(--s-8) var(--s-8) var(--s-6);
-  /* Светлая стеклянная кромка (не тёмная рамка): край стекла ловит свет. */
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  /* Светлая стеклянная кромка ловит свет по краю тёмного стекла. */
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
-    0 60px 130px -34px rgba(0, 0, 0, 0.92),
-    0 12px 34px -14px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);   /* верхний внутренний блик */
+    0 60px 130px -34px rgba(0, 0, 0, 0.95),
+    0 12px 34px -14px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);   /* верхний внутренний блик */
 }
 
-/* Без backdrop-filter стекло не работает — панель обязана стать непрозрачной,
-   иначе текст ляжет прямо на фото. */
+/* Без backdrop-filter стекло не работает — панель обязана стать непрозрачной. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .quote { background: var(--c-panel); }
+  .quote { background: var(--c-surface); }
 }
 
-/* Блик по верхней кромке — тонкая световая полоса, «где свет скользит по
-   стеклу». Не глянец: узкая и мягкая. */
+/* Блик по верхней кромке — узкая световая полоса, «где свет скользит по стеклу». */
 .quote::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 22%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), transparent 20%);
 }
 
-/* Красные засечки остаются брендовой деталью, но тоньше и сдержаннее —
-   переопределяем только верхний-левый (::before), нижний угол занял ::after. */
+/* Красная засечка — брендовая деталь, ярче на тёмном. */
 .quote::before {
   width: 16px;
   height: 16px;
   top: var(--s-4);
   left: var(--s-4);
   border-width: 1px;
+  border-color: var(--c-brand);
   border-right: 0;
   border-bottom: 0;
-  opacity: 0.9;
 }
 
 
-/* Шапка: крупнее, с эйрбоу и большим воздухом. */
+/* Шапка: крупнее, с эйрбоу и воздухом. Разделитель — светлая волосяная линия. */
 .quote__head {
   padding-bottom: var(--s-5);
   margin-bottom: var(--s-6);
-  border-bottom: 1px solid rgba(20, 23, 28, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .quote__eyebrow {
@@ -77,49 +70,63 @@
   font-size: var(--fs-mono);
   letter-spacing: var(--ls-mono);
   text-transform: uppercase;
-  color: var(--c-brand);
+  color: var(--c-brand-hover);
   margin-bottom: var(--s-3);
 }
 
 .quote__title {
   font-size: 1.875rem;
   letter-spacing: 0.005em;
+  color: #fff;
 }
 
 
-/* Лейблы — чуть плотнее по трекингу. Цвет тёмный (проверенный по AA): панель
-   теперь полупрозрачная и местами светлеет от неба за стеклом, поэтому светлый
-   лейбл там просел бы. Тёмный держит контраст на любом участке стекла. */
+/* Лейблы — светлые, телеметрией. */
 .quote .field__label {
   letter-spacing: 0.16em;
-  color: var(--c-panel-muted);
+  color: rgba(255, 255, 255, 0.55);
 }
+.quote .field__optional { color: rgba(255, 255, 255, 0.38); }
 
 
-/* Поля: белые, волосяная рамка по всему периметру, выше и с воздухом. Серую
-   заливку убираем — именно она читалась «дёшево». Фокус — тонкая тёмная рамка
-   и мягкий ореол, без грубой подсветки. */
+/* Поля — тёмные колодцы на просвет: полупрозрачная заливка, светлая волосяная
+   рамка, белый ввод. Фокус светлеет и обводится тонкой светлой рамкой с ореолом. */
 .quote .field__input {
   height: 52px;
   padding: 0 var(--s-4);
-  background: #FFFFFF;
-  border: 1px solid rgba(20, 23, 28, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 3px;
+  color: #fff;
   font-size: 0.9375rem;
   transition: border-color var(--t-base) var(--e-out),
+              background var(--t-base) var(--e-out),
               box-shadow var(--t-base) var(--e-out);
 }
 
+.quote .field__input::placeholder { color: rgba(255, 255, 255, 0.40); }
+
 .quote .field__input:hover {
-  background: #FFFFFF;
-  border-color: rgba(20, 23, 28, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.30);
 }
 
 .quote .field__input:focus {
-  background: #FFFFFF;
-  border-color: var(--c-panel-ink);
-  box-shadow: 0 0 0 3px rgba(20, 23, 28, 0.07);
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
 }
+
+.quote .field__input[aria-invalid='true'] {
+  border-color: var(--c-brand);
+  background: rgba(222, 25, 42, 0.10);
+  box-shadow: none;
+}
+.quote .field__input[aria-invalid='true']:focus {
+  box-shadow: 0 0 0 3px var(--c-brand-glow);
+}
+
+.quote .field__error { color: var(--c-brand-hover); }
 
 /* Больше воздуха между полями — карточка дышит. */
 .quote__grid {
@@ -127,15 +134,13 @@
   margin-bottom: var(--s-6);
 }
 
-/* Кнопка выше: на премиальной карточке главное действие не должно быть мелким. */
+/* Кнопка выше: главное действие не должно быть мелким. */
 .quote .btn--block {
   min-height: 54px;
   letter-spacing: 0.08em;
 }
 
 
-/* На узких экранах панель и так компактнее — возвращаем ей чуть меньше полей,
-   чтобы не распирало. */
 @media (max-width: 560px) {
   .quote { padding: var(--s-6) var(--s-5) var(--s-5); }
   .quote .field__input { height: 48px; }
