@@ -5,201 +5,473 @@
    ========================================================================== */
 
 
-/* --- ФОРМА: ЧЁРНОЕ МАТОВОЕ СТЕКЛО -------------------------------------------
-   Тёмная «ювелирная» панель на просвет. Горы и дом за ней размываются сквозь
-   стекло, но тонированное в чёрный — читается дороже светлого: как затемнённое
-   стекло лимузина, а не бумажный бланк. Текст светлый, поля — колодцы на
-   просвет, единственный цвет — красный на эйрбоу и кнопке. */
 
-.quote {
-  /* Тёмный тон достаточно плотный (0.6+), чтобы белый текст держался даже над
-     светлым закатным небом за стеклом. Лёгкий градиент — блик света по стеклу. */
-  background:
-    linear-gradient(160deg,
-      rgba(16, 18, 22, 0.66) 0%,
-      rgba(11, 13, 16, 0.60) 45%,
-      rgba(9, 10, 13, 0.62) 100%);
-  backdrop-filter: blur(44px) saturate(1.3);
-  -webkit-backdrop-filter: blur(44px) saturate(1.3);
-  color: #fff;
-  padding: var(--s-8) var(--s-8) var(--s-6);
-  /* Светлая стеклянная кромка ловит свет по краю тёмного стекла. */
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow:
-    0 60px 130px -34px rgba(0, 0, 0, 0.95),
-    0 12px 34px -14px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.10);   /* верхний внутренний блик */
-}
+/* ==========================================================================
+   ВЕРХ СТРАНИЦЫ — воздух и высокий класс (правки клиента)
+   «Тесно» лечим пространством, «дороже» — спокойной типографикой: меньше
+   крика капсом, плотнее трекинг, больше серифа и воздуха.
+   ========================================================================== */
 
-/* Без backdrop-filter стекло не работает — панель обязана стать непрозрачной. */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .quote { background: var(--c-surface); }
-}
-
-/* Блик по верхней кромке — узкая световая полоса, «где свет скользит по стеклу». */
-.quote::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), transparent 20%);
-}
-
-/* Красная засечка — брендовая деталь, ярче на тёмном. */
-.quote::before {
-  width: 16px;
-  height: 16px;
-  top: var(--s-4);
-  left: var(--s-4);
-  border-width: 1px;
-  border-color: var(--c-brand);
-  border-right: 0;
-  border-bottom: 0;
+/* Логотип крупнее. Вектора нет, растр logo-hi.png (207px) тянет до ~66px без
+   заметного мыла; крупнее — нужен SVG от клиента. */
+:root {
+  --logo-h: 66px;
+  --logo-h-stuck: 46px;
 }
 
 
-/* Шапка: крупнее, с эйрбоу и воздухом. Разделитель — светлая волосяная линия. */
-.quote__head {
-  padding-bottom: var(--s-5);
-  margin-bottom: var(--s-6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+/* --- Заголовок героя -------------------------------------------------------
+   Капс остаётся, но звучит дороже: плотный трекинг (люксовый дисплей-кап тянут
+   в минус, не в плюс), больше межстрочного воздуха, крупнее серифная строка —
+   она и даёт «высокий класс». */
+.hero__title {
+  line-height: 0.94;
+  letter-spacing: -0.015em;
+  margin-bottom: var(--s-8);
 }
 
-.quote__eyebrow {
-  font-family: var(--f-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--ls-mono);
-  text-transform: uppercase;
-  color: var(--c-brand-hover);
-  margin-bottom: var(--s-3);
-}
-
-.quote__title {
-  font-size: 1.875rem;
-  letter-spacing: 0.005em;
-  color: #fff;
+.hero__title em {
+  font-size: 1.16em;
+  letter-spacing: -0.005em;
 }
 
 
-/* Подписей над полями НЕТ — их роль взяли плейсхолдеры. Форма читается чище:
-   пять инпутов, ничего лишнего. Label остаётся в разметке и доступен
-   скринридеру, но убран из виду (не display:none — иначе выпал бы из
-   доступности). */
-.quote .field__label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+/* --- Лид -------------------------------------------------------------------
+   Короче, тише, с воздухом. Одна спокойная мысль, а не три сжатых предложения. */
+.hero__lead {
+  font-size: var(--fs-lead);
+  line-height: 1.75;
+  color: var(--c-text-muted);
+  max-width: 34ch;
+  margin-bottom: var(--s-12);
+}
+
+
+/* --- Trust bar -------------------------------------------------------------
+   Просторнее и тише: подпорка доверия, а не витрина чужих логотипов. Больше
+   воздуха над ней и между логотипами, метка — тоньше. */
+.trust {
+  gap: var(--s-8) var(--s-10);
+  padding-top: var(--s-12);
+}
+
+.trust__label {
+  letter-spacing: 0.22em;
+  color: var(--c-text-dim);
+}
+
+
+/* ==========================================================================
+   ТИПОГРАФИКА B — заголовки антиквой, смешанным регистром (правки клиента)
+
+   Уходим от капса Antonio повсюду: конденсированные капсы читаются громко и
+   спортивно, а не дорого. Playfair Display — высококонтрастная антиква «модного
+   дома»: на крупном кегле звучит редакционно и премиально. Смешанный регистр + воздух = высокий класс.
+
+   Меняем только --f-display и --f-accent: всё, что набрано через var(--f-display),
+   переезжает на Fraunces само. Остаётся снять text-transform: uppercase и
+   поправить трекинг (серифу в миксе нужен около-нулевой, а не капсовый +0.01em).
+   ========================================================================== */
+
+:root {
+  --f-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --f-accent:  'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
+/* Все повествовательные заголовки — из капса в смешанный регистр. */
+.hero__title,
+.network__title,
+.transport__title,
+.process__title,
+.buy__title,
+.reviews__title,
+.footer__ask,
+.reviews__ask,
+.quote__title,
+.fact__title,
+.type__title,
+.step__title,
+.pledge__claim {
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+/* Крупным заголовкам антикве нужен воздух по строкам — плотный 0.9 от Antonio
+   для серифа читается сдавленно. */
+.hero__title { line-height: 1.02; font-weight: 600; }
+.network__title,
+.transport__title,
+.process__title,
+.buy__title,
+.reviews__title { line-height: 1.04; }
+
+/* Вторая строка — Fraunces курсивом (правило наклона/размера в base.css). Один
+   гарнитур в двух начертаниях: роман + италик — цельно и дорого. */
+main h1 em,
+main h2 em { font-weight: 500; }
+
+/* Крупные цифры (рейтинг, порог, вердикт) тоже переезжают на антикву — её
+   цифры элегантны. Капсовый трекинг им ни к чему. */
+.rating__score,
+.floor__num,
+.verdict__score { letter-spacing: -0.01em; }
+
+
+/* ==========================================================================
+   ГОРОДА — смешанный регистр, легче (правки клиента)
+   Капс серифом читался тяжело; смешанный регистр антиквы легче и дороже.
+   Касается списка городов у карты и в подвале. Штаты рядом (моно-подписи)
+   не трогаем.
+   ========================================================================== */
+
+/* Список у карты «Sell from anywhere» — справа. */
+.loc__city {
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Города в подвале (Cleveland, Baltimore…). */
+.fnet__city {
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+
+/* ==========================================================================
+   «HOW IT WORKS» В ОДНУ СЕКЦИЮ — ТРИ РОВНЫЕ КОЛОНКИ (правки Kirsten)
+   Три полноэкранных шага чередованием — много скролла ради простой мысли
+   «сфоткал → получил оффер → забрали». Собираем в один ряд: весь процесс
+   виден сразу, без прокрутки. Рендеры при этом мельче — это цена «быстрее».
+   ========================================================================== */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-10);
+  margin-bottom: var(--s-16);
+}
+
+/* Шаг — вертикальная колонка: рендер сверху, текст снизу. Убираем двухколоночную
+   сетку, чередование сторон и линейки между полноэкранными блоками. */
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding-block: 0;
   border: 0;
 }
+.step:last-child { border: 0; }
+.step:nth-child(even) .step__media { order: 0; }
 
-
-/* Поля — тёмные колодцы на просвет: полупрозрачная заливка, светлая волосяная
-   рамка, белый ввод. Фокус светлеет и обводится тонкой светлой рамкой с ореолом. */
-.quote .field__input {
-  height: 52px;
-  padding: 0 var(--s-4);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 3px;
-  color: #fff;
-  font-size: 0.9375rem;
-  transition: border-color var(--t-base) var(--e-out),
-              background var(--t-base) var(--e-out),
-              box-shadow var(--t-base) var(--e-out);
+/* Рендер в колонке — компактный, с воздухом до текста. Падинг меньше, чем в
+   полноэкранном варианте, иначе в узкой колонке предмет ужмётся в точку. */
+.step__media--plate {
+  margin-bottom: var(--s-6);
+}
+.step__media--plate img {
+  padding: var(--s-3) var(--s-4);
 }
 
-/* Плейсхолдер ярче: он работает подписью поля (Year, Make…), 40% читались
-   тускло. 0.62 — чёткий, но всё ещё тише введённого текста (белого). */
-.quote .field__input::placeholder { color: rgba(255, 255, 255, 0.62); }
+.step__body { max-width: none; }
 
-.quote .field__input:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.30);
+/* Узкий экран — колонки в стопку. */
+@media (max-width: 900px) {
+  .steps { grid-template-columns: 1fr; gap: var(--s-12); }
+  .step__media--plate { max-width: 420px; }
 }
 
-.quote .field__input:focus {
-  background: rgba(255, 255, 255, 0.11);
-  border-color: rgba(255, 255, 255, 0.65);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+
+/* --- Рендеры прячем, показываем на HOVER (идея Alex) -----------------------
+   Три рендера в ряд перегружают. По умолчанию колонка — номерная карточка
+   (тон + крупная цифра 01/02/03), а на наведении в ней проявляется рендер.
+   Место зарезервировано (aspect-ratio) — раскладка не прыгает. */
+
+.step__media--plate {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--s-6);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: rgba(20, 23, 28, 0.02);
+  perspective: none;   /* в мелком превью 3D-наклон ни к чему */
 }
 
-.quote .field__input[aria-invalid='true'] {
-  border-color: var(--c-brand);
-  background: rgba(222, 25, 42, 0.10);
-  box-shadow: none;
+/* Состояние покоя — крупная цифра шага. */
+.step__media--plate::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 600;
+  color: var(--c-line-strong);
+  transition: opacity var(--t-base) var(--e-out);
 }
-.quote .field__input[aria-invalid='true']:focus {
-  box-shadow: 0 0 0 3px var(--c-brand-glow);
+.step:nth-child(1) .step__media--plate::before { content: '01'; }
+.step:nth-child(2) .step__media--plate::before { content: '02'; }
+.step:nth-child(3) .step__media--plate::before { content: '03'; }
+
+/* Рендер — скрыт, проявляется на наведении с лёгким наездом. */
+.step__media--plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--s-3);
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity var(--t-mid) var(--e-out),
+              transform var(--t-slow) var(--e-expo);
 }
 
-.quote .field__error { color: var(--c-brand-hover); }
+.step:hover .step__media--plate { border-color: var(--c-line-strong); }
+.step:hover .step__media--plate::before { opacity: 0; }
+.step:hover .step__media--plate img { opacity: 1; transform: none; }
 
-/* Пустой блок ошибки убираем из потока: он резервировал зазор под каждым полем
-   и растягивал стопку. Появляется только когда есть что показать. */
-.quote .field__error:empty { display: none; }
+/* Дублирующий номер в теле прячем — он теперь в карточке. */
+.step__num { display: none; }
 
-/* Внутренний зазор поля к нулю — теперь расстояние между полями задаёт только
-   сетка (gap), и стопка читается плотной. */
-.quote .field { gap: 0; }
 
-/* Все пять полей в ОДНУ колонку, стопкой — без двухколоночной сетки. Читается
-   как единый вертикальный поток, спокойнее и дороже, чем плитка 2×2. Спейсинг
-   между полями плотный (s-3): стопка не должна разъезжаться. */
-.quote__grid {
-  grid-template-columns: 1fr;
+/* ==========================================================================
+   ГОРИЗОНТАЛЬНЫЙ АККОРДЕОН (идея Alex)
+   Один остров раскрыт и показывает фото, два узких сбоку — только номер. При
+   наведении раскрывается наведённый, остальные сжимаются. Одно фото в кадре —
+   легко, но живо. Перекрывает раскладку «три колонки» выше.
+   ========================================================================== */
+
+.steps {
+  display: flex;
   gap: var(--s-3);
-  margin-bottom: var(--s-5);
+  height: 460px;
+  margin-bottom: var(--s-16);
 }
 
-/* Кнопка выше: главное действие не должно быть мелким. */
-.quote .btn--block {
-  min-height: 54px;
+.step {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  background: rgba(20, 23, 28, 0.02);
+  transition: flex-grow var(--t-slow) var(--e-out),
+              border-color var(--t-base) var(--e-out);
+}
+
+/* По умолчанию раскрыт первый; при наведении на группу — раскрыт наведённый,
+   первый сжимается (:not(:hover) снимает дефолт, когда группа под курсором). */
+.steps:not(:hover) .step:first-child { flex-grow: 3.4; }
+.step:hover { flex-grow: 3.4; border-color: var(--c-line-strong); }
+
+/* Медиа — на весь остров. Номер (::before) — спина сжатой панели. */
+.step__media--plate {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  perspective: none;
+}
+.step__media--plate::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-size: 3.25rem;
+  font-weight: 600;
+  color: var(--c-line-strong);
+  transition: opacity var(--t-base) var(--e-out);
+}
+.step:nth-child(1) .step__media--plate::before { content: '01'; }
+.step:nth-child(2) .step__media--plate::before { content: '02'; }
+.step:nth-child(3) .step__media--plate::before { content: '03'; }
+
+/* Рендер — в верхней части острова (снизу место под подпись). Скрыт по
+   умолчанию, проявляется у раскрытой панели. */
+.step__media--plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--s-5) var(--s-5) 36%;
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--e-out);
+}
+
+/* Подпись — снизу, на светлом скриме, только у раскрытой панели. */
+.step__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--s-6);
+  max-width: none;
+  opacity: 0;
+  transform: translateY(8px);
+  background: linear-gradient(to top, var(--c-bg) 46%, transparent);
+  transition: opacity var(--t-base) var(--e-out),
+              transform var(--t-mid) var(--e-out);
+}
+/* Заголовок в подписи — в одну строку, не переносим в узкой раскладке. */
+.step__title { margin-bottom: var(--s-2); white-space: nowrap; }
+.step__text { display: none; }   /* коротко: kicker + заголовок */
+
+/* Активная панель: фото, номер гаснет, подпись выезжает. */
+.steps:not(:hover) .step:first-child .step__media--plate img,
+.step:hover .step__media--plate img { opacity: 1; }
+.steps:not(:hover) .step:first-child .step__media--plate::before,
+.step:hover .step__media--plate::before { opacity: 0; }
+.steps:not(:hover) .step:first-child .step__body,
+.step:hover .step__body { opacity: 1; transform: none; }
+
+/* Узкий экран — аккордеон не работает пальцем, возвращаем стопку карточек. */
+@media (max-width: 900px) {
+  .steps { display: grid; grid-template-columns: 1fr; height: auto; gap: var(--s-8); }
+  .step { min-height: 380px; }
+  .step__body { position: absolute; }
+}
+
+
+/* ==========================================================================
+   ПРОЦЕСС — СПЛИТ: фото слева, шаги справа (идея Alex)
+   Одно фото в кадре, шаги — чистым списком справа. Наведение на шаг меняет
+   фото слева (скрипт в index_2). Перекрывает аккордеон/колонки выше.
+   ========================================================================== */
+
+.proc-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: var(--s-16);
+  /* stretch — рамка тянется на всю высоту текстовой колонки (её задаёт список
+     шагов, он выше). */
+  align-items: stretch;
+  margin-bottom: var(--s-16);
+}
+
+/* Рамка фото — во всю длину правой (текстовой) стороны. Фон РАМКИ совпадает с
+   фоном рендера (--c-bg, на нём собраны рендеры), поэтому предмет лежит в рамке
+   без видимого стыка — рамку держит только контур. */
+.proc-figure {
+  position: relative;
+  height: 100%;
+  margin: 0;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--c-bg);
+}
+
+.proc-figure__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Больше полей — предмет меньше и с воздухом в рамке (проценты, чтобы
+     масштабировался вместе с рамкой). */
+  padding: 10% 16%;
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--e-out);
+}
+.proc-figure__img.is-active { opacity: 1; }
+
+/* Список шагов справа — вертикально, разделены линейками. Сбрасываем всё
+   аккордеонное: флекс-ширины, абсолют, скрытые тела. */
+.steps {
+  display: block;
+  height: auto;
+  margin: 0;
+}
+
+.step {
+  display: block;
+  flex: initial;
+  position: static;
+  overflow: visible;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--c-line);
+  border-radius: 0;
+  padding-block: var(--s-8);
+  transition: none;
+}
+.step:first-child { border-top: 0; padding-top: 0; }
+
+/* Фигуры внутри шагов больше не нужны — фото теперь слева. */
+.step__media { display: none; }
+
+/* Тело шага — обычный поток, без абсолюта/скрима аккордеона. */
+.step__body {
+  position: static;
+  opacity: 1;
+  transform: none;
+  padding: 0;
+  background: none;
+  max-width: 42ch;
+}
+
+/* Номер — маленький, рядом с кикером; крупный контурный тут лишний. */
+.step__num {
+  display: inline-block;
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-weight: 600;
+  -webkit-text-stroke: 0;
+  color: var(--c-text-dim);
+  margin: 0 0 var(--s-2);
+  letter-spacing: 0;
+}
+
+.step__title {
+  white-space: normal;
+  margin-bottom: var(--s-3);
+  color: var(--c-text-muted);
+  transition: color var(--t-base) var(--e-out);
+}
+.step__text { display: block; }
+
+/* Текущий/наведённый шаг — заголовок оживает, слева красная засечка. */
+.step { position: relative; padding-left: var(--s-6); }
+.step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--s-8);
+  width: 2px;
+  height: 0;
+  background: var(--c-brand);
+  transition: height var(--t-base) var(--e-out);
+}
+.step:first-child::before { top: 0; }
+.step.is-current::before,
+.step:hover::before { height: 1.4em; }
+.step.is-current .step__title,
+.step:hover .step__title { color: var(--c-text); }
+
+/* Узкий экран — фото сверху, шаги снизу. */
+@media (max-width: 900px) {
+  .proc-split { grid-template-columns: 1fr; gap: var(--s-10); }
+  .proc-figure { position: static; max-width: 460px; }
+}
+
+
+/* ==========================================================================
+   CTA — Inter Tight (правка Alex, только index_2)
+   Заголовки ушли в антикву; кнопки серифом капсом читались тяжело. Возвращаем
+   кнопкам чистый санс — на действии он собраннее и «кнопочнее» серифа.
+   ========================================================================== */
+.btn {
+  font-family: var(--f-sans);
+  font-weight: 600;
   letter-spacing: 0.08em;
-}
-
-
-/* --- Форма помещается в экран ЛЮБОЙ высоты, без фолда -----------------------
-   Стопка из пяти полей выше плитки 2×2 и на низких экранах уезжала за сгиб.
-   Сжимаем по ВЫСОТЕ вьюпорта: поля, зазоры, шапку и кнопку — по ступеням.
-   Ширина ни при чём, поэтому запросы по height. Поля у v2 фиксированы в px
-   (не через --ctl-h), поэтому их высоту здесь правим отдельно. */
-
-@media (max-height: 840px) {
-  .quote { padding: var(--s-6) var(--s-6) var(--s-5); }
-  .quote__head { padding-bottom: var(--s-4); margin-bottom: var(--s-4); }
-  .quote__eyebrow { margin-bottom: var(--s-2); }
-  .quote__title { font-size: 1.625rem; }
-  .quote .field__input { height: 46px; }
-  .quote__grid { gap: var(--s-2); margin-bottom: var(--s-4); }
-  .quote .btn--block { min-height: 48px; }
-}
-
-@media (max-height: 720px) {
-  .quote { padding: var(--s-5) var(--s-5) var(--s-4); }
-  .quote__head { padding-bottom: var(--s-3); margin-bottom: var(--s-3); }
-  .quote__title { font-size: 1.5rem; }
-  .quote .field__input { height: 42px; font-size: 0.875rem; }
-  .quote__grid { gap: 6px; margin-bottom: var(--s-3); }
-  .quote .btn--block { min-height: 44px; }
-}
-
-@media (max-height: 620px) {
-  .quote { padding: var(--s-4); }
-  .quote__head { padding-bottom: var(--s-2); margin-bottom: var(--s-2); }
-  .quote__eyebrow { margin-bottom: 2px; }
-  .quote__title { font-size: 1.375rem; }
-  .quote .field__input { height: 38px; }
-  .quote__grid { gap: 5px; margin-bottom: var(--s-2); }
-  .quote .btn--block { min-height: 42px; }
-}
-
-@media (max-width: 560px) {
-  .quote { padding: var(--s-6) var(--s-5) var(--s-5); }
-  .quote .field__input { height: 48px; }
-  .quote__grid { gap: var(--s-3); }
 }

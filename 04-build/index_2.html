@@ -9,7 +9,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Playfair+Display:ital,wght@0,400..800;1,400..700&family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="css/sections/buy.css">
   <link rel="stylesheet" href="css/sections/reviews.css">
   <link rel="stylesheet" href="css/sections/footer.css">
+  <link rel="stylesheet" href="css/sections/quote-glass.css">
 
   <!-- Слой правок клиента — только на этой странице. -->
   <link rel="stylesheet" href="css/v2.css">
@@ -35,7 +36,7 @@
     <div class="container header__inner">
 
       <a class="header__logo" href="/" aria-label="iBuy Luxury Cars — home">
-        <img src="assets/img/logo.png" alt="iBuy Luxury Cars, powered by Marshall Goldman" width="183" height="102">
+        <img src="assets/img/logo-hi.png" alt="iBuy Luxury Cars, powered by Marshall Goldman" width="207" height="115">
       </a>
 
       <nav class="header__nav" aria-label="Main">
@@ -120,9 +121,8 @@
           <!-- Текст с оригинала (ibuylc.com), сжатый. Свой лид я выбросил:
                у клиента формулировки точнее и это его голос, а не мой. -->
           <p class="hero__lead" data-rise>
-            Buying exotic cars is what we live for. We&rsquo;re always in the market
-            and ready to offer <strong>at least Kelley Blue Book value</strong>.
-            No lowballing here.
+            We&rsquo;re always in the market, and we pay
+            <strong>at least Kelley Blue Book</strong>. No consignment, no lowballing.
           </p>
 
           <!-- TRUST BAR живёт в левой колонке и прижат к её низу (margin-top:
@@ -734,21 +734,31 @@
           </p>
         </header>
 
+        <!-- Сплит: одно фото слева, шаги справа. Фото меняется при наведении
+             на шаг (одно в кадре, все три задействованы). Скрипт внизу страницы. -->
+        <div class="proc-split">
+
+          <figure class="proc-figure" aria-hidden="true">
+            <img class="proc-figure__img is-active" data-step="1" src="assets/img/steps/step-01-submit.jpg" alt="" width="1448" height="1086">
+            <img class="proc-figure__img"           data-step="2" src="assets/img/steps/step-02-offer.jpg"   alt="" width="1448" height="1086">
+            <img class="proc-figure__img"           data-step="3" src="assets/img/steps/step-03-collected.jpg" alt="" width="1448" height="1086">
+          </figure>
+
         <ol class="steps">
 
-          <li class="step">
+          <li class="step is-current">
             <!-- Финальная серия рендеров Alex'а (steps/final steps/). Три кадра
                  одного зелёного Aston DBS — единая серия под три шага. Фон
                  приведён к цвету секции: предмет на плашке, не в белой коробке.
 
                  object-fit: contain, а не cover: кадрирование срезало бы телефон,
                  ради которого рендер и взят. -->
-            <figure class="step__media step__media--plate" data-rise="side">
+            <figure class="step__media step__media--plate">
               <img src="assets/img/steps/step-01-submit.jpg"
                    alt="A green Aston Martin DBS beside a phone showing the iBuy form: VIN, mileage and photos uploaded."
                    width="1448" height="1086" loading="lazy">
             </figure>
-            <div class="step__body" data-rise>
+            <div class="step__body">
               <p class="step__num">01</p>
               <p class="step__kicker">Ready</p>
               <h3 class="step__title">Submit your car&rsquo;s information.</h3>
@@ -764,12 +774,12 @@
                  «valid for 7 days». Двадцать минут (в тексте) — правда, их
                  заявление; суммы и срок оффера — нет. Перед показом клиенту
                  подтвердить или перерисовать. -->
-            <figure class="step__media step__media--plate" data-rise="side-right">
+            <figure class="step__media step__media--plate">
               <img src="assets/img/steps/step-02-offer.jpg"
                    alt="A green Aston Martin DBS beside a phone showing the iBuy offer: final cash offer and market range."
                    width="1448" height="1086" loading="lazy">
             </figure>
-            <div class="step__body" data-rise>
+            <div class="step__body">
               <p class="step__num">02</p>
               <p class="step__kicker">Set&hellip;</p>
               <h3 class="step__title">Evaluate our offer.</h3>
@@ -782,12 +792,12 @@
           </li>
 
           <li class="step">
-            <figure class="step__media step__media--plate" data-rise="side">
+            <figure class="step__media step__media--plate">
               <img src="assets/img/steps/step-03-collected.jpg"
                    alt="A green Aston Martin DBS beside a phone confirming payment, pickup date and title transfer complete."
                    width="1448" height="1086" loading="lazy">
             </figure>
-            <div class="step__body" data-rise>
+            <div class="step__body">
               <p class="step__num">03</p>
               <p class="step__kicker">Sold!</p>
               <h3 class="step__title">Cash out and move on.</h3>
@@ -799,6 +809,7 @@
           </li>
 
         </ol>
+        </div>
 
         <!-- Их собственный порядок действий. Сильнейший аргумент на сайте,
              и он закопан в стене текста на /our-process/. -->
@@ -1343,6 +1354,22 @@
 
   <!-- type="module" — карта импортирует свои данные из us-map.js.
        Модули и так откладываются, defer не нужен. -->
+  <!-- Смена левого фото при наведении на шаг (только на этой странице). -->
+  <script>
+    (function () {
+      var steps = document.querySelectorAll('#process .step');
+      var imgs = document.querySelectorAll('.proc-figure__img');
+      if (!steps.length || !imgs.length) return;
+      function show(n) {
+        imgs.forEach(function (im) { im.classList.toggle('is-active', im.dataset.step === String(n)); });
+        steps.forEach(function (s, i) { s.classList.toggle('is-current', i + 1 === n); });
+      }
+      steps.forEach(function (st, i) {
+        st.addEventListener('mouseenter', function () { show(i + 1); });
+        st.addEventListener('focusin', function () { show(i + 1); });
+      });
+    })();
+  </script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
