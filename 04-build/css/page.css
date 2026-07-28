@@ -80,6 +80,60 @@
 }
 
 
+/* --- Сплит-герой (страница марки): текст + фото авто ----------------------- */
+.phero__split {
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  gap: var(--s-12) var(--s-16);
+  align-items: center;
+}
+.phero--split .phero__inner { max-width: none; }
+.phero--split h1 { font-size: clamp(2.25rem, 1.4rem + 2.8vw, 3.75rem); }
+.phero__media { margin: 0; }
+.phero__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--c-line);
+}
+
+
+/* --- Трёхшаговый процесс (реальная последовательность → нумеруем) ---------- */
+.psteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-10) var(--s-8);
+  margin-top: var(--s-10);
+}
+.pstep { border-top: 1px solid var(--c-line-strong); padding-top: var(--s-5); }
+.pstep__n {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 1;
+  letter-spacing: var(--ls-tight);
+  color: var(--c-text-muted);
+}
+.pstep__t {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  letter-spacing: var(--ls-tight);
+  margin-top: var(--s-4);
+}
+.pstep__b { margin-top: var(--s-3); color: var(--c-text-soft); font-size: var(--fs-sm); line-height: 1.5; }
+
+
+/* --- Фигура (крупное фото внутри секции) ---------------------------------- */
+.pfig { margin: var(--s-10) 0 0; }
+.pfig img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--c-line);
+}
+
+
 /* --- Полоса цифр ----------------------------------------------------------- */
 .pstats-wrap { padding-block: var(--s-12) var(--s-16); }
 .pstats {
@@ -223,6 +277,10 @@
 @media (max-width: 900px) {
   .prow { grid-template-columns: 1fr; gap: var(--s-6); }
   .prow__head { font-size: clamp(1.625rem, 1.2rem + 3vw, 2.25rem); }
+
+  .phero__split { grid-template-columns: 1fr; }
+  .phero--split .phero__inner { max-width: none; }
+  .psteps { grid-template-columns: 1fr; gap: var(--s-6); }
 }
 
 @media (max-width: 760px) {
