@@ -298,6 +298,65 @@
 .ploc__addr { margin-top: var(--s-2); font-size: var(--fs-sm); color: var(--c-text-muted); }
 
 
+/* --- Полный директорий локаций (5) — волосяные строки, город/адрес/телефон --- */
+.aboutlocs-wrap { margin-top: var(--s-16); }
+.aboutlocs-wrap > .eyebrow { display: block; margin-bottom: var(--s-6); }
+.aboutlocs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--s-8) var(--s-6);
+}
+.aboutloc { border-top: 1px solid var(--c-line-strong); padding-top: var(--s-4); }
+.aboutloc__city {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.1875rem;
+  line-height: 1.1;
+  letter-spacing: var(--ls-tight);
+}
+.aboutloc__city span {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+.aboutloc__addr {
+  margin-top: var(--s-3);
+  font-size: var(--fs-sm);
+  color: var(--c-text-soft);
+  max-width: 24ch;
+}
+.aboutloc__phone {
+  display: inline-block;
+  margin-top: var(--s-3);
+  font-family: var(--f-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
+  color: var(--c-text);
+  transition: color var(--t-fast) var(--e-out);
+}
+.aboutloc__phone:hover { color: var(--c-brand-hover); }
+.aboutloc__badge {
+  margin-top: var(--s-3);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+@media (max-width: 1080px) { .aboutlocs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 680px)  { .aboutlocs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px)  { .aboutlocs { grid-template-columns: 1fr; } }
+
+
 /* --- Основатель: мелкие метрики под именем -------------------------------- */
 .pmeta {
   display: flex;
