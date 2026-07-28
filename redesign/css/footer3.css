@@ -99,13 +99,18 @@
   gap: var(--s-10) var(--s-16);
 }
 
+/* Заголовки колонок каталога — явные: крупнее, ярче (soft), с тонкой линейкой
+   снизу, чтобы читались как заголовки, а не как микро-лейблы. */
 .fdir__label {
   font-family: var(--f-mono);
-  font-size: var(--fs-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
   letter-spacing: var(--ls-mono);
   text-transform: uppercase;
-  color: var(--c-text-muted);
+  color: var(--c-text-soft);
   margin-bottom: var(--s-5);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--c-line);
 }
 
 .fdir__links {
