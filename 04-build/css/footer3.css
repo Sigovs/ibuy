@@ -1,0 +1,213 @@
+/* ==========================================================================
+   FOOTER v3 — структурированная финальная глава (только index_3)
+
+   Один подвал, четыре уровня по убыванию веса (выдох вниз):
+   1. основная навигация одностраничника — сильнейшая иерархия;
+   2. сеть — полноширинная полоса, волосяные линейки, не карточки;
+   3. SEO-каталог — тише всего, полный список марок в <details>;
+   4. правовая строка — компактная и тихая.
+
+   Язык и токены — общие с footer.css (его атомы переиспользованы). Здесь только
+   новая структура и тональная иерархия. Красного минимум, карточек нет.
+   ========================================================================== */
+
+
+/* --- УРОВЕНЬ 1 — основная навигация ---------------------------------------- */
+
+.fnav {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: var(--s-10) var(--s-16);
+  padding-block: var(--s-16);
+}
+
+/* «Sell your car» — навигация одностраничника, главный путь: ярче голова
+   (тонкой красной засечкой) и крупнее/светлее ссылки, чем у остальных групп. */
+.fnav__group--primary .footer__head {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--c-text-soft);
+}
+.fnav__group--primary .footer__head::before {
+  content: '';
+  width: 14px;
+  height: 2px;
+  background: var(--c-brand);
+}
+
+.flinks--lead {
+  gap: var(--s-4);
+}
+.flinks--lead a {
+  font-family: var(--f-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--c-text);
+}
+.flinks--lead a:hover { color: var(--c-brand-hover); }
+
+/* Телефон в «Reach us» — чуть весомее прочих контактов: это ключевая связь. */
+.flinks__strong {
+  font-family: var(--f-mono);
+  letter-spacing: 0.08em;
+  color: var(--c-text) !important;
+}
+
+
+/* --- УРОВЕНЬ 2 — сеть, полноширинная полоса -------------------------------- */
+
+.fnet-wide {
+  padding-block: var(--s-16);
+  border-top: 1px solid var(--c-line);
+}
+
+/* Пять локаций в ряд, разделены линейками (верхняя граница у каждой — из
+   footer.css .fnet > li). Не карточки: только типографика и хайрлайны. */
+.fnet--row {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0 var(--s-8);
+}
+.fnet--row > li {
+  padding-top: var(--s-4);
+  padding-right: var(--s-6);
+}
+/* Город чуть мельче, чтобы пять уместились без сжатия. */
+.fnet--row .fnet__city { font-size: 1.1875rem; }
+.fnet--row .fnet__addr { font-size: var(--fs-xs); max-width: 22ch; }
+
+
+/* --- УРОВЕНЬ 3 — SEO-каталог (тише всего) ---------------------------------- */
+
+.fdir {
+  padding-block: var(--s-16) var(--s-12);
+  border-top: 1px solid var(--c-line);
+}
+
+/* Голова каталога — приглушённее навигации: это не продающий путь. */
+/* muted, не dim: dim (#565C64) на near-black даёт 2.95:1 — ниже AA 4.5.
+   «Тише» несёт не цвет, а размер и позиция. */
+.footer__head--quiet { color: var(--c-text-muted); }
+
+.fdir__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 2fr);
+  gap: var(--s-10) var(--s-16);
+}
+
+.fdir__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin-bottom: var(--s-5);
+}
+
+.fdir__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+.fdir__links a {
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);   /* тише основной навигации */
+  transition: color var(--t-fast) var(--e-out);
+}
+.fdir__links a:hover { color: var(--c-text-soft); }
+
+/* Популярные марки — в несколько колонок, но всё ещё спокойно. */
+.fdir__links--makes {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-3) var(--s-8);
+  margin-bottom: var(--s-6);
+}
+
+
+/* Полный список — нативный <details>, все ссылки в DOM (краулятся, доступны). */
+.fdetails {
+  border-top: 1px solid var(--c-line);
+  padding-top: var(--s-5);
+}
+
+.fdetails__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  cursor: pointer;
+  list-style: none;                 /* убираем дефолтный маркер */
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  padding: var(--s-2) 0;
+  transition: color var(--t-fast) var(--e-out);
+}
+.fdetails__summary::-webkit-details-marker { display: none; }
+.fdetails__summary:hover { color: var(--c-text); }
+.fdetails__summary:focus-visible {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 3px;
+}
+
+.fdetails__chevron {
+  transition: transform var(--t-base) var(--e-out);
+}
+.fdetails[open] .fdetails__chevron { transform: rotate(180deg); }
+
+/* Раскрытый список — ещё тише и мельче, в четыре колонки. */
+.fdir__links--all {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-2) var(--s-8);
+  margin-top: var(--s-5);
+}
+.fdir__links--all a {
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);   /* AA: dim бы дал 2.95:1; тишину держит fs-xs */
+}
+.fdir__links--all a:hover { color: var(--c-text-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fdetails__chevron { transition: none; }
+}
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .fnav { grid-template-columns: 1fr 1fr; gap: var(--s-12) var(--s-16); }
+  .fnet--row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-8); }
+  .fdir__links--all { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .fnav { grid-template-columns: 1fr; gap: var(--s-10); }
+  .flinks--lead a { font-size: 1.25rem; }
+
+  .fnet-wide { padding-block: var(--s-12); }
+  .fnet--row { grid-template-columns: 1fr; gap: 0; }
+  .fnet--row > li { padding-right: 0; }
+
+  .fdir__grid { grid-template-columns: 1fr; gap: var(--s-10); }
+  .fdir__links--makes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fdir__links--all { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+
+/* --- AA-фиксы для index_3 -------------------------------------------------
+   dim-токен (#565C64) на near-black = 2.95:1, ниже AA 4.5. Поднимаем текст,
+   который в общем footer.css остаётся dim, до muted (5.2:1) — только здесь. */
+.fnet--row .fnet__addr--soon,
+.footer__legal p,
+.footer__powered {
+  color: var(--c-text-muted);
+}
