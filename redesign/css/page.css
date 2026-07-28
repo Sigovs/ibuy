@@ -80,7 +80,64 @@
 }
 
 
-/* --- Сплит-герой (страница марки): текст + фото авто ----------------------- */
+/* --- Герой страницы марки: АВТО — доминанта ------------------------------
+   Машина занимает правые две трети и уходит в край; слева она растворяется в
+   void (выплывает из темноты). Текст — подчинён, на тёмном поле слева. Одна
+   доминанта, ясная фигура-фон, тональность держится в ч/б. */
+.mhero {
+  position: relative;
+  min-height: min(90vh, 840px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--c-void);
+}
+.mhero > .container { position: relative; z-index: 1; padding-block: var(--s-12); }
+.mhero__inner { max-width: 40ch; }
+.mhero h1 {
+  font-size: clamp(2.75rem, 1.5rem + 4.8vw, 5.25rem);
+  line-height: 0.98;
+  margin-top: var(--s-6);
+}
+.mhero__cta { display: flex; gap: var(--s-4); margin-top: var(--s-8); flex-wrap: wrap; }
+
+.mhero__media { position: absolute; inset: 0 0 0 auto; width: 66%; margin: 0; }
+.mhero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 62%; }
+.mhero__media::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    var(--c-void) 3%, rgba(8, 9, 11, 0.55) 24%, rgba(8, 9, 11, 0) 52%);
+}
+
+@media (max-width: 860px) {
+  .mhero { flex-direction: column; min-height: 0; }
+  .mhero__media { position: relative; width: 100%; height: 62vw; max-height: 400px; }
+  .mhero__media img { object-position: 40% 50%; }
+  .mhero__media::after {
+    background: linear-gradient(0deg, var(--c-void) 2%, rgba(8, 9, 11, 0) 52%);
+  }
+  .mhero__inner { max-width: none; }
+  .mhero > .container { padding-block: var(--s-10) var(--s-16); }
+}
+
+
+/* --- Секция марки: крупное фото + текст (фото ведёт композицию) ------------ */
+.msplit {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: var(--s-10) var(--s-16);
+  align-items: center;
+}
+.msplit__media { margin: 0; }
+.msplit__media img { width: 100%; height: auto; display: block; }
+.msplit__text .prose { margin-top: var(--s-6); }
+@media (max-width: 860px) {
+  .msplit { grid-template-columns: 1fr; }
+}
+
+
+/* --- Сплит-герой (устаревший вариант, оставлен неиспользуемым) ------------- */
 .phero__split {
   display: grid;
   grid-template-columns: 1.02fr 0.98fr;
@@ -100,6 +157,8 @@
 
 /* --- Трёхшаговый процесс (реальная последовательность → нумеруем) ---------- */
 .psteps {
+  list-style: none;
+  padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s-10) var(--s-8);
@@ -122,6 +181,9 @@
   margin-top: var(--s-4);
 }
 .pstep__b { margin-top: var(--s-3); color: var(--c-text-soft); font-size: var(--fs-sm); line-height: 1.5; }
+
+/* Абзац после шагов — с воздухом, иначе прилипает к телам шагов. */
+.psteps + .prose { margin-top: var(--s-10); }
 
 
 /* --- Фигура (крупное фото внутри секции) ---------------------------------- */
