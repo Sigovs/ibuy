@@ -80,6 +80,48 @@
 }
 
 
+/* --- Кинематографичный фулл-блид герой (фон-фото + текст поверх) -----------
+   Фото на всю площадь; тёмный градиент слева и снизу даёт читаемость (AA) и
+   держит машину доминантой. Текст подчинён, на затемнённом поле. */
+.chero {
+  position: relative;
+  min-height: min(92vh, 860px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--c-void);
+}
+.chero__media { position: absolute; inset: 0; margin: 0; }
+.chero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 55%; }
+.chero__media::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8,9,11,0.88) 0%, rgba(8,9,11,0.55) 28%, rgba(8,9,11,0.06) 58%, rgba(8,9,11,0) 100%),
+    linear-gradient(0deg, rgba(8,9,11,0.55) 0%, rgba(8,9,11,0) 38%);
+}
+.chero > .container { position: relative; z-index: 1; padding-block: var(--s-16); }
+.chero__inner { max-width: 44ch; }
+.chero h1 {
+  font-size: clamp(2.75rem, 1.5rem + 4.8vw, 5.25rem);
+  line-height: 0.98;
+  margin-top: var(--s-6);
+}
+.chero__cta { display: flex; gap: var(--s-4); margin-top: var(--s-8); flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  .chero__media::after {
+    background:
+      linear-gradient(0deg, rgba(8,9,11,0.9) 8%, rgba(8,9,11,0.35) 45%, rgba(8,9,11,0.5) 100%);
+  }
+}
+
+
+/* --- Кинематографичная плашка во всю ширину (фото-пауза) ------------------- */
+.cplate { position: relative; height: min(68vh, 640px); overflow: hidden; background: var(--c-void); }
+.cplate img { width: 100%; height: 100%; object-fit: cover; object-position: center 44%; display: block; }
+
+
 /* --- Герой страницы марки: АВТО — доминанта ------------------------------
    Машина занимает правые две трети и уходит в край; слева она растворяется в
    void (выплывает из темноты). Текст — подчинён, на тёмном поле слева. Одна
