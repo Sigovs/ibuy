@@ -1,0 +1,385 @@
+/* ==========================================================================
+   SECTION 03 — TRANSPORT   (тёмная)
+
+   Требование клиента №4: национальный конcierge и перевозка. Раньше оно было
+   проговорено одной строкой в секции карты — этого мало.
+
+   Секция стоит СРАЗУ после карты не случайно: карта обещает «продавайте откуда
+   угодно», и первый вопрос человека — «а как машина доедет из моего двора в
+   Кливленд?». Здесь ответ.
+
+   Все факты — с их собственного сайта (/our-process/): грузовик заказывают и
+   оплачивают они, водитель осматривает машину на месте, титул уезжает по
+   предоплаченной FedEx-наклейке, бумаги подписываются с телефона. Ничего не
+   выдумано: условия доставки — не то место, где можно фантазировать.
+   ========================================================================== */
+
+/* Ровный тёмный фон, без бокового свечения. Раньше здесь была радиальная
+   подсветка, как в секции карты, — но теперь за маршрутом стоит кадр гор, и
+   светлое пятно спорило с ним: секция переставала быть однородной, и горы не
+   сливались с фоном. Плоская темнота даёт кадру раствориться без стыка.
+
+   isolation: isolate — чтобы кадр гор (z-index: -1) остался ВНУТРИ секции и не
+   провалился под соседние. И, вместе с z-index: auto у контейнера ниже, это
+   выстраивает порядок слоёв: горы → сетка → маршрут и текст. */
+.transport {
+  position: relative;
+  padding-block: var(--s-20);
+  background: var(--c-bg);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Контейнер НЕ создаёт свой контекст наложения (в base.css у него z-index: 1) —
+   иначе весь его контент, включая кадр гор, лёг бы поверх сетки. С auto сетка
+   (z-index: 0) проходит ПО кадру гор, а маршрут и текст остаются над сеткой. */
+.transport > .container { z-index: auto; }
+
+
+/* --- Шапка ----------------------------------------------------------------- */
+
+.transport__head {
+  max-width: 62ch;
+  margin-bottom: var(--s-16);
+}
+
+.transport__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-block: var(--s-4) var(--s-6);
+}
+
+/* Вторая строка — антиквой, как во всех заголовках (правило в base.css). */
+.transport__title em { color: rgba(255, 255, 255, 0.94); }
+
+.transport__lead {
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+
+.transport__lead strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+
+/* --- Маршрут ---------------------------------------------------------------
+   ДУГА, а не прямая. Прямая линия читалась как полоса загрузки; дуга рифмуется
+   с перегонами на карте выше — они там тоже выгнуты, — и сразу говорит «это
+   перелёт через страну», а не «шаг 1-2-3».
+
+   Кривая, точки и каретка живут в одном SVG. Иначе не сходится: на прямой точку
+   можно вести процентами, а на кривой её положение надо брать с самого пути.
+   Каретку ведёт animateMotion по <mpath> — она идёт ровно по нарисованной линии
+   при любой ширине экрана. */
+
+.rail {
+  position: relative;
+  margin-bottom: var(--s-16);
+}
+
+/* Пейзаж под маршрутом. Каретка едет по горам, а не по пустоте.
+
+   Кадр прижат к НИЗУ рельса (object-position) и растворён маской сверху и с
+   боков: горы поднимаются к линии, а вверху уходят в цвет секции, чтобы не
+   спорить с заголовком. Поверх — скрим, иначе подписи остановок тонут в лесу. */
+.rail__bg {
+  position: absolute;
+  /* Тянем ВЫШЕ рельса: сам рельс низкий, и горам негде подняться до линии.
+     Кадр начинается над маршрутом и заканчивается у подписей — тогда каретка
+     идёт по гребню, а не над плоской полоской внизу. */
+  left: 0;
+  right: 0;
+  top: -180px;
+  bottom: var(--s-8);
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.rail__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Кадрируем по ЛИНИИ гребня: вершины выходят на высоту маршрута, чтобы
+     каретка шла ровно по хребту. */
+  object-position: 50% 30%;
+  /* Выезжает снизу и проявляется по мере прокрутки: JS ведёт --rail-shift и
+     --rail-fade (см. main.js). Плавность на переходе — движение не дёргается за
+     скроллом. will-change снимает мерцание при перерисовке трансформа. */
+  opacity: var(--rail-fade, 0.85);
+  transform: translateY(var(--rail-shift, 90px));
+  transition: transform var(--t-slow) var(--e-out),
+              opacity var(--t-slow) var(--e-out);
+  will-change: transform, opacity;
+  /* Растворяем по краям, чтобы кадр вырастал из секции, а не лежал плашкой. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Скрим поверх кадра: держит контраст подписей и топит лес, чтобы линия
+   маршрута читалась как главная, а горы — как фон. */
+.rail__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+              rgba(11, 13, 16, 0.30) 0%,
+              rgba(11, 13, 16, 0.55) 60%,
+              var(--c-bg) 100%);
+}
+
+.rail__svg {
+  position: relative;   /* над фоном-кадром */
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;       /* кольца пульса выходят за viewBox */
+  color: var(--c-line-strong);   /* currentColor — цвет градиента линии */
+}
+
+.rail__curve {
+  fill: none;
+  stroke-width: 1;
+  /* Волосяная при любой ширине: без этого SVG растягивает и штрих. */
+  vector-effect: non-scaling-stroke;
+}
+
+
+/* Остановки. Сидят НА кривой (середина выше краёв — так её поднимает
+   квадратичная кривая), а не под ней. */
+
+.rail__stop {
+  fill: var(--c-bg);
+  stroke: var(--c-text-muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Конечная — красная и залитая: там машина оказывается в итоге. */
+.rail__stop--end {
+  fill: var(--c-brand);
+  stroke: var(--c-brand);
+}
+
+/* Кольцо, которое разлетается в момент прибытия. Задержки 0 / 3.2 / 6.4с — те
+   же моменты, что у каретки: синхронность держится длиной цикла, без JS. */
+.rail__ping {
+  fill: none;
+  stroke: var(--c-brand);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rail-ping 8s linear infinite calc(var(--i) * 3.2s);
+}
+
+@keyframes rail-ping {
+  0%   { transform: scale(1);   opacity: 0.85; }
+  11%  { transform: scale(3.4); opacity: 0; }
+  100% { transform: scale(3.4); opacity: 0; }
+}
+
+
+/* Каретка и хвост.
+
+   Хвост — ЛИНИЯ по маршруту: тот же путь, нарисованный красным, но показанный
+   лишь коротким штрихом, который едет вдоль него вместе с кареткой. Голова
+   штриха совпадает с кареткой не на глаз: dashoffset = (длина хвоста − путь).
+
+   Два штриха: длинный бледный и короткий яркий. Так след плотнее у каретки и
+   тает к концу — градиента вдоль пути в SVG нет, а это его честная замена.
+
+   На стоянке хвост гаснет: у стоящей машины след взялся бы из ниоткуда. */
+
+.rail__car {
+  fill: var(--c-brand);
+}
+
+/* След — пройденный участок маршрута. Загорается за кареткой и продолжает
+   гореть, пока она стоит: линия не «тянется за машиной», а показывает, сколько
+   уже проехали.
+
+   Комета из короткого штриха здесь не работала: у хвоста жёсткий обрыв
+   (градиента ВДОЛЬ пути в SVG нет — линейный идёт по осям, а не по кривой), и
+   два штриха разной прозрачности давали ступеньку вместо затухания. */
+
+.rail__trace {
+  fill: none;
+  stroke: var(--c-brand);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: rail-trace 8s linear infinite;
+}
+
+/* Гаснет в самом конце цикла — чтобы маршрут не «стирался» рывком на глазах,
+   а сходил на нет перед новым проходом. */
+@keyframes rail-trace {
+  0%   { opacity: 0; }
+  4%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* --- Подписи --------------------------------------------------------------- */
+
+.rail__stops {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: var(--s-4) 0 0;
+}
+
+.rail__stops li {
+  position: relative;
+  text-align: center;
+}
+
+/* Крайние подписи прижаты к краям, а не висят по центру своей трети: иначе они
+   разъезжаются с точками, к которым относятся. */
+.rail__stops li:first-child { text-align: left; }
+.rail__stops li:last-child  { text-align: right; }
+
+/* Точки-маркеры у подписей нужны только в мобильной раскладке, где SVG нет.
+   На десктопе точки рисует сам SVG — иначе их было бы по две на остановку. */
+.rail__stops li::before { content: none; }
+
+/* Подпись остановки. В покое приглушена, загорается ровно на ту секунду, пока
+   каретка стоит рядом: взгляд идёт за движением и читает то, что происходит
+   сейчас. Загорается ТОЛЬКО подпись — абзац под ней остаётся ровным, иначе
+   секция начнёт мигать целиком. */
+.rail__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin-bottom: var(--s-2);
+}
+
+.rail__stops li:nth-child(1) .rail__label { animation: stop-label 8s linear infinite 0s; }
+.rail__stops li:nth-child(2) .rail__label { animation: stop-label 8s linear infinite 3.2s; }
+.rail__stops li:nth-child(3) .rail__label { animation: stop-label 8s linear infinite 6.4s; }
+
+@keyframes stop-label {
+  0%    { color: var(--c-text); }
+  12.5% { color: var(--c-text); }   /* ровно секунда стоянки */
+  17%   { color: var(--c-text-muted); }
+  100%  { color: var(--c-text-muted); }
+}
+
+.rail__note {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-muted);
+  max-width: 30ch;
+  margin-inline: auto;
+}
+
+.rail__stops li:first-child .rail__note { margin-left: 0; }
+.rail__stops li:last-child  .rail__note { margin-right: 0; }
+
+
+/* --- Факты -----------------------------------------------------------------
+   Три вещи, которых нет ни у кого из конкурентов и которые человек проверяет
+   перед тем, как отдать машину. Формулировки — с их сайта, не мои. */
+
+.transport__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-12);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transport__facts > li {
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--c-line);
+}
+
+.fact__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: var(--s-3);
+}
+
+.fact__text {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .transport { padding-block: var(--s-16); }
+
+  /* Маршрут в колонку: три подписи в ряд на узком экране сжимаются в лапшу.
+     Дуга и каретка тогда не нужны — их роль берёт вертикальный порядок, а
+     точки возвращаем подписям (в SVG они остались бы лежать поперёк). */
+  .rail__svg { display: none; }
+
+  .rail__stops {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+
+  .rail__stops li,
+  .rail__stops li:first-child,
+  .rail__stops li:last-child {
+    text-align: left;
+    padding-left: var(--s-6);
+  }
+
+  .rail__stops li::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--c-bg);
+    border: 1px solid var(--c-text-muted);
+  }
+
+  .rail__stops li:last-child::before {
+    background: var(--c-brand);
+    border-color: var(--c-brand);
+  }
+
+  .rail__note { margin-inline: 0; }
+
+  .transport__facts {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* SMIL-анимацию каретки CSS не остановит — поэтому просто прячем её и хвост.
+     Кривая, точки и подписи остаются: маршрут читается и без движения. */
+  .rail__car,
+  .rail__trace { visibility: hidden; }
+
+  .rail__ping { animation: none; opacity: 0; }
+
+  /* Без анимации подсвечивать нечем — тогда все подписи читаются одинаково
+     ярко, а не сидят вечно приглушёнными. */
+  .rail__label { animation: none; color: var(--c-text); }
+}

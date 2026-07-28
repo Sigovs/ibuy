@@ -1,0 +1,206 @@
+/* ==========================================================================
+   ФОРМА — ЧЁРНОЕ МАТОВОЕ СТЕКЛО (общий слой)
+   Подключается и к index.html, и к index_2.html после hero.css. Единый вид
+   формы на обеих страницах: дарк-стекло, поля-колодцы, капс-плейсхолдеры,
+   стопка в одну колонку, помещается в экран любой высоты.
+   ========================================================================== */
+
+
+/* --- ФОРМА: ЧЁРНОЕ МАТОВОЕ СТЕКЛО -------------------------------------------
+   Тёмная «ювелирная» панель на просвет. Горы и дом за ней размываются сквозь
+   стекло, но тонированное в чёрный — читается дороже светлого: как затемнённое
+   стекло лимузина, а не бумажный бланк. Текст светлый, поля — колодцы на
+   просвет, единственный цвет — красный на эйрбоу и кнопке. */
+
+.quote {
+  /* Тёмный тон достаточно плотный (0.6+), чтобы белый текст держался даже над
+     светлым закатным небом за стеклом. Лёгкий градиент — блик света по стеклу. */
+  background:
+    linear-gradient(160deg,
+      rgba(16, 18, 22, 0.66) 0%,
+      rgba(11, 13, 16, 0.60) 45%,
+      rgba(9, 10, 13, 0.62) 100%);
+  backdrop-filter: blur(44px) saturate(1.3);
+  -webkit-backdrop-filter: blur(44px) saturate(1.3);
+  color: #fff;
+  padding: var(--s-8) var(--s-8) var(--s-6);
+  /* Светлая стеклянная кромка ловит свет по краю тёмного стекла. */
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 60px 130px -34px rgba(0, 0, 0, 0.95),
+    0 12px 34px -14px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);   /* верхний внутренний блик */
+}
+
+/* Без backdrop-filter стекло не работает — панель обязана стать непрозрачной. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .quote { background: var(--c-surface); }
+}
+
+/* Блик по верхней кромке — узкая световая полоса, «где свет скользит по стеклу».
+   border: 0 обязателен: у hero.css ::after была красная рамка углового тика, и
+   без сброса она оставалась красной чертой по краю панели. */
+.quote::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), transparent 20%);
+}
+
+/* Красный уголок сверху-слева убран — на тёмном стекле он лишний, чистая
+   кромка спокойнее. */
+.quote::before { display: none; }
+
+
+/* Шапка: крупнее, с эйрбоу и воздухом. Разделитель — светлая волосяная линия. */
+.quote__head {
+  padding-bottom: var(--s-5);
+  margin-bottom: var(--s-6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.quote__eyebrow {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-brand-hover);
+  margin-bottom: var(--s-3);
+}
+
+.quote__title {
+  font-size: 1.875rem;
+  letter-spacing: 0.005em;
+  color: #fff;
+}
+
+
+/* Подписей над полями НЕТ — их роль взяли плейсхолдеры. Форма читается чище:
+   пять инпутов, ничего лишнего. Label остаётся в разметке и доступен
+   скринридеру, но убран из виду (не display:none — иначе выпал бы из
+   доступности). */
+.quote .field__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* Поля — тёмные колодцы на просвет: полупрозрачная заливка, светлая волосяная
+   рамка, белый ввод. Фокус светлеет и обводится тонкой светлой рамкой с ореолом. */
+.quote .field__input {
+  height: 52px;
+  padding: 0 var(--s-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+  color: #fff;
+  font-size: 0.9375rem;
+  /* Капс с лёгкой разрядкой — телеметрия, а не веб-инпут. Касается и подписи
+     (плейсхолдера), и введённого значения. */
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: border-color var(--t-base) var(--e-out),
+              background var(--t-base) var(--e-out),
+              box-shadow var(--t-base) var(--e-out);
+}
+
+/* Плейсхолдер ярче: он работает подписью поля (Year, Make…). 0.78 — чёткий,
+   но всё ещё чуть тише введённого текста (белого), чтобы подсказка и значение
+   различались. */
+.quote .field__input::placeholder { color: rgba(255, 255, 255, 0.78); }
+
+.quote .field__input:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.30);
+}
+
+.quote .field__input:focus {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+}
+
+.quote .field__input[aria-invalid='true'] {
+  border-color: var(--c-brand);
+  background: rgba(222, 25, 42, 0.10);
+  box-shadow: none;
+}
+.quote .field__input[aria-invalid='true']:focus {
+  box-shadow: 0 0 0 3px var(--c-brand-glow);
+}
+
+.quote .field__error { color: var(--c-brand-hover); }
+
+/* Пустой блок ошибки убираем из потока: он резервировал зазор под каждым полем
+   и растягивал стопку. Появляется только когда есть что показать. */
+.quote .field__error:empty { display: none; }
+
+/* Внутренний зазор поля к нулю — теперь расстояние между полями задаёт только
+   сетка (gap), и стопка читается плотной. */
+.quote .field { gap: 0; }
+
+/* Все пять полей в ОДНУ колонку, стопкой — без двухколоночной сетки. Читается
+   как единый вертикальный поток, спокойнее и дороже, чем плитка 2×2. Спейсинг
+   между полями плотный (s-3): стопка не должна разъезжаться. */
+.quote__grid {
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: var(--s-5);
+}
+
+/* Кнопка выше: главное действие не должно быть мелким. */
+.quote .btn--block {
+  min-height: 54px;
+  letter-spacing: 0.08em;
+}
+
+
+/* --- Форма помещается в экран ЛЮБОЙ высоты, без фолда -----------------------
+   Стопка из пяти полей выше плитки 2×2 и на низких экранах уезжала за сгиб.
+   Сжимаем по ВЫСОТЕ вьюпорта: поля, зазоры, шапку и кнопку — по ступеням.
+   Ширина ни при чём, поэтому запросы по height. Поля у v2 фиксированы в px
+   (не через --ctl-h), поэтому их высоту здесь правим отдельно. */
+
+@media (max-height: 840px) {
+  .quote { padding: var(--s-6) var(--s-6) var(--s-5); }
+  .quote__head { padding-bottom: var(--s-4); margin-bottom: var(--s-4); }
+  .quote__eyebrow { margin-bottom: var(--s-2); }
+  .quote__title { font-size: 1.625rem; }
+  .quote .field__input { height: 46px; }
+  .quote__grid { gap: var(--s-2); margin-bottom: var(--s-4); }
+  .quote .btn--block { min-height: 48px; }
+}
+
+@media (max-height: 720px) {
+  .quote { padding: var(--s-5) var(--s-5) var(--s-4); }
+  .quote__head { padding-bottom: var(--s-3); margin-bottom: var(--s-3); }
+  .quote__title { font-size: 1.5rem; }
+  .quote .field__input { height: 42px; font-size: 0.875rem; }
+  .quote__grid { gap: 6px; margin-bottom: var(--s-3); }
+  .quote .btn--block { min-height: 44px; }
+}
+
+@media (max-height: 620px) {
+  .quote { padding: var(--s-4); }
+  .quote__head { padding-bottom: var(--s-2); margin-bottom: var(--s-2); }
+  .quote__eyebrow { margin-bottom: 2px; }
+  .quote__title { font-size: 1.375rem; }
+  .quote .field__input { height: 38px; }
+  .quote__grid { gap: 5px; margin-bottom: var(--s-2); }
+  .quote .btn--block { min-height: 42px; }
+}
+
+@media (max-width: 560px) {
+  .quote { padding: var(--s-6) var(--s-5) var(--s-5); }
+  .quote .field__input { height: 48px; }
+  .quote__grid { gap: var(--s-3); }
+}
