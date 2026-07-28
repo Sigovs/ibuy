@@ -135,7 +135,20 @@
 }
 
 
-/* Полный список — нативный <details>, все ссылки в DOM (краулятся, доступны). */
+/* Полный список — статичный, всегда раскрыт (без дропдауна). Все ссылки в DOM. */
+.fdir__all {
+  border-top: 1px solid var(--c-line);
+  padding-top: var(--s-5);
+}
+.fdir__sublabel {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+/* (устаревшее) стили бывшего <details> — оставлены неиспользуемыми */
 .fdetails {
   border-top: 1px solid var(--c-line);
   padding-top: var(--s-5);

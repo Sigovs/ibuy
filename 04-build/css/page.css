@@ -206,12 +206,12 @@
   display: block;
 }
 
-/* Портрет основателя (255×255) — квадрат в тонкой рамке. */
+/* Портрет основателя (366×430) — крупный, в тонкой рамке, во всю колонку. */
 .pfounder__photo { margin: var(--s-5) 0; }
 .pfounder__photo img {
-  width: 148px;
-  height: 148px;
-  object-fit: cover;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
   display: block;
   border: 1px solid var(--c-line-strong);
 }

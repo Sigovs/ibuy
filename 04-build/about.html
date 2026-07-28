@@ -84,8 +84,8 @@
       <img src="assets/img/about/luxury-cars.jpg" alt="Marshall Goldman luxury, exotic and collectible inventory" width="1920" height="320" loading="lazy">
     </figure>
 
-    <!-- КОМПАНИЯ / ПОЧЕМУ БОЛЬШЕ (дословно) -->
-    <section class="psection">
+    <!-- КОМПАНИЯ / ПОЧЕМУ БОЛЬШЕ (дословно) — СВЕТЛАЯ -->
+    <section class="psection theme-light">
       <div class="container">
         <div class="prow">
           <div class="prow__aside">
@@ -142,14 +142,14 @@
       </div>
     </section>
 
-    <!-- HOW IT STARTED / ОСНОВАТЕЛЬ (дословно) + фото Danny -->
-    <section class="psection">
+    <!-- HOW IT STARTED / ОСНОВАТЕЛЬ (дословно) + фото Danny — СВЕТЛАЯ -->
+    <section class="psection theme-light">
       <div class="container">
         <div class="prow">
           <div class="prow__aside">
             <p class="eyebrow" data-rise="side">How it started</p>
             <figure class="pfounder__photo" data-rise>
-              <img src="assets/img/about/danny-baker.png" alt="Danny Baker, Founder, President and CEO of iBuy" width="255" height="255" loading="lazy">
+              <img src="assets/img/about/danny-baker.png" alt="Danny Baker, Founder, President and CEO of iBuy" width="366" height="430" loading="lazy">
             </figure>
             <h2 class="prow__head" data-rise="side">Meet <em>Danny Baker.</em></h2>
             <p class="prole" data-rise>Founder, President and CEO</p>
@@ -279,7 +279,7 @@
         <nav class="fnav__group" aria-label="Company">
           <p class="footer__head">Company</p>
           <ul class="flinks">
-            <li><a href="https://www.ibuylc.com/about/">About iBuy</a></li>
+            <li><a href="about.html">About iBuy</a></li>
             <li><a href="https://www.ibuylc.com/our-team/">Our founder</a></li>
             <li><a href="https://www.ibuylc.com/why-ibuy/">Why iBuy?</a></li>
             <li><a href="https://www.ibuylc.com/our-process/">Our process</a></li>
@@ -357,8 +357,8 @@
 
       <!-- ======================================================================
            УРОВЕНЬ 3 — SEO-каталог. Тише основной навигации: приглушённый цвет,
-           мельче, отдельно от продающего пути. Полный список марок — в нативном
-           <details>, но все ссылки остаются в DOM (доступны и краулятся). URL —
+           мельче, отдельно от продающего пути. Полный список марок раскрыт статично (без дропдауна) — все ссылки
+           в DOM, доступны и краулятся. URL —
            точные с ibuylc.com; марки без своей страницы (Acura NSX, Koenigsegg,
            Lotus, Spyker) — простой текст, не ссылки.
            ====================================================================== -->
@@ -394,11 +394,8 @@
               <li><a href="https://www.ibuylc.com/make/">All makes A&ndash;Z</a></li>
             </ul>
 
-            <details class="fdetails">
-              <summary class="fdetails__summary">
-                <span>Browse all makes</span>
-                <svg class="fdetails__chevron" width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5"/></svg>
-              </summary>
+            <div class="fdir__all">
+              <p class="fdir__sublabel">All makes</p>
               <ul class="fdir__links fdir__links--all">
                 <li><span>Acura NSX</span></li>
                 <li><a href="https://www.ibuylc.com/sell-my-aston-martin/">Aston Martin</a></li>
@@ -429,7 +426,7 @@
                 <li><span>Spyker</span></li>
                 <li><a href="https://www.ibuylc.com/make/volvo/">Volvo</a></li>
               </ul>
-            </details>
+            </div>
           </div>
         </div>
       </section>
