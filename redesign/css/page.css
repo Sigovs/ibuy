@@ -186,6 +186,37 @@
 .pcta__phone:hover { color: var(--c-text); }
 
 
+/* --- Фотографии с живого сайта -------------------------------------------- */
+
+/* Панорама-баннер во всю ширину (luxury-cars.jpg — 1920×320). */
+.pbanner { margin: 0; }
+.pbanner img {
+  width: 100%;
+  height: clamp(140px, 22vw, 320px);
+  object-fit: cover;
+  display: block;
+}
+
+/* Фото локации (ohio / beverly-hills, 16:9) над названием. */
+.ploc__media { display: block; margin-bottom: var(--s-4); }
+.ploc__media img {
+  width: 100%;
+  height: clamp(180px, 20vw, 240px);
+  object-fit: cover;
+  display: block;
+}
+
+/* Портрет основателя (255×255) — квадрат в тонкой рамке. */
+.pfounder__photo { margin: var(--s-5) 0; }
+.pfounder__photo img {
+  width: 148px;
+  height: 148px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--c-line-strong);
+}
+
+
 /* ==========================================================================
    Адаптив
    ========================================================================== */
