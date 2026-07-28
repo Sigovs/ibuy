@@ -1,0 +1,204 @@
+/* ==========================================================================
+   PAGE — эталон внутренней страницы (About как первый носитель)
+
+   Задача: один шаблон для любых инфо-страниц (About, Why iBuy, Our process…).
+   Тёмный ground на всю страницу — бесшовно с подвалом, без резкого светлого
+   стыка. Ритм строится на волосяных линейках и двухколоночном ряде
+   «эйбрау+заголовок слева — содержимое справа». Никаких коробок, красный —
+   только на CTA (наследуется из base .btn). Язык и токены — общие с сайтом.
+   ========================================================================== */
+
+.page { padding-top: var(--header-h); }        /* из-под фиксированной шапки */
+
+
+/* --- Ритм секций ----------------------------------------------------------
+   Выдох вниз: нижний отступ больше верхнего. Секции разделены одной линейкой,
+   а не фоном или рамкой. */
+.psection {
+  position: relative;
+  padding-block: var(--s-16) var(--s-20);
+  border-top: 1px solid var(--c-line);
+}
+
+/* Двухколоночный ряд — основной модуль страницы.
+   Слева «телеметрия» раздела (эйбрау + заголовок), справа — содержимое. */
+.prow {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr);
+  gap: var(--s-8) var(--s-16);
+  align-items: start;
+}
+.prow__head {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 1.15rem + 2.4vw, 2.75rem);
+  line-height: 1.02;
+  letter-spacing: var(--ls-tight);
+  margin-top: var(--s-4);
+}
+
+
+/* --- Проза ----------------------------------------------------------------- */
+.prose { max-width: 62ch; color: var(--c-text-soft); }
+.prose p + p { margin-top: var(--s-5); }
+.prose strong { color: var(--c-text); font-weight: 600; }
+
+.prose--lead {
+  max-width: 52ch;
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--c-text-soft);
+}
+
+
+/* --- Герой страницы -------------------------------------------------------- */
+.phero {
+  position: relative;
+  padding-block: var(--s-20) var(--s-16);
+  overflow: hidden;
+}
+.phero__inner { position: relative; z-index: 1; max-width: 54rem; }
+.phero h1 {
+  font-size: clamp(2.75rem, 1.5rem + 5.4vw, 6rem);
+  line-height: 0.98;
+  margin-top: var(--s-6);
+}
+.phero .prose--lead { margin-top: var(--s-8); max-width: 46ch; }
+.phero__cta {
+  display: flex;
+  gap: var(--s-4);
+  margin-top: var(--s-10);
+  flex-wrap: wrap;
+}
+
+
+/* Роль под именем в двухколоночном ряде (напр. «Founder, President & CEO») */
+.prole {
+  margin-top: var(--s-3);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+
+/* --- Полоса цифр ----------------------------------------------------------- */
+.pstats-wrap { padding-block: var(--s-12) var(--s-16); }
+.pstats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--c-line-strong);
+  border-bottom: 1px solid var(--c-line);
+}
+.pstat {
+  padding: var(--s-8) var(--s-6) var(--s-8) var(--s-6);
+  border-left: 1px solid var(--c-line);
+}
+.pstat:first-child { border-left: 0; padding-left: 0; }
+.pstat__n {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(1.625rem, 1.1rem + 2vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: var(--ls-tight);
+}
+.pstat__l {
+  display: block;
+  margin-top: var(--s-3);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+  max-width: 20ch;
+}
+
+
+/* --- Список отличий — волосяные строки, без нумерации (это не последовательность) */
+.pfeatures { list-style: none; margin: var(--s-10) 0 0; padding: 0; }
+.pfeat {
+  padding-block: var(--s-6);
+  border-top: 1px solid var(--c-line);
+  color: var(--c-text);
+  font-size: clamp(1.0625rem, 1rem + 0.45vw, 1.3125rem);
+  line-height: 1.35;
+  max-width: 46ch;
+}
+.pfeat:last-child { border-bottom: 1px solid var(--c-line); }
+.pfeat b { font-weight: 600; }
+
+
+/* --- Локации --------------------------------------------------------------- */
+.plocs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
+  margin-top: var(--s-10);
+}
+.ploc { border-top: 1px solid var(--c-line); padding-top: var(--s-5); }
+.ploc__city {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: var(--ls-tight);
+}
+.ploc__addr { margin-top: var(--s-2); font-size: var(--fs-sm); color: var(--c-text-muted); }
+
+
+/* --- Основатель: мелкие метрики под именем -------------------------------- */
+.pmeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-6);
+  margin-top: var(--s-6);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--c-line);
+}
+.pmeta__n {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  letter-spacing: var(--ls-tight);
+}
+.pmeta__l {
+  display: block;
+  margin-top: var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+
+/* --- Финальный призыв ------------------------------------------------------ */
+.pcta { position: relative; padding-block: var(--s-20) var(--s-24); border-top: 1px solid var(--c-line); }
+.pcta__inner { position: relative; z-index: 1; }
+.pcta h2 { font-size: clamp(2rem, 1.35rem + 3.2vw, 3.75rem); line-height: 1; }
+.pcta__row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+  margin-top: var(--s-10);
+  flex-wrap: wrap;
+}
+.pcta__phone {
+  font-family: var(--f-mono);
+  letter-spacing: 0.06em;
+  color: var(--c-text-soft);
+  transition: color var(--t-base) var(--e-out);
+}
+.pcta__phone:hover { color: var(--c-text); }
+
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+@media (max-width: 900px) {
+  .prow { grid-template-columns: 1fr; gap: var(--s-6); }
+  .prow__head { font-size: clamp(1.625rem, 1.2rem + 3vw, 2.25rem); }
+}
+
+@media (max-width: 760px) {
+  .pstats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pstat { padding: var(--s-6) var(--s-5); }
+  .pstat:first-child { padding-left: var(--s-5); border-left: 1px solid var(--c-line); }
+  .pstat:nth-child(1), .pstat:nth-child(2) { border-top: 0; }
+  .pstat:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .plocs { grid-template-columns: 1fr; }
+}
