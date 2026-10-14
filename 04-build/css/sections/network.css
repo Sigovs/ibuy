@@ -270,7 +270,8 @@
 
 /* Подписи по краям карты не должны улетать за кадр. */
 .marker[data-city='baltimore'] .marker__label,
-.marker[data-city='newportBeach'] .marker__label { text-anchor: start; }
+.marker[data-city='newportBeach'] .marker__label,
+.marker[data-city='westPalmBeach'] .marker__label { text-anchor: start; }
 
 /* Источник светится — точка, из которой бьют волны и расходятся дуги,
    должна быть самым горячим местом на карте. */

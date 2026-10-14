@@ -66,17 +66,17 @@
   border-top: 1px solid var(--c-line);
 }
 
-/* Пять локаций в ряд, разделены линейками (верхняя граница у каждой — из
+/* Шесть локаций в ряд, разделены линейками (верхняя граница у каждой — из
    footer.css .fnet > li). Не карточки: только типографика и хайрлайны. */
 .fnet--row {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0 var(--s-8);
 }
 .fnet--row > li {
   padding-top: var(--s-4);
   padding-right: var(--s-6);
 }
-/* Город чуть мельче, чтобы пять уместились без сжатия. */
+/* Город чуть мельче, чтобы шесть уместились без сжатия. */
 .fnet--row .fnet__city { font-size: 1.1875rem; }
 .fnet--row .fnet__addr { font-size: var(--fs-xs); max-width: 22ch; }
 

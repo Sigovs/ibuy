@@ -34,6 +34,10 @@ export const MAP_CITIES = {
     117.4,
     343
   ],
+  "westPalmBeach": [
+    772.5,
+    492
+  ],
   "kansasCity": [
     521.9,
     223.8

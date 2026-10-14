@@ -382,7 +382,7 @@
               <canvas class="map__dots" aria-hidden="true"></canvas>
 
               <svg class="map__svg" viewBox="0 0 1000 528" role="img"
-                   aria-label="Map of the United States showing Marshall Goldman showrooms in Cleveland, Baltimore, Beverly Hills, Newport Beach, and a new Kansas City location.">
+                   aria-label="Map of the United States showing Marshall Goldman showrooms in Cleveland, Baltimore, Beverly Hills, Newport Beach, West Palm Beach, and a new Kansas City location.">
                 <g class="map__markers">
                 <g class="marker" data-city="cleveland" transform="translate(748.1 172.9)">
                   <circle class="marker__ping" r="4"></circle>
@@ -415,6 +415,14 @@
                   <circle class="marker__halo" r="14"></circle>
                   <circle class="marker__dot" r="4"></circle>
                   <text class="marker__label" x="4" y="26">Newport Beach</text>
+                </g>
+                <g class="marker" data-city="westPalmBeach" transform="translate(772.5 492)">
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__ping" r="4"></circle>
+                  <circle class="marker__halo" r="14"></circle>
+                  <circle class="marker__dot" r="4"></circle>
+                  <text class="marker__label" x="14" y="6">West Palm Beach</text>
                 </g>
                 <g class="marker marker--soon" data-city="kansasCity" transform="translate(521.9 223.8)">
                   <circle class="marker__ping" r="4"></circle>
@@ -478,6 +486,16 @@
                         data-phone="949-627-0003">
                   <span class="loc__city">Newport Beach</span>
                   <span class="loc__state">California</span>
+                </button>
+              </li>
+
+              <li>
+                <button class="loc" type="button" data-city="westPalmBeach"
+                        data-name="Marshall Goldman West Palm Beach"
+                        data-address="4190 Okeechobee Blvd, West Palm Beach, FL 33409"
+                        data-phone="877-561-2121">
+                  <span class="loc__city">West Palm Beach</span>
+                  <span class="loc__state">Florida</span>
                 </button>
               </li>
 
@@ -1337,6 +1355,11 @@
             <p class="fnet__city">Newport Beach <span>California</span></p>
             <p class="fnet__addr">2540 West Coast Highway, Newport Beach, CA 92663</p>
             <a class="fnet__phone" href="tel:+19496270003">949-627-0003</a>
+          </li>
+          <li>
+            <p class="fnet__city">West Palm Beach <span>Florida</span></p>
+            <p class="fnet__addr">4190 Okeechobee Blvd, West Palm Beach, FL 33409</p>
+            <a class="fnet__phone" href="tel:+18775612121">877-561-2121</a>
           </li>
           <li>
             <p class="fnet__city">Kansas City <span>Missouri &middot; <b>Opening</b></span></p>
